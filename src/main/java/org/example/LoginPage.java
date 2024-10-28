@@ -1,6 +1,4 @@
-package src.site;
-
-//import org.example.models.Database;
+package org.example;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +6,10 @@ import java.awt.event.*;
 
 public class LoginPage {
 
-
     public static void main(String[] args) {
+        Database.createUsersTable();
+        Database.createMealsTable();
+
         JLabel errorLabel = new JLabel();
 
             //Create Frame
@@ -111,7 +111,7 @@ public class LoginPage {
                     String passwordInput = new String(password.getPassword());
 
                     if (Database.authenticateUser(usernameInput, passwordInput)) {
-                        new MenuPage(frame);
+                       new org.example.MenuPage(frame);
                     } else {
                         //Create Error Login Label
                         errorLabel.setText("Invalid username and password. Please try again");
@@ -146,7 +146,7 @@ public class LoginPage {
             registerButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     frame.getContentPane().removeAll();
-                    new RegisterPage(frame);
+                    new org.example.RegisterPage(frame);
                     frame.revalidate();
                     frame.repaint();
                 }

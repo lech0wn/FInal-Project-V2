@@ -1,6 +1,4 @@
-package src.site;
-
-import org.example.models.Database;
+package org.example;//import org.example.models.org.example.Database;
 
 import javax.swing.*;
 import java.awt.*;
@@ -117,7 +115,7 @@ public class RegisterPage {
                 String user = userName.getText();
                 String pass = new String(password.getPassword());
                 String type = role;
-                Database.registerUser(user, pass, type);
+                Database.addUser(user, pass, type);
                 userName.setText("");
                 password.setText("");
                 managerButton.setBackground(Color.decode("#d87436"));
@@ -134,4 +132,3 @@ public class RegisterPage {
         frame.setVisible(true);
     }
 }
-

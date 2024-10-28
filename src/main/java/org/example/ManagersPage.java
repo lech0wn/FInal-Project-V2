@@ -1,6 +1,4 @@
-package src.site;
-
-//import org.example.models.Database;
+package org.example;//import org.example.models.org.example.Database;
 
 import javax.swing.*;
 import java.awt.*;
@@ -280,9 +278,9 @@ public class ManagersPage {
                 String description = descriptionTf.getText();
                 String category = ManagersPage.this.category;
                 String dietType = ManagersPage.this.dietType;
-                String spice = ManagersPage.this.spice;
+                String spicy = ManagersPage.this.spice;
                 int calories = Integer.parseInt(calsTf.getText());
-                Database.addMeals(name, description, category, dietType, spice, calories);
+                Database.addMeal(name, description, category, dietType, spicy, calories);
                 mealNameTf.setText("");
                 descriptionTf.setText("");
                 breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));

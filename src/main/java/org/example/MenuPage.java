@@ -1,11 +1,10 @@
-package src.site;
-
-//import org.example.models.Database;
+package org.example;//import org.example.models.org.example.Database;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
+import java.util.List; // Import from java.util
+import java.util.ArrayList; // If you need to create a list
 
 public class MenuPage {
 
@@ -93,13 +92,13 @@ public class MenuPage {
         mealPanelContainer.setLayout(new GridLayout(2, 4)); // 1 row, 4 columns
 
         // Fetch meals from the database
-        List<String[]> meals = Database.getMeals(); // Assuming this method is static
+        List<String[]> meals = org.example.Database.listMeal(); // This now returns the expected data
 
         // Loop through meals and create a panel for each
         for (String[] meal : meals) {
             JPanel mealPanel = new JPanel();
             mealPanel.setLayout(new BorderLayout());
-            mealPanel.setPreferredSize(new Dimension(200, 250)); // Set preferred size for each panel
+            mealPanel.setPreferredSize(new Dimension(200, 250));
             mealPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             mealPanel.setBackground(Color.white);
 
@@ -115,6 +114,7 @@ public class MenuPage {
         // Add the meal panel container to the frame
         mealPanelContainer.setBounds(50, 100, 700, 200); // Adjust size and position as needed
         frame.add(mealPanelContainer);
+
 
         frame.setLayout(null);
         frame.setSize(1100, 630);

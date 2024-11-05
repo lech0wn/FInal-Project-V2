@@ -1,8 +1,10 @@
+package org.example;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class Main {
+public class orders {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setSize(2899, 1526);

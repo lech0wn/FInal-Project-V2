@@ -24,13 +24,13 @@ public class Login {
             whitePanel2.setBounds(485, 422, 767, 83); // Halved size and y-position
             whitePanel2.setBackground(Color.WHITE);
 
-            JLabel imageLabel = new JLabel(new ImageIcon("https://via.placeholder.com/412x687"));
+            JLabel imageLabel = new JLabel(new ImageIcon("src/main/java/org/example/img/logo.png"));
             imageLabel.setBounds(21, 0, 412, 687); // Halved size and x-position
 
             //header
             JLabel titleLabel = new JLabel("EMPLOYEE LOGIN");
             titleLabel.setBounds(475, 98, 796, 95); // Halved size and y-position
-            titleLabel.setFont(new Font("Tauri", Font.PLAIN, 95)); // Halved font size
+            titleLabel.setFont(new Font("Tauri", Font.PLAIN, 70)); // Halved font size
             titleLabel.setForeground(new Color(0xFF752A00));
 
             //username

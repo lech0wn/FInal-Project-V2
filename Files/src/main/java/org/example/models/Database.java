@@ -98,7 +98,7 @@ public class Database {
     //Retrieve meals from the meals table
     public static List<String[]> getMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, description FROM meals"; // Adjust SQL query
+        String selectMeals = "SELECT mealName, description, category, dietType, spice, calories FROM meals"; // Adjust SQL query
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -107,7 +107,11 @@ public class Database {
             while (resultSet.next()) {
                 String mealName = resultSet.getString("mealName");
                 String description = resultSet.getString("description");
-                menu.add(new String[]{mealName, description}); // Add meal name and description as an array
+                String category = resultSet.getString("category");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String calories = resultSet.getString("calories");
+                menu.add(new String[]{mealName, description, category, dietType, spice, calories}); // Add meal name and description as an array
             }
 
         } catch (SQLException e) {

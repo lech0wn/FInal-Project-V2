@@ -13,6 +13,10 @@ public class MenuPage {
     JButton dinnerButton = new JButton("Dinner");
 
     MenuPage(JFrame frame) {
+
+        frame.setTitle("Menu");  //set the title of the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
+
         frame.getContentPane().setBackground(Color.white);
         frame.getContentPane().removeAll();
         frame.revalidate();

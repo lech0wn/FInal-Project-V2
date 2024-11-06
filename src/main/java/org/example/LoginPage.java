@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPage {
-
     public static void main(String[] args) {
+
         JLabel errorLabel = new JLabel();
 
         //Create Frame
@@ -16,6 +16,9 @@ public class LoginPage {
         frame.setLayout(null);
         frame.setLocationRelativeTo((Component) null);
         frame.setResizable(false);
+
+        frame.setTitle("Login");  //set the title of the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
 
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/logo.png");
         JLabel image = new JLabel(img);

@@ -7,10 +7,12 @@ import java.awt.event.*;
 public class RegisterPage {
 
     String role = "Manager";
-    JButton managerButton = new JButton();
-    JButton workerButton = new JButton();
 
     RegisterPage(JFrame frame) {
+
+        frame.setTitle("Register");  //set the title of the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
+
         frame.setLayout(null);
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
 
@@ -63,57 +65,6 @@ public class RegisterPage {
         password.setBackground(Color.white);
         frame.add(password);
 
-        //Select Role Label
-        JLabel roleLabel = new JLabel("Kindly select your role from the choices below:");
-        roleLabel.setBounds(610, 100, 1000, 50);
-        roleLabel.setForeground(Color.decode("#752A00"));
-        roleLabel.setFont(new Font("Arial", 0, 20));
-        frame.add(roleLabel);
-
-        //Manager Button
-        managerButton.setBounds(570, 200, 220, 210);
-        managerButton.setBackground(Color.decode("#EF9B39"));
-        managerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
-        ImageIcon managerIcon = new ImageIcon("src/main/Manager.png");
-        managerButton.setIcon(managerIcon);
-        managerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                managerButton.setBackground(Color.white);
-                ImageIcon managerIcon = new ImageIcon("src/main/yellowManager.png");
-                ImageIcon workerIcon = new ImageIcon("src/main/Worker.png");
-                workerButton.setIcon(workerIcon);
-                managerButton.setIcon(managerIcon);
-
-                workerButton.setBackground(Color.decode("#EF9B39"));
-                role = "Manager";
-            }
-        });
-        managerButton.setFocusable(false);
-        frame.add(managerButton);
-
-        //Worker Button
-        workerButton.setBounds(830, 200, 220, 210);
-        workerButton.setBackground(Color.decode("#EF9B39"));
-        workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
-        ImageIcon workerIcon = new ImageIcon("src/main/Worker.png");
-        workerButton.setIcon(workerIcon);
-        workerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                workerButton.setBackground(Color.white);
-                workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
-                ImageIcon workerIcon = new ImageIcon("src/main/yellowWorker.png");
-                workerButton.setIcon(workerIcon);
-                ImageIcon managerIcon = new ImageIcon("src/main/Manager.png");
-                managerButton.setIcon(managerIcon);
-                managerButton.setBackground(Color.decode("#EF9B39"));
-                role = "Worker";
-            }
-        });
-        workerButton.setFocusable(false);
-        frame.add(workerButton);
-
         //Register Button
         JButton registerButton = new JButton("REGISTER");
         registerButton.setBounds(45, 415, 175, 45);
@@ -126,12 +77,23 @@ public class RegisterPage {
             public void actionPerformed(ActionEvent e) {
                 String userName = username.getText();
                 String passWord = new String(password.getPassword());
+
+                // Register the user
                 usersDatabase.registerUser(userName, passWord, role);
+
+                // Clear text fields
                 username.setText("");
                 password.setText("");
+
+                // Redirect to RoleSelectionPage
+                frame.getContentPane().removeAll();
+                new RoleSelectionPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
         frame.add(registerButton);
+
         frame.setResizable(false);
         frame.setVisible(true);
     }

@@ -39,6 +39,9 @@ public class ManagersPage {
 
     ManagersPage(JFrame frame) {
 
+        frame.setTitle("Manager Page");  //set the title of the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
+
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
         frame.getContentPane().removeAll();
         frame.revalidate();

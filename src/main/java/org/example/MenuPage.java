@@ -92,7 +92,7 @@ public class MenuPage {
         mealPanelContainer.setLayout(new GridLayout(2, 4)); // 1 row, 4 columns
 
         // Fetch meals from the database
-        List<String[]> meals = org.example.Database.listMeal(); // This now returns the expected data
+        List<String[]> meals = org.example.Database.getMeals(); // This now returns the expected data
 
         // Loop through meals and create a panel for each
         for (String[] meal : meals) {

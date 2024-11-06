@@ -1,133 +1,137 @@
-package org.example;//import org.example.models.org.example.Database;
+package org.example;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class RegisterPage {
-    JLabel label = new JLabel();
-    JPanel panel = new JPanel();
-    JPanel rolepanel = new JPanel();
-    JLabel rolelabel = new JLabel();
-    JLabel managerLabel = new JLabel();
-    JLabel workerLabel = new JLabel();
-    JTextField userName = new JTextField();
-    JPasswordField password = new JPasswordField();
-    JButton button = new JButton();
+
+    String role = "Manager";
     JButton managerButton = new JButton();
     JButton workerButton = new JButton();
-    String role = "worker";
 
     RegisterPage(JFrame frame) {
-        frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(null);
+        frame.getContentPane().setBackground(Color.decode("#EF9B39"));
 
-        //Create Register Panel
-        panel.setBounds(0, 0, 500, 630);
-        panel.setBackground(Color.WHITE);
-        panel.setLayout(null);
+        //Back to Login Button
+        JButton loginButton = new JButton("LogIn");
+        loginButton.setBorder(BorderFactory.createEmptyBorder());
+        loginButton.setBounds(250, 430, 100, 20);
+        loginButton.setBackground(Color.decode("#EF9B39"));
+        loginButton.setFocusable(false);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginPage();
+            }
+        });
+        frame.add(loginButton);
 
-        //Create Role Panel
-        rolepanel.setBounds(500, 0, 600, 630);
-        rolepanel.setBackground(Color.decode("#d87436"));
-        rolepanel.setLayout(null);
+        //Create Account Label
+        JLabel label = new JLabel("CREATE ACCOUNT");
+        label.setBounds(45, 50, 500, 100);
+        label.setFont(new Font("Arial", 1, 50));
+        label.setForeground(Color.decode("#752A00"));
+        frame.add(label);
 
-        //Create Register Label
-        label.setBounds(100, 60, 400, 50);
-        label.setText("Create Account");
-        label.setForeground(Color.decode("#ff914d"));
-        label.setFont(new Font("Arial", 1, 40));
-        panel.add(label);
+        //Username Label
+        JLabel userLabel = new JLabel("Username");
+        userLabel.setBounds(45, 150, 500, 100);
+        userLabel.setFont(new Font("Arial", 1, 18));
+        userLabel.setForeground(Color.decode("#752A00"));
+        frame.add(userLabel);
 
-        //Create Role Label
-        rolelabel.setText("select role");
-        rolelabel.setBounds(220, 60, 400, 50);
-        rolelabel.setFont(new Font("Arial", Font.BOLD, 25));
-        rolelabel.setForeground(Color.white);
-        rolepanel.add(rolelabel);
+        //Username Textfield
+        JTextField username = new JTextField();
+        username.setBounds(45, 210, 470, 57);
+        username.setBorder(BorderFactory.createEmptyBorder());
+        username.setBackground(Color.white);
+        frame.add(username);
 
-        //Create Manager label
-        managerLabel.setText("Manager");
-        managerLabel.setBounds(130, 350, 400, 50);
-        managerLabel.setForeground(Color.white);
-        managerLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        rolepanel.add(managerLabel);
+        //Password Label
+        JLabel passLabel = new JLabel("Password");
+        passLabel.setBounds(45, 260, 500, 100);
+        passLabel.setFont(new Font("Arial", 1, 18));
+        passLabel.setForeground(Color.decode("#752A00"));
+        frame.add(passLabel);
 
-        //Create Worker label
-        workerLabel.setText("Worker");
-        workerLabel.setBounds(390, 350, 400, 50);
-        workerLabel.setForeground(Color.white);
-        workerLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        rolepanel.add(workerLabel);
-
-        //Create Username Field
-        userName.setBounds(100, 170, 310, 50);
-        userName.setBackground(Color.decode("#f6ebe1"));
-        userName.setBorder(BorderFactory.createEmptyBorder());
-        userName.setFont(new Font("Arial", 0, 20));
-        panel.add(userName);
-
-        //Create Password Field
-        password.setBounds(100, 250, 310, 50);
-        password.setBackground(Color.decode("#f6ebe1"));
+        //Password Textfield
+        JPasswordField password = new JPasswordField();
+        password.setBounds(44, 320, 470, 57);
         password.setBorder(BorderFactory.createEmptyBorder());
-        password.setFont(new Font("Arial", 0, 20));
-        panel.add(password);
+        password.setBackground(Color.white);
+        frame.add(password);
 
-        //Create Manager Button
-        managerButton.setBounds(80, 150, 200, 200);
-        managerButton.setBackground(Color.decode("#d87436"));
-        managerButton.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+        //Select Role Label
+        JLabel roleLabel = new JLabel("Kindly select your role from the choices below:");
+        roleLabel.setBounds(610, 100, 1000, 50);
+        roleLabel.setForeground(Color.decode("#752A00"));
+        roleLabel.setFont(new Font("Arial", 0, 20));
+        frame.add(roleLabel);
+
+        //Manager Button
+        managerButton.setBounds(570, 200, 220, 210);
+        managerButton.setBackground(Color.decode("#EF9B39"));
+        managerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+        ImageIcon managerIcon = new ImageIcon("src/main/Manager.png");
+        managerButton.setIcon(managerIcon);
         managerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 managerButton.setBackground(Color.white);
-                workerButton.setBackground(Color.decode("#d87436"));
-                role = "manager";
+                ImageIcon managerIcon = new ImageIcon("src/main/yellowManager.png");
+                ImageIcon workerIcon = new ImageIcon("src/main/Worker.png");
+                workerButton.setIcon(workerIcon);
+                managerButton.setIcon(managerIcon);
+
+                workerButton.setBackground(Color.decode("#EF9B39"));
+                role = "Manager";
             }
         });
-        rolepanel.add(managerButton);
+        managerButton.setFocusable(false);
+        frame.add(managerButton);
 
-        //Create Worker Button
-        workerButton.setBounds(330, 150, 200, 200);
-        workerButton.setBackground(Color.decode("#d87436"));
-        workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+        //Worker Button
+        workerButton.setBounds(830, 200, 220, 210);
+        workerButton.setBackground(Color.decode("#EF9B39"));
+        workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+        ImageIcon workerIcon = new ImageIcon("src/main/Worker.png");
+        workerButton.setIcon(workerIcon);
         workerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 workerButton.setBackground(Color.white);
-                managerButton.setBackground(Color.decode("#d87436"));
-                role = "worker";
+                workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+                ImageIcon workerIcon = new ImageIcon("src/main/yellowWorker.png");
+                workerButton.setIcon(workerIcon);
+                ImageIcon managerIcon = new ImageIcon("src/main/Manager.png");
+                managerButton.setIcon(managerIcon);
+                managerButton.setBackground(Color.decode("#EF9B39"));
+                role = "Worker";
             }
         });
-        rolepanel.add(workerButton);
+        workerButton.setFocusable(false);
+        frame.add(workerButton);
 
-        //Create Register Button
-        button.setBounds(100, 350, 150, 40);
-        button.setBackground(Color.decode("#ff914d"));
-        button.setText("Register");
-        button.setFont(new Font("Arial", Font.BOLD, 18));
-        button.setForeground(Color.white);
-        button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
+        //Register Button
+        JButton registerButton = new JButton("REGISTER");
+        registerButton.setBounds(45, 415, 175, 45);
+        registerButton.setBackground(Color.white);
+        registerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
+        registerButton.setFont(new Font("Arial", 1, 20));
+        registerButton.setFocusable(false);
+        registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String user = userName.getText();
-                String pass = new String(password.getPassword());
-                String type = role;
-                Database.addUser(user, pass, type);
-                userName.setText("");
+                String userName = username.getText();
+                String passWord = new String(password.getPassword());
+                Database.registerUser(userName, passWord, role);
+                username.setText("");
                 password.setText("");
-                managerButton.setBackground(Color.decode("#d87436"));
-                managerButton.setBorder(BorderFactory.createLineBorder(Color.white, 2));
-                workerButton.setBackground(Color.decode("#d87436"));
-                workerButton.setBorder(BorderFactory.createLineBorder(Color.white, 2));
             }
         });
-        panel.add(button);
-
-        frame.add(panel);
-        frame.add(rolepanel);
+        frame.add(registerButton);
         frame.setResizable(false);
         frame.setVisible(true);
     }

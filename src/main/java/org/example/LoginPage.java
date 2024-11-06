@@ -7,162 +7,126 @@ import java.awt.event.*;
 public class LoginPage {
 
     public static void main(String[] args) {
-        Database.createUsersTable();
-        Database.createMealsTable();
-
         JLabel errorLabel = new JLabel();
 
-            //Create Frame
-            JFrame frame = new JFrame();
-            frame.setSize(1100, 630);
-            frame.getContentPane().setBackground(Color.decode("#d87436"));
-            frame.setLayout(null);
-            frame.setLocationRelativeTo((Component) null);
-            frame.setResizable(false);
+        //Create Frame
+        JFrame frame = new JFrame();
+        frame.setSize(1100, 600);
+        frame.getContentPane().setBackground(Color.decode("#EF9B39"));
+        frame.setLayout(null);
+        frame.setLocationRelativeTo((Component) null);
+        frame.setResizable(false);
 
-            //Create Login Panel
-            JPanel panel = new JPanel();
-            panel.setLayout(null);
-            panel.setBackground(Color.white);
-            panel.setBounds(500, 0, 600, 630);
-            frame.add(panel);
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/logo.png");
+        JLabel image = new JLabel(img);
+        image.setBounds(0, 0, 450, 600);
+        frame.add(image);
 
-            //Create Login Label
-            JLabel label = new JLabel();
-            label.setText("Welcome!");
-            label.setFont(new Font("Arial", 1, 50));
-            label.setForeground(Color.decode("#d87436"));
-            label.setBounds(150, 60, 500, 70);
-            panel.add(label);
+        //Create Login Label
+        JLabel label = new JLabel();
+        label.setText("EMPLOYEE LOGIN");
+        label.setFont(new Font("Abadi MT Condensed Extra Bold", 1, 60));
+        label.setForeground(Color.decode("#752A00"));
+        label.setBounds(440, 78, 1000, 70);
+        frame.add(label);
 
-            //Create extra label
-            JLabel extraLabel = new JLabel();
-            extraLabel.setText("Log in to your account");
-            extraLabel.setBounds(160, 130, 500, 30);
-            extraLabel.setFont(new Font("Bitstream Vera Sans Mono", 0, 18));
-            extraLabel.setForeground(Color.decode("#545454"));
-            panel.add(extraLabel);
+        //Create Username Label
+        JLabel userLabel = new JLabel("Username");
+        userLabel.setForeground(Color.decode("#752A00"));
+        userLabel.setBounds(445, 190, 200, 50);
+        userLabel.setFont(new Font("Arial", 1, 24));
+        frame.add(userLabel);
 
-            //Create Username Field
-            JTextField userName = new JTextField();
-            userName.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#7c8a92")));
-            userName.setBounds(160, 200, 270, 40);
-            userName.setFont(new Font("Abadi MT Condensed Extra Bold", 1, 15));
-            userName.setCaretColor(Color.darkGray);
-            userName.setForeground(Color.decode("#545454"));
-            userName.setText("Username");
-            userName.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
+        //Create Username Field
+        JTextField userName = new JTextField();
+        userName.setBorder(BorderFactory.createEmptyBorder());
+        userName.setBounds(445, 230, 592, 57);
+        userName.setFont(new Font("Arial", 1, 20));
+        userName.setCaretColor(Color.darkGray);
+        frame.add(userName);
+
+        //Create passowrd Label
+        JLabel passLabel = new JLabel("Password");
+        passLabel.setForeground(Color.decode("#752A00"));
+        passLabel.setBounds(445, 310, 200, 50);
+        passLabel.setFont(new Font("Arial", 1, 24));
+        frame.add(passLabel);
+
+        //Create Password Field
+        JPasswordField password = new JPasswordField();
+        password.setBorder(BorderFactory.createEmptyBorder());
+        password.setBounds(445, 350, 592, 57);
+        password.setFont(new Font("Arial", 1, 20));
+        password.setForeground(Color.darkGray);
+        password.setCaretColor(Color.darkGray);
+        frame.add(password);
+
+        //Create Login Button
+        JButton loginButton = new JButton();
+        loginButton.setBounds(930, 450, 108, 40);
+        loginButton.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 3));
+        loginButton.setBackground(Color.white);
+        loginButton.setText("enter");
+        loginButton.setForeground(Color.decode("#551F01"));
+        loginButton.setFont(new Font("Arial", 1, 18));
+        loginButton.setFocusable(false);
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String usernameInput = userName.getText();
+                String passwordInput = new String(password.getPassword());
+
+                if (Database.authenticateUser(usernameInput, passwordInput)) {
+                    new MenuPage(frame);
+                } else {
+                    //Create Error Login Label
+                    errorLabel.setText("Invalid username and password. Please try again");
+                    errorLabel.setBounds(550, 420, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
                     userName.setText("");
-                }
-            });
-            userName.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if(userName.getText() == null)
-                        userName.setText("Username");
-                }
-            });
-            panel.add(userName);
-
-            //Create Password placeholder
-            JLabel passPlaceholder = new JLabel();
-            passPlaceholder.setText("Password");
-            passPlaceholder.setBounds(161, 260, 270, 40);
-            passPlaceholder.setFont(new Font("Abadi MT Condensed Extra Bold", 1, 15));
-            passPlaceholder.setForeground(Color.decode("#545454"));
-            passPlaceholder.setVisible(true);
-            panel.add(passPlaceholder);
-
-            //Create Password Field
-            JPasswordField password = new JPasswordField();
-            password.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.decode("#7c8a92")));
-            password.setBounds(160, 260, 270, 40);
-            password.setForeground(Color.darkGray);
-            password.setCaretColor(Color.darkGray);
-            password.addFocusListener(new FocusListener() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    passPlaceholder.setText("");
+                    password.setText("");
                 }
 
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if(userName.getText() == null)
-                        passPlaceholder.setText("Password");
-                }
-            });
-            panel.add(password);
+            }
+        });
+        frame.add(errorLabel);
+        frame.add(loginButton);
 
-            //Create Login Button
-            JButton loginButton = new JButton();
-            loginButton.setBounds(160, 330, 100, 35);
-            loginButton.setBorder(BorderFactory.createEmptyBorder());
-            loginButton.setBackground(Color.decode("#d87436"));
-            loginButton.setText("Login");
-            loginButton.setForeground(Color.white);
-            loginButton.setFont(new Font("Arial", 1, 18));
-            loginButton.setFocusable(false);
-            loginButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    String usernameInput = userName.getText();
-                    String passwordInput = new String(password.getPassword());
+        //Create Register Label
+        JLabel label2 = new JLabel();
+        label2.setText("Don't have an account yet? ");
+        label2.setBounds(550, 425, 500, 100);
+        label2.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
+        label2.setForeground(Color.decode("#752A00"));
+        frame.add(label2);
 
-                    if (Database.authenticateUser(usernameInput, passwordInput)) {
-                       new org.example.MenuPage(frame);
-                    } else {
-                        //Create Error Login Label
-                        errorLabel.setText("Invalid username and password. Please try again");
-                        errorLabel.setBounds(160, 300, 500, 20);
-                        errorLabel.setForeground(Color.red);
-                        errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 12));
-                        userName.setText("");
-                        password.setText("");
-                    }
+        //Create Register button
+        JButton registerButton = new JButton();
+        registerButton.setText("Register");
+        registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
+        registerButton.setForeground(Color.BLUE);
+        registerButton.setForeground(Color.decode("#752A00"));
+        registerButton.setBorderPainted(false);
+        registerButton.setContentAreaFilled(false);
+        registerButton.setFocusPainted(false);
+        registerButton.setBounds(748, 455, 100, 40);
+        registerButton.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                frame.getContentPane().removeAll();
+                new RegisterPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+            public void mouseEntered(MouseEvent e) {
+                registerButton.setForeground(Color.BLUE);
+            }
+            public void mouseExited(MouseEvent e) {
+                registerButton.setForeground(Color.decode("#752A00"));
+            }
+        });
 
-                }
-            });
-            panel.add(errorLabel);
-            panel.add(loginButton);
-
-            //Create Register Label
-            JLabel label2 = new JLabel();
-            label2.setText("Don't have an account yet? ");
-            label2.setBounds(170, 370, 500, 50);
-            label2.setFont(new Font("Bitstream Vera Sans Mono", 1, 12 ));
-            panel.add(label2);
-
-            //Create Register button
-            JButton registerButton = new JButton();
-            registerButton.setText("Register");
-            registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 12 ));
-            registerButton.setForeground(Color.BLUE);
-            registerButton.setBorderPainted(false);
-            registerButton.setContentAreaFilled(false);
-            registerButton.setFocusPainted(false);
-            registerButton.setBounds(305, 375, 100, 40);
-            registerButton.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    frame.getContentPane().removeAll();
-                    new org.example.RegisterPage(frame);
-                    frame.revalidate();
-                    frame.repaint();
-                }
-
-                public void mouseEntered(MouseEvent e) {
-                    registerButton.setForeground(Color.RED);
-                }
-
-                public void mouseExited(MouseEvent e) {
-                    registerButton.setForeground(Color.BLUE);
-                }
-            });
-            panel.add(registerButton);
-
-            frame.add(panel);
-            frame.setVisible(true);
-        }
+        frame.add(registerButton);
+        frame.setVisible(true);
     }
+}
 

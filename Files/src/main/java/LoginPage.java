@@ -3,8 +3,6 @@ import org.example.models.Database;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 
 public class LoginPage {
 

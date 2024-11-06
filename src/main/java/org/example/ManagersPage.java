@@ -12,8 +12,6 @@ import java.awt.event.*;
 public class ManagersPage {
 
     JButton menuPageButton = new JButton();
-    JLabel welcomeLabel = new JLabel();
-    JLabel addMealLabel = new JLabel();
     JLabel mealNameLabel = new JLabel();
     JTextField mealNameTf = new JTextField("");
     JLabel descLabel = new JLabel();
@@ -395,7 +393,7 @@ public class ManagersPage {
                 String dietType = ManagersPage.this.dietType;
                 String spice = ManagersPage.this.spice;
                 int calories = Integer.parseInt(calsTf.getText());
-                Database.addMeals(name, description, category, dietType, spice, calories);
+                mealsDatabase.addMeals(name, description, category, dietType, spice, calories);
                 mealNameTf.setText("");
                 descriptionTf.setText("");
                 breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
@@ -440,7 +438,7 @@ public class ManagersPage {
         frame.add(backButton);
 
         JComboBox<String> mealsDropdown = new JComboBox<>();
-        Database.mealsSelector(mealsDropdown);
+        mealsDatabase.mealsSelector(mealsDropdown);
         mealsDropdown.setBounds(50, 50, 250, 40);
         frame.add(mealsDropdown);
 
@@ -637,7 +635,7 @@ public class ManagersPage {
                 String newCategory = category;
                 String newDietType = dietType;
                 String newSpice = spice;
-                Database.updateData(selectedMeal, newDescription, newCategory, newDietType, newSpice);
+                mealsDatabase.updateMeals(selectedMeal, newDescription, newCategory, newDietType, newSpice);
             }
         });
         frame.add(updateButton);
@@ -679,9 +677,9 @@ public class ManagersPage {
                 String mealName = textField.getText().trim();
 
                 if (mealName != null && !mealName.isEmpty()) {
-                    int mealId = Database.getMealIdByName(mealName);
+                    int mealId = mealsDatabase.getMealIdByName(mealName);
                     if (mealId != -1) {
-                        Database.deleteMeal(mealId);
+                        mealsDatabase.deleteMeal(mealId);
                         System.out.println("Meal Deleted");
                     }
                 }

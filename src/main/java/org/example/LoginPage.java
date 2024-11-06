@@ -75,7 +75,7 @@ public class LoginPage {
                 String usernameInput = userName.getText();
                 String passwordInput = new String(password.getPassword());
 
-                if (Database.authenticateUser(usernameInput, passwordInput)) {
+                if (usersDatabase.authenticateUser(usernameInput, passwordInput)) {
                     new MenuPage(frame);
                 } else {
                     //Create Error Login Label

@@ -126,7 +126,7 @@ public class RegisterPage {
             public void actionPerformed(ActionEvent e) {
                 String userName = username.getText();
                 String passWord = new String(password.getPassword());
-                Database.registerUser(userName, passWord, role);
+                usersDatabase.registerUser(userName, passWord, role);
                 username.setText("");
                 password.setText("");
             }

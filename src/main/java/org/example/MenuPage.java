@@ -1,10 +1,9 @@
-package org.example;//import org.example.models.org.example.Database;
+package org.example;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List; // Import from java.util
-import java.util.ArrayList; // If you need to create a list
+import java.util.List;
 
 public class MenuPage {
 
@@ -89,32 +88,32 @@ public class MenuPage {
 
         // Create a panel to hold meal panels
         JPanel mealPanelContainer = new JPanel();
-        mealPanelContainer.setLayout(new GridLayout(2, 4)); // 1 row, 4 columns
+        mealPanelContainer.setBounds(50, 100, 1000, 450);
+        mealPanelContainer.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        frame.add(mealPanelContainer);
 
-        // Fetch meals from the database
-        List<String[]> meals = org.example.Database.getMeals(); // This now returns the expected data
+        List<String[]> meals = mealsDatabase.getMeals();
 
-        // Loop through meals and create a panel for each
         for (String[] meal : meals) {
             JPanel mealPanel = new JPanel();
-            mealPanel.setLayout(new BorderLayout());
-            mealPanel.setPreferredSize(new Dimension(200, 250));
+            mealPanel.setPreferredSize(new Dimension(200, 200));
             mealPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
             mealPanel.setBackground(Color.white);
 
-            JLabel nameLabel = new JLabel(meal[0], SwingConstants.CENTER); // Meal name
-            JLabel descriptionLabel = new JLabel(meal[1], SwingConstants.CENTER); // Meal description
-
-            mealPanel.add(nameLabel, BorderLayout.NORTH);
-            mealPanel.add(descriptionLabel, BorderLayout.CENTER);
-
+            JLabel nameLabel = new JLabel(meal[0]);
+            JLabel descriptionLabel = new JLabel(meal[1]);
+            JLabel categoryLabel = new JLabel(meal[2]);
+            JLabel dietLabel = new JLabel(meal[3]);
+            JLabel spiceLabel = new JLabel(meal[4]);
+            JLabel caloriesLabel = new JLabel(meal[5]);
+            mealPanel.add(nameLabel);
+            mealPanel.add(descriptionLabel);
+            mealPanel.add(categoryLabel);
+            mealPanel.add(dietLabel);
+            mealPanel.add(spiceLabel);
+            mealPanel.add(caloriesLabel);
             mealPanelContainer.add(mealPanel);
         }
-
-        // Add the meal panel container to the frame
-        mealPanelContainer.setBounds(50, 100, 700, 200); // Adjust size and position as needed
-        frame.add(mealPanelContainer);
-
 
         frame.setLayout(null);
         frame.setSize(1100, 630);

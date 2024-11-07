@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class LoginPage {
     public static void main(String[] args) {
 
@@ -40,7 +41,7 @@ public class LoginPage {
         userLabel.setFont(new Font("Arial", 1, 24));
         frame.add(userLabel);
 
-        //Create Username Field
+        //Create Username FieldCharisse
         JTextField userName = new JTextField();
         userName.setBorder(BorderFactory.createEmptyBorder());
         userName.setBounds(445, 230, 592, 57);

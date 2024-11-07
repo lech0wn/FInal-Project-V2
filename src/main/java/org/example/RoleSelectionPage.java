@@ -55,7 +55,7 @@ public class RoleSelectionPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-                new ManagersPage(frame);  // Navigate to Manager Page
+                new MenuPage(frame);  // Navigate to Manager Page
                 frame.revalidate();
                 frame.repaint();
             }
@@ -75,7 +75,7 @@ public class RoleSelectionPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-                new ManagersPage(frame);  // Navigate to Employee Page
+                new MenuPage(frame);  // Navigate to Employee Page
                 frame.revalidate();
                 frame.repaint();
             }

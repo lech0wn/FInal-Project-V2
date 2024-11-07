@@ -1,15 +1,12 @@
 package org.example;
 
-import org.example.Database;
-
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 
 
 
-public class ManagersPage {
+public class MealEditorPage {
 
     JButton menuPageButton = new JButton();
     JLabel mealNameLabel = new JLabel();
@@ -37,9 +34,8 @@ public class ManagersPage {
     private String dietType = "Non-Vegetarian";
     private String spice = "Not-Spicy";
 
-    ManagersPage(JFrame frame) {
+    MealEditorPage(JFrame frame) {
 
-        frame.setTitle("Manager Page");  //set the title of the window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
 
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
@@ -55,26 +51,26 @@ public class ManagersPage {
         frame.add(sidePanel);
 
         //Add Side Panel Java junction logo
-        ImageIcon logo = new ImageIcon("src/main/SidePanelLogo.png");
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
         JLabel logoLabel = new JLabel(logo);
-        logoLabel.setBounds(100, 100, 160, 300);
+        logoLabel.setBounds(10,0,300,300);
         sidePanel.add(logoLabel);
 
         //Add Side Panel Welcome Label
         JLabel welcomeLabel = new JLabel("WELCOME!");
         welcomeLabel.setForeground(Color.decode("#EF9B39"));
-        welcomeLabel.setBounds(80, 200, 300, 100);
+        welcomeLabel.setBounds(60, 230, 300, 100);
         welcomeLabel.setForeground(Color.decode("#EF9B39"));
-        welcomeLabel.setFont(new Font("Arial", 1, 35));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
         JButton menuButton = new JButton("Menu");
-        menuButton.setBounds(30, 270, 275, 45 );
+        menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
-        menuButton.setBorder(BorderFactory.createEmptyBorder());
-        menuButton.setFont(new Font("Arial", 0, 20));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
         menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,32 +80,69 @@ public class ManagersPage {
                 frame.repaint();
             }
         });
+
         sidePanel.add(menuButton);
 
         //Add Inventory Button
         JButton inventoryButton = new JButton("Inventory");
-        inventoryButton.setBounds(30, 320, 275, 45);
+        inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
-        inventoryButton.setBorder(BorderFactory.createEmptyBorder());
-        inventoryButton.setFont(new Font("Arial", 0, 20));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
         inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage();
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
         JButton ordersButton = new JButton("Orders");
-        ordersButton.setBounds(30, 380, 275, 45);
+        ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
-        ordersButton.setBorder(BorderFactory.createEmptyBorder());
-        ordersButton.setFont(new Font("Arial", 0, 20));
+        ordersButton.setFont(new Font("Arial", 0, 32));
         ordersButton.setFocusable(false);
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
         sidePanel.add(ordersButton);
 
+        //Add Meal Editor Button
+        JButton mealEditorButton = new JButton("+");
+        mealEditorButton.setBounds(140, 520, 50, 50);
+        mealEditorButton.setBackground(Color.decode("#331402"));
+        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
+        mealEditorButton.setForeground(Color.decode("#FACD97"));
+        mealEditorButton.setFocusable(false);
+        mealEditorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MealEditorPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(mealEditorButton);
+
         //Frame
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/meal editor.png");
+        JLabel imageLabel = new JLabel(img);
+        imageLabel.setBounds(235, 50, 500, 500);
+        frame.add(imageLabel);
+
         JLabel mealEditor = new JLabel("MEAL EDITOR");
-        mealEditor.setBounds(600, 50, 390, 90);
+        mealEditor.setBounds(650, 50, 365, 90);
         mealEditor.setBackground(Color.decode("#752A00"));
-        mealEditor.setFont(new Font("Arial", 1, 20));
+        mealEditor.setFont(new Font("Arial", 1, 35));
         mealEditor.setForeground(Color.decode("#EF9B39"));
+        mealEditor.setOpaque(true);
+        mealEditor.setBorder(new RoundedBorder(40, Color.decode("#551F01")));
+        mealEditor.setHorizontalTextPosition(SwingConstants.CENTER);
+        mealEditor.setVerticalTextPosition(SwingConstants.CENTER);
         frame.add(mealEditor);
 
         JLabel label = new JLabel("Hello! What would you like to do?");
@@ -118,10 +151,12 @@ public class ManagersPage {
         label.setFont(new Font("Arial", 0, 26));
         frame.add(label);
 
+
         addMeal.setBounds(650, 250, 365, 85);
         addMeal.setBackground(Color.white);
         addMeal.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
         addMeal.setFont(new Font ("Arial", 2, 28));
+        addMeal.setBorder(new RoundedBorder(40, Color.decode("#551F01")));
         addMeal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,6 +172,7 @@ public class ManagersPage {
         editMeal.setBackground(Color.white);
         editMeal.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
         editMeal.setFont(new Font ("Arial", 2, 28));
+        editMeal.setBorder(new RoundedBorder(40, Color.decode("#551F01")));
         editMeal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,6 +188,7 @@ public class ManagersPage {
         removeMeal.setBackground(Color.white);
         removeMeal.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
         removeMeal.setFont(new Font ("Arial", 2, 28));
+        removeMeal.setBorder(new RoundedBorder(40, Color.decode("#551F01")));
         removeMeal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,19 +206,6 @@ public class ManagersPage {
     }
 
     public void addMeal(JFrame frame) {
-
-        backButton.setBounds(900, 20, 150, 40);
-        backButton.setBackground(Color.decode("#8c9e42"));
-        backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setForeground(Color.white);
-        backButton.setFocusable(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ManagersPage(frame);
-            }
-        });
-        frame.add(backButton);
 
         //Add Meal Name Label
         mealNameLabel.setText("Meal Name");
@@ -392,9 +416,9 @@ public class ManagersPage {
             public void actionPerformed(ActionEvent e) {
                 String name = mealNameTf.getText();
                 String description = descriptionTf.getText();
-                String category = ManagersPage.this.category;
-                String dietType = ManagersPage.this.dietType;
-                String spice = ManagersPage.this.spice;
+                String category = MealEditorPage.this.category;
+                String dietType = MealEditorPage.this.dietType;
+                String spice = MealEditorPage.this.spice;
                 int calories = Integer.parseInt(calsTf.getText());
                 mealsDatabase.addMeals(name, description, category, dietType, spice, calories);
                 mealNameTf.setText("");
@@ -427,18 +451,6 @@ public class ManagersPage {
     }
 
     public void editMeal(JFrame frame) {
-        backButton.setBounds(900, 20, 150, 40);
-        backButton.setBackground(Color.decode("#8c9e42"));
-        backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setForeground(Color.white);
-        backButton.setFocusable(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ManagersPage(frame);
-            }
-        });
-        frame.add(backButton);
 
         JComboBox<String> mealsDropdown = new JComboBox<>();
         mealsDatabase.mealsSelector(mealsDropdown);
@@ -646,18 +658,6 @@ public class ManagersPage {
     }
 
     public void deleteMeal(JFrame frame) {
-        backButton.setBounds(900, 20, 150, 40);
-        backButton.setBackground(Color.decode("#8c9e42"));
-        backButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backButton.setForeground(Color.white);
-        backButton.setFocusable(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ManagersPage(frame);
-            }
-        });
-        frame.add(backButton);
 
         JLabel label = new JLabel("Enter the name of the meal you would like to delete:");
         label.setBounds(280, 200, 1000, 100);

@@ -99,10 +99,19 @@ public class ManagersPage {
         JButton ordersButton = new JButton("Orders");
         ordersButton.setBounds(30, 380, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
-        ordersButton.setBorder(BorderFactory.createEmptyBorder());
-        ordersButton.setFont(new Font("Arial", 0, 20));
+        ordersButton.setFont(new Font("Arial", Font.BOLD, 20));
         ordersButton.setFocusable(false);
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         sidePanel.add(ordersButton);
+
 
         //Frame
         JLabel mealEditor = new JLabel("MEAL EDITOR");

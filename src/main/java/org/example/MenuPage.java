@@ -112,6 +112,15 @@ public class MenuPage {
         breakfastButton.setBackground(Color.decode("#752A00"));
         breakfastButton.setFocusable(false);
         breakfastButton.setBorder(new RoundedBorder(30, Color.decode("#331402")));
+        breakfastButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MealsPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         frame.add(breakfastButton);
 
         //Create Lunch Button

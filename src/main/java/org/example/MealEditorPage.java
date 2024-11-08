@@ -94,7 +94,7 @@ public class MealEditorPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-                new InventoryPage();
+                new InventoryPage(frame);
                 frame.revalidate();
                 frame.repaint();
             }
@@ -106,8 +106,18 @@ public class MealEditorPage {
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
-        ordersButton.setFocusable(false);
         ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.setForeground(Color.decode("#FACD97"));
+        ordersButton.setFocusable(true);
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button

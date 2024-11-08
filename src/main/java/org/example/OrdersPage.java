@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.Database;
+import org.example.ordersDatabase;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,6 @@ import java.util.List;
 public class OrdersPage {
 
     // labels
-    JLabel ordersLabel = new JLabel();
     JLabel mealNameLabel = new JLabel();
     JLabel quantityLabel = new JLabel();
     JLabel priceLabel = new JLabel();
@@ -19,7 +18,6 @@ public class OrdersPage {
     JLabel orderIdLabel = new JLabel();
 
     // buttons
-    JButton backToMenuButton = new JButton();
     JButton addOrdersButton = new JButton();
     JButton deleteOrdersButton = new JButton();
     JButton confirmOrderButton = new JButton();
@@ -34,42 +32,159 @@ public class OrdersPage {
 
     OrdersPage(JFrame frame) {
 
+        frame.setTitle("Orders");  //set the title of the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
+
         frame.getContentPane().removeAll();
         frame.setLayout(null);
 
-        // orders label
-        ordersLabel.setText("Orders");
-        ordersLabel.setForeground(Color.decode("#545454"));
-        ordersLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 36));
-        ordersLabel.setBounds(50, 30, 500, 50);
-        frame.add(ordersLabel);
+        //Add Side Panel
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
 
-        // back to menu button
-        backToMenuButton.setBounds(900, 20, 150, 40);
-        backToMenuButton.setBackground(Color.decode("#8c9e42"));
-        backToMenuButton.setText("Back to Menu");
-        backToMenuButton.setFont(new Font("Arial", Font.BOLD, 16));
-        backToMenuButton.setForeground(Color.white);
-        backToMenuButton.setFocusable(false);
-        backToMenuButton.addActionListener(new ActionListener() {
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
+
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
+
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
                 new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
-        frame.add(backToMenuButton);
 
-        // retrieve orders data and create table
-        String[] columnNames = {"Order ID", "Date", "Subtotal Price", "Meal ID", "Meal Name", "Quantity"};
-        List<String[]> orders = ordersDatabase.listOrders();
-        String[][] data = orders.toArray(new String[0][]);
+        sidePanel.add(menuButton);
 
-        JTable ordersTable = new JTable(data, columnNames);
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(inventoryButton);
 
-        // Add table to scroll pane and set bounds
-        JScrollPane scrollPane = new JScrollPane(ordersTable);
-        scrollPane.setBounds(50, 100, 800, 400); // Adjust as needed
-        frame.add(scrollPane);
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#EF9B39"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setFocusable(false);
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(ordersButton);
+
+        JTextField searchbar = new JTextField();
+        searchbar.setBounds(370, 20, 550, 45);
+        searchbar.setBackground(Color.decode("#FACD97"));
+        searchbar.setBorder(new RoundedBorder(20, Color.decode("#331402")));
+        frame.add(searchbar);
+
+        JLabel dateOrdersLabel = new JLabel("Date");
+        dateOrdersLabel.setBounds(370, 90, 80, 40);
+        dateOrdersLabel.setOpaque(true);
+        dateOrdersLabel.setBackground(Color.decode("#752A00"));
+        dateOrdersLabel.setForeground(Color.decode("#EF9B39"));
+        dateOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        dateOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+
+        frame.add(dateOrdersLabel);
+
+        JLabel orderIdOrdersLabel = new JLabel("Order ID");
+        orderIdOrdersLabel.setBounds(470, 90, 110, 40);
+        orderIdOrdersLabel.setOpaque(true);
+        orderIdOrdersLabel.setBackground(Color.decode("#752A00"));
+        orderIdOrdersLabel.setForeground(Color.decode("#EF9B39"));
+        orderIdOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        orderIdOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+
+        frame.add(orderIdOrdersLabel);
+
+        JLabel mealOrdersLabel = new JLabel("Meal");
+        mealOrdersLabel.setBounds(600, 90, 80, 40);
+        mealOrdersLabel.setOpaque(true);
+        mealOrdersLabel.setBackground(Color.decode("#752A00"));
+        mealOrdersLabel.setForeground(Color.decode("#EF9B39"));
+        mealOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        mealOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+
+        frame.add(mealOrdersLabel);
+
+        JLabel quantityOrdersLabel = new JLabel("Quantity");
+        quantityOrdersLabel.setBounds(700, 90, 110, 40);
+        quantityOrdersLabel.setOpaque(true);
+        quantityOrdersLabel.setBackground(Color.decode("#752A00"));
+        quantityOrdersLabel.setForeground(Color.decode("#EF9B39"));
+        quantityOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        quantityOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+
+        frame.add(quantityOrdersLabel);
+
+        JLabel priceOrdersLabel = new JLabel("Total Price");
+        priceOrdersLabel.setBounds(850, 90, 130, 40);
+        priceOrdersLabel.setOpaque(true);
+        priceOrdersLabel.setBackground(Color.decode("#752A00"));
+        priceOrdersLabel.setForeground(Color.decode("#EF9B39"));
+        priceOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        priceOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+
+        frame.add(priceOrdersLabel);
+
 
         //add orders button
         addOrdersButton.setBounds(900, 120, 150, 40);
@@ -118,30 +233,48 @@ public class OrdersPage {
 
     public void addOrdersPage(JFrame frame){
 
-            //back to menu page
-            backToMenuButton.setBounds(900, 20, 150, 40);
-            backToMenuButton.setBackground(Color.decode("#8c9e42"));
-            backToMenuButton.setText("Back to Menu");
-            backToMenuButton.setFont(new Font("Arial", Font.BOLD, 16));
-            backToMenuButton.setForeground(Color.white);
-            backToMenuButton.setFocusable(false);
-            backToMenuButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    new MenuPage(frame);
-                }
-            });
-            frame.add(backToMenuButton);
+        //Add Side Panel
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
 
-            //orders label
-            ordersLabel.setText("Orders");
-            ordersLabel.setForeground(Color.decode("#545454"));
-            ordersLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 36));
-            ordersLabel.setBounds(50, 30, 500, 50);
-            frame.add(ordersLabel);
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
+
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
+
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        sidePanel.add(menuButton);
 
             //add order label
-            addOrderLabel.setText("Add an Order");
+            addOrderLabel.setText("ADD ORDER");
             addOrderLabel.setForeground(Color.decode("#d87436"));
             addOrderLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 28));
             addOrderLabel.setBounds(50, 90, 500, 50);
@@ -149,13 +282,13 @@ public class OrdersPage {
 
             //meal name label
             mealNameLabel.setText("Meal Name");
-            mealNameLabel.setBounds(50, 170, 250, 30);
-            mealNameLabel.setForeground(Color.decode("#d87436"));
+            mealNameLabel.setBounds(370, 100, 400, 45);
+            mealNameLabel.setForeground(Color.decode("#331402"));
             mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
             frame.add(mealNameLabel);
 
             //meal name text field
-            mealNameTf.setBounds(50, 200, 250, 40);
+            mealNameTf.setBounds(370, 140, 400, 45);
             mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
             mealNameTf.setBackground(Color.white);
             frame.add(mealNameTf);
@@ -201,7 +334,7 @@ public class OrdersPage {
 
             //confirm order button
             confirmOrderButton.setText("Confirm Order");
-            confirmOrderButton.setBounds(450, 370, 250, 40);
+            confirmOrderButton.setBounds(930, 450, 108, 40);
             confirmOrderButton.setBackground(Color.decode("#d87436"));
             confirmOrderButton.setFont(new Font("Arial", 1, 18));
             confirmOrderButton.setForeground(Color.white);
@@ -230,21 +363,6 @@ public class OrdersPage {
         }
 
         public void deleteOrdersPage(JFrame frame) {
-
-            // back to menu button
-            backToMenuButton.setBounds(900, 20, 150, 40);
-            backToMenuButton.setBackground(Color.decode("#8c9e42"));
-            backToMenuButton.setText("Back to Menu");
-            backToMenuButton.setFont(new Font("Arial", Font.BOLD, 16));
-            backToMenuButton.setForeground(Color.white);
-            backToMenuButton.setFocusable(false);
-            backToMenuButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    new MenuPage(frame);
-                }
-            });
-            frame.add(backToMenuButton);
 
             // delete order label
             deleteOrderButton.setText("Delete an Order");

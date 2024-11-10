@@ -14,6 +14,8 @@ public class MenuPage {
     JButton dinnerButton = new JButton("DINNER");
 
     MenuPage(JFrame frame) {
+
+        frame.setTitle("Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
         frame.getContentPane().removeAll();
@@ -84,7 +86,6 @@ public class MenuPage {
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
         ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
-        ordersButton.setForeground(Color.decode("#FACD97"));
         ordersButton.setFocusable(true);
         ordersButton.addActionListener(new ActionListener() {
             @Override

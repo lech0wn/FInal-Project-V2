@@ -60,12 +60,12 @@ public class inventoryDatabase {
         }
     }
 
-    //delete inventory
-    public static void deleteInventory(int mealId) {
-        String deleteSQL = "DELETE FROM Inventory WHERE mealId = ?";
+    //delete inventory using mealname
+    public static void deleteInventory(String mealName) {
+        String deleteSQL = "DELETE FROM Inventory WHERE mealName = ?";
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
-            preparedStatement.setInt(1, mealId);
+            preparedStatement.setString(1, mealName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

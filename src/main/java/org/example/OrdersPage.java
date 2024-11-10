@@ -9,27 +9,6 @@ import java.util.List;
 
 public class OrdersPage {
 
-    // labels
-    JLabel mealNameLabel = new JLabel();
-    JLabel quantityLabel = new JLabel();
-    JLabel priceLabel = new JLabel();
-    JLabel dateLabel = new JLabel();
-    JLabel addOrderLabel = new JLabel();
-    JLabel orderIdLabel = new JLabel();
-
-    // buttons
-    JButton addOrdersButton = new JButton();
-    JButton deleteOrdersButton = new JButton();
-    JButton confirmOrderButton = new JButton();
-    JButton deleteOrderButton = new JButton();
-
-    //text fields
-    JTextField mealNameTf = new JTextField("");
-    JTextField quantityTf = new JTextField("");
-    JTextField priceTf = new JTextField("");
-    JTextField dateTf = new JTextField("");
-    JTextField orderIdTf = new JTextField("");
-
     OrdersPage(JFrame frame) {
 
         frame.setTitle("Orders");  //set the title of the window
@@ -185,11 +164,13 @@ public class OrdersPage {
 
         frame.add(priceOrdersLabel);
 
+        //TO-DO: still need to add list of orders :(
 
         //add orders button
-        addOrdersButton.setBounds(900, 120, 150, 40);
-        addOrdersButton.setBackground(Color.decode("#8c9e42"));
-        addOrdersButton.setText("Add Order");
+        JButton addOrdersButton = new JButton();
+        addOrdersButton.setBounds(950, 20, 50, 50);
+        addOrdersButton.setBackground(Color.decode("#752A00"));
+        addOrdersButton.setText("+");
         addOrdersButton.setFont(new Font("Arial", Font.BOLD, 18));
         addOrdersButton.setForeground(Color.white);
         addOrdersButton.setFocusable(false);
@@ -209,9 +190,10 @@ public class OrdersPage {
         frame.repaint();
 
         //delete order button
-        deleteOrdersButton.setBounds(900, 240, 150, 40);
-        deleteOrdersButton.setBackground(Color.decode("#8c9e42"));
-        deleteOrdersButton.setText("Delete Order");
+        JButton deleteOrdersButton = new JButton();
+        deleteOrdersButton.setBounds(1020, 20, 50, 50);
+        deleteOrdersButton.setBackground(Color.decode("#752A00"));
+        deleteOrdersButton.setText("-");
         deleteOrdersButton.setFont(new Font("Arial", Font.BOLD, 18));
         deleteOrdersButton.setForeground(Color.white);
         deleteOrdersButton.setFocusable(false);
@@ -273,144 +255,293 @@ public class OrdersPage {
 
         sidePanel.add(menuButton);
 
-            //add order label
-            addOrderLabel.setText("ADD ORDER");
-            addOrderLabel.setForeground(Color.decode("#d87436"));
-            addOrderLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 28));
-            addOrderLabel.setBounds(50, 90, 500, 50);
-            frame.add(addOrderLabel);
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(inventoryButton);
 
-            //meal name label
-            mealNameLabel.setText("Meal Name");
-            mealNameLabel.setBounds(370, 100, 400, 45);
-            mealNameLabel.setForeground(Color.decode("#331402"));
-            mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-            frame.add(mealNameLabel);
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#EF9B39"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setFocusable(false);
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(ordersButton);
 
-            //meal name text field
-            mealNameTf.setBounds(370, 140, 400, 45);
-            mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            mealNameTf.setBackground(Color.white);
-            frame.add(mealNameTf);
+        //add order label
+        JLabel addOrderLabel = new JLabel("ADD ORDER");
+        addOrderLabel.setBounds(520, 50, 360, 80);
+        addOrderLabel.setOpaque(true);
+        addOrderLabel.setBackground(Color.decode("#752A00"));
+        addOrderLabel.setForeground(Color.decode("#FACD97"));
+        addOrderLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 40));
+        addOrderLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
 
-            //quantity label
-            quantityLabel.setText("Quantity");
-            quantityLabel.setBounds(50, 270, 250, 30);
-            quantityLabel.setForeground(Color.decode("#d87436"));
-            quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-            frame.add(quantityLabel);
+        //add this if naa nay image
+//        ImageIcon icon = new ImageIcon("path/to/your/image.png"); // Replace with the path to your image
+//        addOrderLabel.setIcon(icon);
+//        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
 
-            //quantity text field
-            quantityTf.setBounds(50, 300, 250, 40);
-            quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            quantityTf.setBackground(Color.white);
-            frame.add(quantityTf);
+        addOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
+        frame.add(addOrderLabel);
 
-            //price label
-            priceLabel.setText("Subtotal Price");
-            priceLabel.setForeground(Color.decode("#d87436"));
-            priceLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-            priceLabel.setBounds(50, 370, 250, 30);
-            frame.add(priceLabel);
+        //meal name label
+        JLabel mealNameLabel = new JLabel();
+        mealNameLabel.setText("Meal Name");
+        mealNameLabel.setBounds(370, 200, 300, 45);
+        mealNameLabel.setForeground(Color.decode("#331402"));
+        mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(mealNameLabel);
 
-            //price text field
-            priceTf.setBounds(50, 400, 250, 40);
-            priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            priceTf.setBackground(Color.white);
-            frame.add(priceTf);
+        //meal name text field
+        JTextField mealNameTf = new JTextField("");
+        mealNameTf.setBounds(370, 240, 300, 45);
+        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBackground(Color.white);
+        frame.add(mealNameTf);
 
-            //date label
-            dateLabel.setText("Date");
-            dateLabel.setForeground(Color.decode("#d87436"));
-            dateLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-            dateLabel.setBounds(50, 470, 250, 30);
-            frame.add(dateLabel);
+        //price label
+        JLabel priceLabel = new JLabel();
+        priceLabel.setText("Subtotal Price");
+        priceLabel.setBounds(700, 200, 300, 45);
+        priceLabel.setForeground(Color.decode("#331402"));
+        priceLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(priceLabel);
 
-            //date text field
-            dateTf.setBounds(50, 500, 250, 40);
-            dateTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            dateTf.setBackground(Color.white);
-            frame.add(dateTf);
+        //price text field
+        JTextField priceTf = new JTextField("");
+        priceTf.setBounds(700, 240, 300, 45);
+        priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        priceTf.setBackground(Color.white);
+        frame.add(priceTf);
 
-            //confirm order button
-            confirmOrderButton.setText("Confirm Order");
-            confirmOrderButton.setBounds(930, 450, 108, 40);
-            confirmOrderButton.setBackground(Color.decode("#d87436"));
-            confirmOrderButton.setFont(new Font("Arial", 1, 18));
-            confirmOrderButton.setForeground(Color.white);
-            confirmOrderButton.setFocusable(false);
-            confirmOrderButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-            confirmOrderButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String name = mealNameTf.getText();
-                    String quantity = quantityTf.getText();
-                    String price = priceTf.getText();
-                    String date = dateTf.getText();
+        //quantity label
+        JLabel quantityLabel = new JLabel();
+        quantityLabel.setText("Quantity");
+        quantityLabel.setBounds(370, 280, 300, 45);
+        quantityLabel.setForeground(Color.decode("#331402"));
+        quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(quantityLabel);
 
-                    ordersDatabase.addOrders(name, quantity, price, date);
-                    mealNameTf.setText("");
-                    quantityTf.setText("");
-                    priceTf.setText("");
-                    dateTf.setText("");
-                }
-            });
-            frame.add(confirmOrderButton);
+        //quantity text field
+        JTextField quantityTf = new JTextField("");
+        quantityTf.setBounds(370, 320, 300, 45);
+        quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        quantityTf.setBackground(Color.white);
+        frame.add(quantityTf);
 
-            frame.setLayout(null);
-            frame.setVisible(true);
+        //date label
+        JLabel dateLabel = new JLabel();
+        dateLabel.setText("Date");
+        dateLabel.setBounds(700, 280, 300, 45);
+        dateLabel.setForeground(Color.decode("#331402"));
+        dateLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(dateLabel);
 
-        }
+        //date text field
+        JTextField dateTf = new JTextField("");
+        dateTf.setBounds(700, 320, 300, 45);
+        dateTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        dateTf.setBackground(Color.white);
+        frame.add(dateTf);
 
-        public void deleteOrdersPage(JFrame frame) {
+        //confirm order button
+        JButton confirmOrderButton = new JButton();
+        confirmOrderButton.setText("CONFIRM");
+        confirmOrderButton.setBounds(850, 500, 160, 40);
+        confirmOrderButton.setBackground(Color.decode("#551F01"));
+        confirmOrderButton.setFont(new Font("Arial", 1, 18));
+        confirmOrderButton.setForeground(Color.white);
+        confirmOrderButton.setFocusable(false);
+        confirmOrderButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
+        confirmOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = mealNameTf.getText();
+                String quantity = quantityTf.getText();
+                String price = priceTf.getText();
+                String date = dateTf.getText();
 
-            // delete order label
-            deleteOrderButton.setText("Delete an Order");
-            deleteOrderButton.setForeground(Color.decode("#d87436"));
-            deleteOrderButton.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 28));
-            deleteOrderButton.setBounds(50, 90, 500, 50);
-            frame.add(deleteOrderButton);
+                ordersDatabase.addOrders(name, quantity, price, date);
+                mealNameTf.setText("");
+                quantityTf.setText("");
+                priceTf.setText("");
+                dateTf.setText("");
+            }
+        });
+        frame.add(confirmOrderButton);
 
-            // order ID label
-            orderIdLabel.setText("Order ID");
-            orderIdLabel.setBounds(50, 170, 250, 30);
-            orderIdLabel.setForeground(Color.decode("#d87436"));
-            orderIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-            frame.add(orderIdLabel);
+        frame.setLayout(null);
+        frame.setVisible(true);
 
-            // order ID text field
-            orderIdTf.setBounds(50, 200, 250, 40);
-            orderIdTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            orderIdTf.setBackground(Color.white);
-            frame.add(orderIdTf);
-
-            // delete order button
-            deleteOrderButton.setText("Confirm Delete");
-            deleteOrderButton.setBounds(450, 370, 250, 40);
-            deleteOrderButton.setBackground(Color.decode("#d87436"));
-            deleteOrderButton.setFont(new Font("Arial", Font.BOLD, 18));
-            deleteOrderButton.setForeground(Color.white);
-            deleteOrderButton.setFocusable(false);
-            deleteOrderButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-            deleteOrderButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String orderId = orderIdTf.getText();
-
-                    if (ordersDatabase.deleteOrder(Integer.parseInt(orderId))) {
-                        JOptionPane.showMessageDialog(frame, "Order deleted successfully.");
-                    } else {
-                        JOptionPane.showMessageDialog(frame, "Order ID not found.");
-                    }
-
-                    orderIdTf.setText("");
-                }
-            });
-            frame.add(deleteOrderButton);
-
-            frame.setLayout(null);
-            frame.setVisible(true);
-        }
     }
+
+    //delete orders page
+    public void deleteOrdersPage(JFrame frame) {
+
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
+
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
+
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
+
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        sidePanel.add(menuButton);
+
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(inventoryButton);
+
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#FACD97"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setFocusable(false);
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(ordersButton);
+
+        // delete order button
+        JLabel deleteOrderLabel = new JLabel("DELETE ORDER");
+        deleteOrderLabel.setBounds(500, 50, 430, 80);
+        deleteOrderLabel.setOpaque(true);
+        deleteOrderLabel.setBackground(Color.decode("#752A00"));
+        deleteOrderLabel.setForeground(Color.decode("#FACD97"));
+        deleteOrderLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 40));
+        deleteOrderLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
+
+        //add this if naa nay image
+//        ImageIcon icon = new ImageIcon("path/to/your/image.png"); // Replace with the path to your image
+//        addOrderLabel.setIcon(icon);
+//        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
+
+        deleteOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
+        frame.add(deleteOrderLabel);
+
+        // order ID label
+        JLabel orderIdLabel = new JLabel();
+        orderIdLabel.setText("Enter the ID of the order you would like to delete: ");
+        orderIdLabel.setBounds(480, 190, 600, 45);
+        orderIdLabel.setForeground(Color.decode("#331402"));
+        orderIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(orderIdLabel);
+
+        // order ID text field
+        JTextField orderIdTf = new JTextField("");
+        orderIdTf.setBounds(460, 230, 500, 45);
+        orderIdTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        orderIdTf.setBackground(Color.white);
+        frame.add(orderIdTf);
+
+        // delete order button
+        JButton deleteOrderButton = new JButton();
+        deleteOrderButton.setText("CONFIRM");
+        deleteOrderButton.setBounds(580, 370, 250, 40);
+        deleteOrderButton.setBackground(Color.decode("#551F01"));
+        deleteOrderButton.setFont(new Font("Arial", Font.BOLD, 18));
+        deleteOrderButton.setForeground(Color.white);
+        deleteOrderButton.setFocusable(false);
+        deleteOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String orderId = orderIdTf.getText();
+
+                if (ordersDatabase.deleteOrder(Integer.parseInt(orderId))) {
+                    JOptionPane.showMessageDialog(frame, "Order deleted successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Order ID not found.");
+                }
+
+                orderIdTf.setText("");
+            }
+        });
+        frame.add(deleteOrderButton);
+
+        frame.setLayout(null);
+        frame.setVisible(true);
+    }
+}
 
 

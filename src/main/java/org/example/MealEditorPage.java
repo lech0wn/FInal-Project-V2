@@ -36,6 +36,7 @@ public class MealEditorPage {
 
     MealEditorPage(JFrame frame) {
 
+        frame.setTitle("Meal Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
 
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));

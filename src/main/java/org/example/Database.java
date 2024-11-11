@@ -1,6 +1,7 @@
 package org.example;
 import java.sql.*;
 
+import static org.example.inventoryDatabase.createInventoryTable;
 import static org.example.mealsDatabase.createMealsTable;
 import static org.example.ordersDatabase.createOrdersTable;
 import static org.example.usersDatabase.createUsersTable;
@@ -13,5 +14,6 @@ public class Database {
         createUsersTable();
         createMealsTable();
         createOrdersTable();
+        createInventoryTable();
     }
 }

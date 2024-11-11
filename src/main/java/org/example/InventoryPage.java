@@ -241,6 +241,59 @@ public class InventoryPage {
 
         addInventoryLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
         frame.add(addInventoryLabel);
+
+        JLabel mealNameLabel = new JLabel();
+        mealNameLabel.setText("Meal Name");
+        mealNameLabel.setBounds(370, 280, 300, 45);
+        mealNameLabel.setForeground(Color.decode("#331402"));
+        mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(mealNameLabel);
+
+        // order ID text field
+        JTextField mealNameTf = new JTextField("");
+        mealNameTf.setBounds(370, 320, 300, 45);
+        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBackground(Color.white);
+        frame.add(mealNameTf);
+
+        JLabel quantityLabel = new JLabel();
+        quantityLabel.setText("Quantity");
+        quantityLabel.setBounds(700, 280, 300, 45);
+        quantityLabel.setForeground(Color.decode("#331402"));
+        quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(quantityLabel);
+
+        JTextField quantityTf = new JTextField();
+        quantityTf.setBounds(700, 320, 300, 45);
+        quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        quantityTf.setBackground(Color.white);
+        frame.add(quantityTf);
+
+        JButton confirmInventoryButton = new JButton();
+        confirmInventoryButton.setText("CONFIRM");
+        confirmInventoryButton.setBounds(850, 500, 160, 40);
+        confirmInventoryButton.setBackground(Color.decode("#551F01"));
+        confirmInventoryButton.setFont(new Font("Arial", 1, 18));
+        confirmInventoryButton.setForeground(Color.white);
+        confirmInventoryButton.setFocusable(false);
+        confirmInventoryButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
+        confirmInventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String mealName = mealNameTf.getText();
+                int quantity = Integer.parseInt(quantityTf.getText());
+
+                inventoryDatabase.addInventory(/* mealId, */ mealName, quantity); // Pass appropriate mealId if available
+                mealNameTf.setText("");
+                quantityTf.setText("");
+            }
+        });
+        frame.add(confirmInventoryButton);
+
+        frame.setLayout(null);
+        frame.setVisible(true);
+
+
     }
 
     public void DeleteInventoryPage(JFrame frame){

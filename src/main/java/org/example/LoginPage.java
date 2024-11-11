@@ -110,7 +110,7 @@ public class LoginPage {
         registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
         registerButton.setForeground(Color.BLUE);
         registerButton.setForeground(Color.decode("#752A00"));
-        registerButton.setBorderPainted(false);Cha
+        registerButton.setBorderPainted(false);
         registerButton.setContentAreaFilled(false);
         registerButton.setFocusPainted(false);
         registerButton.setBounds(748, 455, 100, 40);

@@ -3,12 +3,13 @@ package org.example;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.awt.image.SinglePixelPackedSampleModel;
+import java.beans.PropertyChangeListener;
 
 
 public class MealEditorPage {
 
-    JButton menuPageButton = new JButton();
+    RoundedButton menuPageButton = new RoundedButton("Menu Page");
     JLabel mealNameLabel = new JLabel();
     JTextField mealNameTf = new JTextField("");
     JLabel descLabel = new JLabel();
@@ -25,11 +26,13 @@ public class MealEditorPage {
     JButton nonspicyButton = new JButton();
     JLabel calsLabel = new JLabel();
     JTextField calsTf = new JTextField();
-    JButton addButton = new JButton();
-    JButton addMeal = new JButton("Add Meal");
-    JButton editMeal = new JButton("Edit Meal");
-    JButton removeMeal = new JButton("Remove Meal");
-    JButton backButton = new JButton("Back to Page");
+    RoundedButton addButton = new RoundedButton("Add");
+    RoundedButton addMeal = new RoundedButton("Add Meal");
+    RoundedButton editMeal = new RoundedButton("Edit Meal");
+    RoundedButton removeMeal = new RoundedButton("Remove Meal");
+    String category = "breakfast";
+    String dietType = "non-vegetarian";
+    String spiceType = "not-spicy";
     MealEditorPage(JFrame frame) {
 
         frame.setTitle("Meal Editor");
@@ -62,7 +65,7 @@ public class MealEditorPage {
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
-        JButton menuButton = new JButton("Menu");
+        RoundedButton menuButton = new RoundedButton("Menu");
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -81,7 +84,7 @@ public class MealEditorPage {
         sidePanel.add(menuButton);
 
         //Add Inventory Button
-        JButton inventoryButton = new JButton("Inventory");
+        RoundedButton inventoryButton = new RoundedButton("Inventory");
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
@@ -99,7 +102,7 @@ public class MealEditorPage {
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
-        JButton ordersButton = new JButton("Orders");
+        RoundedButton ordersButton = new RoundedButton("Orders");
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
@@ -118,7 +121,7 @@ public class MealEditorPage {
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        JButton mealEditorButton = new JButton("+");
+        RoundedButton mealEditorButton = new RoundedButton("+");
         mealEditorButton.setBounds(140, 520, 50, 50);
         mealEditorButton.setBackground(Color.decode("#331402"));
         mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
@@ -236,7 +239,7 @@ public class MealEditorPage {
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
-        JButton menuButton = new JButton("Menu");
+        RoundedButton menuButton = new RoundedButton("Menu");
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -255,7 +258,7 @@ public class MealEditorPage {
         sidePanel.add(menuButton);
 
         //Add Inventory Button
-        JButton inventoryButton = new JButton("Inventory");
+        RoundedButton inventoryButton = new RoundedButton("Inventory");
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
@@ -273,7 +276,7 @@ public class MealEditorPage {
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
-        JButton ordersButton = new JButton("Orders");
+        RoundedButton ordersButton = new RoundedButton("Orders");
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
@@ -292,7 +295,7 @@ public class MealEditorPage {
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        JButton mealEditorButton = new JButton("+");
+        RoundedButton mealEditorButton = new RoundedButton("+");
         mealEditorButton.setBounds(140, 520, 50, 50);
         mealEditorButton.setBackground(Color.decode("#331402"));
         mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
@@ -367,12 +370,35 @@ public class MealEditorPage {
         categoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
         frame.add(categoryLabel);
 
-        //Add Category TextField
-        JTextField categoryTf = new JTextField();
-        categoryTf.setBounds(350, 370, 300, 50);
-        categoryTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
-        categoryTf.setBackground(Color.white);
-        frame.add(categoryTf);
+        //Add Category Button
+        breakfastButton.setBounds(350, 370, 90, 50);
+        breakfastButton.setBackground(Color.white);
+        breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
+        breakfastButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                category = "breakfast";
+            }
+        });
+        frame.add(breakfastButton);
+        lunchButton.setBounds(450, 370, 90, 50);
+        lunchButton.setBackground(Color.white);
+        lunchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                category = "lunch";
+            }
+        });
+        frame.add(lunchButton);
+        dinnerButton.setBounds(550, 370, 90, 50);
+        dinnerButton.setBackground(Color.white);
+        dinnerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                category = "dinner";
+            }
+        });
+        frame.add(dinnerButton);
 
         //Add Ingredients Label
         JLabel ingredientsLabel = new JLabel("Ingredients");
@@ -395,12 +421,25 @@ public class MealEditorPage {
         dietTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
         frame.add(dietTypeLabel);
 
-        //Add Diet Type TextField
-        JTextField dietTypeTf = new JTextField();
-        dietTypeTf.setBounds(700, 130, 300, 50);
-        dietTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
-        dietTypeTf.setBackground(Color.white);
-        frame.add(dietTypeTf);
+        //Add Diet Type buttons
+        vegButton.setBounds(700, 130, 145, 50);
+        vegButton.setBackground(Color.white);
+        vegButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dietType = "vegetarian";
+            }
+        });
+        frame.add(vegButton);
+        nonvegButton.setBounds(860, 130, 145, 50);
+        nonvegButton.setBackground(Color.white);
+        nonvegButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               dietType = "non-vegetarian";
+            }
+        });
+        frame.add(nonvegButton);
 
         //Add Spice Type Label
         JLabel spiceTypeLabel = new JLabel("Spice Type");
@@ -409,12 +448,25 @@ public class MealEditorPage {
         spiceTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
         frame.add(spiceTypeLabel);
 
-        //Add spice Type TextField
-        JTextField spiceTypeTf = new JTextField();
-        spiceTypeTf.setBounds(700, 210, 300, 50);
-        spiceTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
-        spiceTypeTf.setBackground(Color.white);
-        frame.add(spiceTypeTf);
+        //Add Spic Type Buttons
+        spicyButton.setBounds(700, 210, 145, 50);
+        spicyButton.setBackground(Color.white);
+        spicyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                spiceType = "spicy";
+            }
+        });
+        frame.add(spicyButton);
+        nonspicyButton.setBounds(860, 210, 145,50);
+        nonspicyButton.setBackground(Color.white);
+        nonspicyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                spiceType = "not-spicy";
+            }
+        });
+        frame.add(nonspicyButton);
 
         //Add Serving Size Label
         JLabel servingSizeLabel = new JLabel("Serving Size");
@@ -457,13 +509,13 @@ public class MealEditorPage {
             public void actionPerformed(ActionEvent e) {
                 String name = mealNameTf.getText();
                 String description = descriptionTf.getText();
-                String category = categoryTf.getText();
+                String categ = category;
                 String ingredients = ingredientsTf.getText();
-                String dietType = dietTypeTf.getText();
-                String spice = spiceTypeTf.getText();
+                String diet = dietType;
+                String spice = spiceType;
                 String servingSize = servingSizeTf.getText();
                 String nutritionalValue = nutValueTf.getText();
-                mealsDatabase.addMeals(name, description, category, ingredients, dietType, spice, servingSize, nutritionalValue);
+                mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, nutritionalValue);
                 mealNameTf.setText("");
                 descriptionTf.setText("");
                 breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
@@ -517,7 +569,7 @@ public class MealEditorPage {
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
-        JButton menuButton = new JButton("Menu");
+        RoundedButton menuButton = new RoundedButton("Menu");
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -536,7 +588,7 @@ public class MealEditorPage {
         sidePanel.add(menuButton);
 
         //Add Inventory Button
-        JButton inventoryButton = new JButton("Inventory");
+        RoundedButton inventoryButton = new RoundedButton("Inventory");
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
@@ -554,7 +606,7 @@ public class MealEditorPage {
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
-        JButton ordersButton = new JButton("Orders");
+        RoundedButton ordersButton = new RoundedButton("Orders");
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
@@ -573,7 +625,7 @@ public class MealEditorPage {
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        JButton mealEditorButton = new JButton("+");
+        RoundedButton mealEditorButton = new RoundedButton("+");
         mealEditorButton.setBounds(140, 520, 50, 50);
         mealEditorButton.setBackground(Color.decode("#331402"));
         mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
@@ -755,7 +807,7 @@ public class MealEditorPage {
             nutValueTf.setBackground(Color.white);
             frame.add(nutValueTf);
 
-            JButton updateButton = new JButton("Confirm");
+            RoundedButton updateButton = new RoundedButton("Confirm");
             updateButton.setBounds(450, 400, 150, 40);
             updateButton.addActionListener(new ActionListener() {
                 @Override
@@ -800,7 +852,7 @@ public class MealEditorPage {
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
-        JButton menuButton = new JButton("Menu");
+        RoundedButton menuButton = new RoundedButton("Menu");
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -819,7 +871,7 @@ public class MealEditorPage {
         sidePanel.add(menuButton);
 
         //Add Inventory Button
-        JButton inventoryButton = new JButton("Inventory");
+        RoundedButton inventoryButton = new RoundedButton("Inventory");
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
@@ -837,7 +889,7 @@ public class MealEditorPage {
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
-        JButton ordersButton = new JButton("Orders");
+        RoundedButton ordersButton = new RoundedButton("Orders");
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
@@ -856,7 +908,7 @@ public class MealEditorPage {
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        JButton mealEditorButton = new JButton("+");
+        RoundedButton mealEditorButton = new RoundedButton("+");
         mealEditorButton.setBounds(140, 520, 50, 50);
         mealEditorButton.setBackground(Color.decode("#331402"));
         mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
@@ -895,7 +947,7 @@ public class MealEditorPage {
         frame.add(textField);
 
         RoundedButton deleteButton = new RoundedButton("CONFIRM");
-        deleteButton.setBounds(450, 400, 150, 40);
+        deleteButton.setBounds(620, 350, 150, 40);
         deleteButton.setBackground(Color.decode("#551F01"));
         deleteButton.setForeground(Color.white);
         deleteButton.addActionListener(new ActionListener() {

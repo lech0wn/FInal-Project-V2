@@ -37,7 +37,7 @@ public class InventoryPage {
         sidePanel.add(welcomeLabel);
 
         //Add Menu Button
-        JButton menuButton = new JButton("Menu");
+        RoundedButton menuButton = new RoundedButton("Menu");
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
@@ -56,7 +56,7 @@ public class InventoryPage {
         sidePanel.add(menuButton);
 
         //Add Inventory Button
-        JButton inventoryButton = new JButton("Inventory");
+        RoundedButton inventoryButton = new RoundedButton("Inventory");
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));

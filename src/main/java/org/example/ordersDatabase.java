@@ -28,27 +28,29 @@ public class ordersDatabase {
     }
 
     //retrieve orders
-    public static List<String[]> listOrders() {
+    protected static List<String[]> listOrders() {
         List<String[]> ordersList = new ArrayList<>();
-        String query = "SELECT orderId, mealId, mealName, quantity, subtotalPrice, date FROM Orders";
+        String query = "SELECT orderId, date, mealName, quantity, subtotalPrice FROM Orders ORDER BY orderId";
 
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                String orderId = String.valueOf(resultSet.getInt("orderId"));
-                String mealId = String.valueOf(resultSet.getInt("mealId"));
+                String orderId = String.format("%03d", resultSet.getInt("orderId"));
+                String date = resultSet.getString("date");// Formatting orderId to 3 digits
                 String mealName = resultSet.getString("mealName");
-                String quantity = resultSet.getString("quantity");
-                String subtotalPrice = resultSet.getString("subtotalPrice");
-                String date = resultSet.getString("date");
-                ordersList.add(new String[]{orderId, mealId, mealName, quantity, subtotalPrice, date});
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                String subtotalPrice = String.format("%.2f", resultSet.getDouble("subtotalPrice"));  // Format price to 2 decimal places
+
+
+                ordersList.add(new String[]{orderId, date, mealName, quantity, subtotalPrice});
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
         return ordersList;
     }
 

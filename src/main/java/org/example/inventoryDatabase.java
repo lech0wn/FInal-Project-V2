@@ -1,6 +1,8 @@
 package org.example;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class inventoryDatabase {
 
@@ -12,6 +14,7 @@ public class inventoryDatabase {
                 + "inventoryId INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "mealId INTEGER, "
                 + "mealName TEXT NOT NULL, "
+                + "price TEXT NOT NULL, "
                 + "quantity INTEGER NOT NULL, "
                 + "FOREIGN KEY (mealId) REFERENCES meals(mealId))"; // Link mealId to meals table;
 
@@ -23,6 +26,7 @@ public class inventoryDatabase {
             e.printStackTrace();
         }
     }
+
 
     // Helper method to check if a meal name exists in the meals table and retrieve its mealId
     private static Integer getMealIdByName(String mealName) {
@@ -41,19 +45,20 @@ public class inventoryDatabase {
     }
 
     // Add inventory item only if mealName exists in meals table
-    public static void addInventory(String mealName, int quantity) {
+    public static void addInventory(String mealName, int quantity, double price) {
         Integer mealId = getMealIdByName(mealName);
         if (mealId == null) {
             System.out.println("Meal name not found in meals table. Cannot add to inventory.");
             return;
         }
 
-        String insertSQL = "INSERT INTO Inventory (mealId, mealName, quantity) VALUES (?, ?, ?)";
+        String insertSQL = "INSERT INTO Inventory (mealId, mealName, price, quantity) VALUES (?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
             preparedStatement.setInt(1, mealId);
             preparedStatement.setString(2, mealName);
-            preparedStatement.setInt(3, quantity);
+            preparedStatement.setDouble(3, price);  // Set the price
+            preparedStatement.setInt(4, quantity);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
@@ -88,26 +93,30 @@ public class inventoryDatabase {
         }
     }
 
-    // List inventory items
-    public static void listInventory() {
-        String query = "SELECT * FROM Inventory";
-        StringBuilder inventoryList = new StringBuilder("Inventory:\n");
+    //list inventory
+    protected static List<String[]> listInventory() {
+        List<String[]> inventoryData = new ArrayList<>();
+        String query = "SELECT inventoryId, mealId, mealName, quantity, price FROM Inventory ORDER BY inventoryId";
 
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db");
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                inventoryList.append("Meal ID: ").append(resultSet.getInt("mealId"))
-                        .append(", Meal Name: ").append(resultSet.getString("mealName"))
-                        .append(", Quantity: ").append(resultSet.getInt("quantity"))
-                        .append("\n");
+                String inventoryId = String.format("%03d", resultSet.getInt("inventoryId"));
+                String mealId = String.valueOf(resultSet.getInt("mealId"));
+                String mealName = resultSet.getString("mealName");  // Fetch meal name from the result set
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                String price = String.format("%.2f", resultSet.getDouble("price"));
+                inventoryData.add(new String[]{inventoryId, mealId, mealName, quantity, price});
             }
-
-            System.out.println(inventoryList.toString());
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return inventoryData;
     }
+
+
 }

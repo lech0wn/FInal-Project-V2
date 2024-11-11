@@ -8,7 +8,7 @@ import static org.example.usersDatabase.createUsersTable;
 
 public class Database {
 
-    private static final String url = "jdbc:sqlite:detabeso.db"; // Database URL
+    private static final String url = "jdbc:sqlite:database.db"; // Database URL
 
     public static void main(String[] args) {
         createUsersTable();

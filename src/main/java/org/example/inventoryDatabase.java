@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class inventoryDatabase {
 
-    private static final String url = "jdbc:sqlite:detabeso.db";
+    private static final String url = "jdbc:sqlite:database.db";
 
     // Create Inventory table
     public static void createInventoryTable() {

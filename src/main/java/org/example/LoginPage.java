@@ -49,7 +49,7 @@ public class LoginPage {
         userName.setCaretColor(Color.darkGray);
         frame.add(userName);
 
-        //Create passowrd Label
+        //Create password Label
         JLabel passLabel = new JLabel("Password");
         passLabel.setForeground(Color.decode("#752A00"));
         passLabel.setBounds(445, 310, 200, 50);
@@ -110,7 +110,7 @@ public class LoginPage {
         registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
         registerButton.setForeground(Color.BLUE);
         registerButton.setForeground(Color.decode("#752A00"));
-        registerButton.setBorderPainted(false);
+        registerButton.setBorderPainted(false);Cha
         registerButton.setContentAreaFilled(false);
         registerButton.setFocusPainted(false);
         registerButton.setBounds(748, 455, 100, 40);

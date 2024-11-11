@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ordersDatabase {
 
-    private static final String url = "jdbc:sqlite:detabeso.db";
+    private static final String url = "jdbc:sqlite:database.db";
 
     //create Orders table
     public static void createOrdersTable() {

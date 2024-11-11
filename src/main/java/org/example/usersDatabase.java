@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class usersDatabase {
 
-    private static final String url = "jdbc:sqlite:detabeso.db";
+    private static final String url = "jdbc:sqlite:database.db";
 
     //Create Users Table
     public static void createUsersTable() {

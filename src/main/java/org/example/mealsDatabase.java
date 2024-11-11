@@ -6,7 +6,7 @@ import java.util.List;
 
 public class mealsDatabase {
 
-    private static final String url = "jdbc:sqlite:detabeso.db";
+    private static final String url = "jdbc:sqlite:database.db";
 
 
     //Create Meals Table
@@ -16,9 +16,11 @@ public class mealsDatabase {
                 "mealName TEXT, " +
                 "description TEXT, " +
                 "category TEXT, " +
+                "ingredients TEXT, " +
                 "dietType TEXT, " +
                 "spice TEXT, " +
-                "calories INTEGER);";
+                "servingSize TEXT, " +
+                "nutritionalValue TEXT);";
 
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
@@ -32,17 +34,19 @@ public class mealsDatabase {
     }
 
     //Add Meals
-    public static void addMeals(String mealName, String description, String category, String dietType, String spice, int calories) {
-        String insertMeals = "INSERT INTO meals (mealName, description, category, dietType, spice, calories) VALUES (?,?,?,?,?,?)";
+    public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String nutritionalValue) {
+        String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, nutritionalValue) VALUES (?,?,?,?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(insertMeals)) {
             preparedStatement.setString(1, mealName);
             preparedStatement.setString(2, description);
             preparedStatement.setString(3, category);
-            preparedStatement.setString(4, dietType);
-            preparedStatement.setString(5, spice);
-            preparedStatement.setInt(6, calories);
+            preparedStatement.setString(4, ingredients);
+            preparedStatement.setString(5, dietType);
+            preparedStatement.setString(6, spice);
+            preparedStatement.setString(7, servingSize);
+            preparedStatement.setString(8, nutritionalValue);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -50,17 +54,20 @@ public class mealsDatabase {
     }
 
     //Update Meals
-    public static void updateMeals (String mealName, String description, String category, String dietType, String spice) {
-        String updateMeals = "UPDATE meals SET description = ?, category = ?, dietType = ?, spice =? WHERE mealName = ?";
+    public static void updateMeals (String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String nutritionalValue) {
+        String updateMeals = "UPDATE meals SET description = ?, category = ?, ingredients = ?, dietType = ?, spice = ?, servingSize = ?, nutritionalValue = ? WHERE mealName = ?";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(updateMeals)) {
 
-            preparedStatement.setString(1, description); // Description
-            preparedStatement.setString(2, category);    // Category
-            preparedStatement.setString(3, dietType);    // Diet Type
-            preparedStatement.setString(4, spice);        // Spice Level
-            preparedStatement.setString(5, mealName);     // Meal Name (WHERE clause)
+            preparedStatement.setString(1, description);
+            preparedStatement.setString(2, category);
+            preparedStatement.setString(3, ingredients);
+            preparedStatement.setString(4, dietType);
+            preparedStatement.setString(5, spice);
+            preparedStatement.setString(6, servingSize);
+            preparedStatement.setString(7, nutritionalValue);
+            preparedStatement.setString(8, mealName);
 
             preparedStatement.executeUpdate();
 
@@ -106,22 +113,13 @@ public class mealsDatabase {
         return menu;
     }
 
-    //Dropdown List of Meals to select which to update
-    public static void mealsSelector(JComboBox<String> mealsDropdown) {
-        List<String> meals = new ArrayList<>();
-        String query = "SELECT mealName FROM meals";
+    public static void getMealName (String mealName) {
+        String selectMealNameSQL = "SELECT mealName FROM Meals WHERE mealName = ?";
 
         try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMealNameSQL)) {
 
-            while (resultSet.next()) {
-                meals.add(resultSet.getString("mealName"));
-            }
-
-            for (String meal : meals) {
-                mealsDropdown.addItem(meal);
-            }
+            preparedStatement.setString(1, mealName);
 
         } catch (SQLException e) {
             e.printStackTrace();

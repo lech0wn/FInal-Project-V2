@@ -30,10 +30,6 @@ public class MealEditorPage {
     JButton editMeal = new JButton("Edit Meal");
     JButton removeMeal = new JButton("Remove Meal");
     JButton backButton = new JButton("Back to Page");
-    private String category = "breakfast";
-    private String dietType = "Non-Vegetarian";
-    private String spice = "Not-Spicy";
-
     MealEditorPage(JFrame frame) {
 
         frame.setTitle("Meal Editor");
@@ -218,220 +214,256 @@ public class MealEditorPage {
 
     public void addMeal(JFrame frame) {
 
+        //Add Side Panel
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
+
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
+
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
+
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        sidePanel.add(menuButton);
+
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(inventoryButton);
+
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#EF9B39"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.setForeground(Color.decode("#FACD97"));
+        ordersButton.setFocusable(true);
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(ordersButton);
+
+        //Add Meal Editor Button
+        JButton mealEditorButton = new JButton("+");
+        mealEditorButton.setBounds(140, 520, 50, 50);
+        mealEditorButton.setBackground(Color.decode("#331402"));
+        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
+        mealEditorButton.setForeground(Color.decode("#FACD97"));
+        mealEditorButton.setFocusable(false);
+        mealEditorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MealEditorPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(mealEditorButton);
+
+        //Add Meal
+        JLabel mealLabel = new JLabel("ADD MEAL");
+        mealLabel.setBounds(550, 10, 300, 70);
+        mealLabel.setBackground(Color.decode("#752A00"));
+        mealLabel.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
+        mealLabel.setFont(new Font("Arial", 1, 35));
+        mealLabel.setForeground(Color.decode("#FACD97"));
+        mealLabel.setOpaque(true);
+        frame.add(mealLabel);
+
         //Add Meal Name Label
         mealNameLabel.setText("Meal Name");
-        mealNameLabel.setBounds(50, 170, 250, 30);
-        mealNameLabel.setForeground(Color.decode("#d87436"));
-        mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        mealNameLabel.setBounds(350, 100, 250, 30);
+        mealNameLabel.setForeground(Color.decode("#331402"));
+        mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
         frame.add(mealNameLabel);
 
         //Add Meal Name TextField
-        mealNameTf.setBounds(50, 200, 250, 40);
-        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBounds(350, 130, 300, 50);
+        mealNameTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
         mealNameTf.setBackground(Color.white);
         frame.add(mealNameTf);
 
-        //Add description Label
-        descLabel.setText("Description");
-        descLabel.setBounds(50, 270, 250, 30);
-        descLabel.setForeground(Color.decode("#d87436"));
-        descLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(descLabel);
+        //Add Meal Id Label
+        JLabel mealIdLabel = new JLabel("Meal ID");
+        mealIdLabel.setBounds(350, 180, 250, 30);
+        mealIdLabel.setForeground(Color.decode("#331402"));
+        mealIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(mealIdLabel);
 
-        //Add description TextField
-        descriptionTf.setBounds(50, 300, 250, 40);
-        descriptionTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        //Add Meal Id TextField
+        JTextField mealIdTf = new JTextField();
+        mealIdTf.setBounds(350, 210, 300, 50);
+        mealIdTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        mealIdTf.setBackground(Color.white);
+        frame.add(mealIdTf);
+
+        //Add Description Label
+        JLabel descriptionLabel = new JLabel("Description");
+        descriptionLabel.setBounds(350, 260, 250, 30);
+        descriptionLabel.setForeground(Color.decode("#331402"));
+        descriptionLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(descriptionLabel);
+
+        //Add Description TextField
+        JTextField descriptionTf = new JTextField();
+        descriptionTf.setBounds(350, 290, 300, 50);
+        descriptionTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
         descriptionTf.setBackground(Color.white);
         frame.add(descriptionTf);
 
         //Add Category Label
-        categLabel.setText("Category");
-        categLabel.setBounds(50, 370, 250, 30);
-        categLabel.setForeground(Color.decode("#d87436"));
-        categLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(categLabel);
+        JLabel categoryLabel = new JLabel("Category");
+        categoryLabel.setBounds(350, 340, 250, 30);
+        categoryLabel.setForeground(Color.decode("#331402"));
+        categoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(categoryLabel);
 
-        //Add breakfast Button
-        breakfastButton.setBounds(50, 400, 70, 40);
-        breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        breakfastButton.setBackground(Color.white);
-        breakfastButton.setFocusable(false);
-        breakfastButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                breakfastButton.setBackground(Color.decode("#d87436"));
-                breakfastButton.setForeground(Color.white);
-                lunchButton.setBackground(Color.white);
-                lunchButton.setForeground(Color.black);
-                dinnerButton.setBackground(Color.white);
-                dinnerButton.setForeground(Color.black);
-                category = "breakfast";
-            }
-        });
-        frame.add(breakfastButton);
+        //Add Category TextField
+        JTextField categoryTf = new JTextField();
+        categoryTf.setBounds(350, 370, 300, 50);
+        categoryTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        categoryTf.setBackground(Color.white);
+        frame.add(categoryTf);
 
-        //Add Lunch Button
-        lunchButton.setBounds(140, 400, 70, 40);
-        lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        lunchButton.setBackground(Color.white);
-        lunchButton.setFocusable(false);
-        lunchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                lunchButton.setBackground(Color.decode("#d87436"));
-                lunchButton.setForeground(Color.white);
-                breakfastButton.setBackground(Color.white);
-                breakfastButton.setForeground(Color.black);
-                dinnerButton.setBackground(Color.white);
-                dinnerButton.setForeground(Color.black);
-                category = "lunch";
-            }
-        });
-        frame.add(lunchButton);
+        //Add Ingredients Label
+        JLabel ingredientsLabel = new JLabel("Ingredients");
+        ingredientsLabel.setBounds(350, 420, 250, 30);
+        ingredientsLabel.setForeground(Color.decode("#331402"));
+        ingredientsLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(ingredientsLabel);
 
-        //Add Dinner Button
-        dinnerButton.setBounds(230, 400, 70, 40);
-        dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        dinnerButton.setBackground(Color.white);
-        dinnerButton.setFocusable(false);
-        dinnerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                dinnerButton.setBackground(Color.decode("#d87436"));
-                dinnerButton.setForeground(Color.white);
-                breakfastButton.setBackground(Color.white);
-                breakfastButton.setForeground(Color.black);
-                lunchButton.setBackground(Color.white);
-                lunchButton.setForeground(Color.black);
-                category = "dinner";
-            }
-        });
-        frame.add(dinnerButton);
+        //Add Ingredients TextField
+        JTextField ingredientsTf = new JTextField();
+        ingredientsTf.setBounds(350, 450, 300, 50);
+        ingredientsTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        ingredientsTf.setBackground(Color.white);
+        frame.add(ingredientsTf);
 
-        //Add Diet Type label
-        dtLabel.setText("Diet Type");
-        dtLabel.setBounds(50, 470, 250, 30);
-        dtLabel.setForeground(Color.decode("#d87436"));
-        dtLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(dtLabel);
+        //Add Diet Type Label
+        JLabel dietTypeLabel = new JLabel("Diet Type");
+        dietTypeLabel.setBounds(700, 100, 250, 30);
+        dietTypeLabel.setForeground(Color.decode("#331402"));
+        dietTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(dietTypeLabel);
 
-        //Add Vegetarian Button
-        vegButton.setText("Vegetarian");
-        vegButton.setBounds(50, 500, 120, 40);
-        vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        vegButton.setBackground(Color.white);
-        vegButton.setFocusable(false);
-        vegButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                vegButton.setBackground(Color.decode("#d87436"));
-                vegButton.setForeground(Color.white);
-                dietType = "Vegetarian";
-                nonvegButton.setBackground(Color.white);
-                nonvegButton.setForeground(Color.black);
-            }
-        });
-        frame.add(vegButton);
+        //Add Diet Type TextField
+        JTextField dietTypeTf = new JTextField();
+        dietTypeTf.setBounds(700, 130, 300, 50);
+        dietTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        dietTypeTf.setBackground(Color.white);
+        frame.add(dietTypeTf);
 
-        //Add Non-Vegetarian Button
-        nonvegButton.setText("Non-Vegetarian");
-        nonvegButton.setBounds(180, 500, 120, 40);
-        nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        nonvegButton.setBackground(Color.white);
-        nonvegButton.setFocusable(false);
-        nonvegButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                nonvegButton.setBackground(Color.decode("#d87436"));
-                nonvegButton.setForeground(Color.white);
-                dietType = "Non-Vegetarian";
-                vegButton.setBackground(Color.white);
-                vegButton.setForeground(Color.black);
-            }
-        });
-        frame.add(nonvegButton);
+        //Add Spice Type Label
+        JLabel spiceTypeLabel = new JLabel("Spice Type");
+        spiceTypeLabel.setBounds(700, 180, 250, 30);
+        spiceTypeLabel.setForeground(Color.decode("#331402"));
+        spiceTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(spiceTypeLabel);
 
-        //Add a Spice Label
-        spiceLevel.setText("Spice");
-        spiceLevel.setBounds(450, 170, 250, 30);
-        spiceLevel.setForeground(Color.decode("#d87436"));
-        spiceLevel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(spiceLevel);
+        //Add spice Type TextField
+        JTextField spiceTypeTf = new JTextField();
+        spiceTypeTf.setBounds(700, 210, 300, 50);
+        spiceTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        spiceTypeTf.setBackground(Color.white);
+        frame.add(spiceTypeTf);
 
-        //Add Spicy button
-        spicyButton.setText("Spicy");
-        spicyButton.setBounds(450, 200, 120, 40);
-        spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        spicyButton.setBackground(Color.white);
-        spicyButton.setFocusable(false);
-        spicyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                spicyButton.setBackground(Color.decode("#d87436"));
-                spicyButton.setForeground(Color.white);
-                spice = "Spicy";
-                nonspicyButton.setBackground(Color.white);
-                nonspicyButton.setForeground(Color.black);
-            }
-        });
-        frame.add(spicyButton);
+        //Add Serving Size Label
+        JLabel servingSizeLabel = new JLabel("Serving Size");
+        servingSizeLabel.setBounds(700, 260, 250, 30);
+        servingSizeLabel.setForeground(Color.decode("#331402"));
+        servingSizeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(servingSizeLabel);
 
-        //Add Non-Spicy Button
-        nonspicyButton.setText("Not-Spicy");
-        nonspicyButton.setBounds(580, 200, 120, 40);
-        nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        nonspicyButton.setBackground(Color.white);
-        nonspicyButton.setFocusable(false);
-        nonspicyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                nonspicyButton.setBackground(Color.decode("#d87436"));
-                nonspicyButton.setForeground(Color.white);
-                spice = "Not-Spicy";
-                spicyButton.setBackground(Color.white);
-                spicyButton.setForeground(Color.black);
-            }
-        });
-        frame.add(nonspicyButton);
+        //Add Serving Size TextField
+        JTextField servingSizeTf = new JTextField();
+        servingSizeTf.setBounds(700, 290, 300, 50);
+        servingSizeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        servingSizeTf.setBackground(Color.white);
+        frame.add(servingSizeTf);
 
-        //Add Calories Label
-        calsLabel.setText("Calories");
-        calsLabel.setBounds(450, 270, 250, 30);
-        calsLabel.setForeground(Color.decode("#d87436"));
-        calsLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(calsLabel);
+        //Add Nutritional Value Label
+        JLabel nutValueLabel = new JLabel("Nutritional Value ");
+        nutValueLabel.setBounds(700, 340, 250, 30);
+        nutValueLabel.setForeground(Color.decode("#331402"));
+        nutValueLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+        frame.add(nutValueLabel);
 
-        //Add Calories TextField
-        calsTf.setBounds(450, 300, 250, 40);
-        calsTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        calsTf.setBackground(Color.white);
-        frame.add(calsTf);
+        //Add Nutritional Value TextField
+        JTextField nutValueTf = new JTextField();
+        nutValueTf.setBounds(700, 370, 300, 50);
+        nutValueTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+        nutValueTf.setBackground(Color.white);
+        frame.add(nutValueTf);
 
         //Add Add Meal button
-        addButton.setText("Add Meal");
-        addButton.setBounds(450, 370, 250, 40);
-        addButton.setBackground(Color.decode("#d87436"));
-        addButton.setFont(new Font("Arial", 1, 18));
+        addButton.setText("CONFIRM");
+        addButton.setBounds(800, 500, 150, 40);
+        addButton.setBackground(Color.decode("#551F01"));
+        addButton.setFont(new Font("Arial", 1, 14));
         addButton.setForeground(Color.white);
         addButton.setFocusable(false);
-        addButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
+        addButton.setBorder(new RoundedBorder(50, Color.decode("#EF9B39")));
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = mealNameTf.getText();
                 String description = descriptionTf.getText();
-                String category = MealEditorPage.this.category;
-                String dietType = MealEditorPage.this.dietType;
-                String spice = MealEditorPage.this.spice;
-                int calories = Integer.parseInt(calsTf.getText());
-                mealsDatabase.addMeals(name, description, category, dietType, spice, calories);
+                String category = categoryTf.getText();
+                String ingredients = ingredientsTf.getText();
+                String dietType = dietTypeTf.getText();
+                String spice = spiceTypeTf.getText();
+                String servingSize = servingSizeTf.getText();
+                String nutritionalValue = nutValueTf.getText();
+                mealsDatabase.addMeals(name, description, category, ingredients, dietType, spice, servingSize, nutritionalValue);
                 mealNameTf.setText("");
                 descriptionTf.setText("");
                 breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
@@ -463,226 +495,407 @@ public class MealEditorPage {
 
     public void editMeal(JFrame frame) {
 
-        JComboBox<String> mealsDropdown = new JComboBox<>();
-        mealsDatabase.mealsSelector(mealsDropdown);
-        mealsDropdown.setBounds(50, 50, 250, 40);
-        frame.add(mealsDropdown);
+        //Add Side Panel
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
 
-        //Add description Label
-        descLabel.setText("Description");
-        descLabel.setBounds(50, 270, 250, 30);
-        descLabel.setForeground(Color.decode("#d87436"));
-        descLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(descLabel);
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
 
-        //Add description TextField
-        descriptionTf.setBounds(50, 300, 250, 40);
-        descriptionTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        descriptionTf.setBackground(Color.white);
-        frame.add(descriptionTf);
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
 
-        //Add Category Label
-        categLabel.setText("Category");
-        categLabel.setBounds(50, 370, 250, 30);
-        categLabel.setForeground(Color.decode("#d87436"));
-        categLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(categLabel);
-
-        //Add breakfast Button
-        breakfastButton.setBounds(50, 400, 70, 40);
-        breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        breakfastButton.setBackground(Color.white);
-        breakfastButton.setFocusable(false);
-        breakfastButton.addActionListener(new ActionListener() {
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                breakfastButton.setBackground(Color.decode("#d87436"));
-                breakfastButton.setForeground(Color.white);
-                lunchButton.setBackground(Color.white);
-                lunchButton.setForeground(Color.black);
-                dinnerButton.setBackground(Color.white);
-                dinnerButton.setForeground(Color.black);
-                category = "breakfast";
+                frame.getContentPane().removeAll();
+                new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
-        frame.add(breakfastButton);
 
-        //Add Lunch Button
-        lunchButton.setBounds(140, 400, 70, 40);
-        lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        lunchButton.setBackground(Color.white);
-        lunchButton.setFocusable(false);
-        lunchButton.addActionListener(new ActionListener() {
+        sidePanel.add(menuButton);
+
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                lunchButton.setBackground(Color.decode("#d87436"));
-                lunchButton.setForeground(Color.white);
-                breakfastButton.setBackground(Color.white);
-                breakfastButton.setForeground(Color.black);
-                dinnerButton.setBackground(Color.white);
-                dinnerButton.setForeground(Color.black);
-                category = "lunch";
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
-        frame.add(lunchButton);
+        sidePanel.add(inventoryButton);
 
-        //Add Dinner Button
-        dinnerButton.setBounds(230, 400, 70, 40);
-        dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        dinnerButton.setBackground(Color.white);
-        dinnerButton.setFocusable(false);
-        dinnerButton.addActionListener(new ActionListener() {
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#EF9B39"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.setForeground(Color.decode("#FACD97"));
+        ordersButton.setFocusable(true);
+        ordersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                dinnerButton.setBackground(Color.decode("#d87436"));
-                dinnerButton.setForeground(Color.white);
-                breakfastButton.setBackground(Color.white);
-                breakfastButton.setForeground(Color.black);
-                lunchButton.setBackground(Color.white);
-                lunchButton.setForeground(Color.black);
-                category = "dinner";
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
-        frame.add(dinnerButton);
+        sidePanel.add(ordersButton);
 
-        //Add Diet Type label
-        dtLabel.setText("Diet Type");
-        dtLabel.setBounds(50, 470, 250, 30);
-        dtLabel.setForeground(Color.decode("#d87436"));
-        dtLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(dtLabel);
-
-        //Add Vegetarian Button
-        vegButton.setText("Vegetarian");
-        vegButton.setBounds(50, 500, 120, 40);
-        vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        vegButton.setBackground(Color.white);
-        vegButton.setFocusable(false);
-        vegButton.addActionListener(new ActionListener() {
+        //Add Meal Editor Button
+        JButton mealEditorButton = new JButton("+");
+        mealEditorButton.setBounds(140, 520, 50, 50);
+        mealEditorButton.setBackground(Color.decode("#331402"));
+        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
+        mealEditorButton.setForeground(Color.decode("#FACD97"));
+        mealEditorButton.setFocusable(false);
+        mealEditorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                vegButton.setBackground(Color.decode("#d87436"));
-                vegButton.setForeground(Color.white);
-                dietType = "Vegetarian";
-                nonvegButton.setBackground(Color.white);
-                nonvegButton.setForeground(Color.black);
+                frame.getContentPane().removeAll();
+                new MealEditorPage(frame);
+                frame.revalidate();
+                frame.repaint();
             }
         });
-        frame.add(vegButton);
+        sidePanel.add(mealEditorButton);
 
-        //Add Non-Vegetarian Button
-        nonvegButton.setText("Non-Vegetarian");
-        nonvegButton.setBounds(180, 500, 120, 40);
-        nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        nonvegButton.setBackground(Color.white);
-        nonvegButton.setFocusable(false);
-        nonvegButton.addActionListener(new ActionListener() {
+        //Add Meal
+        JLabel mealLabel = new JLabel("EDIT MEAL");
+        mealLabel.setBounds(550, 10, 300, 70);
+        mealLabel.setBackground(Color.decode("#752A00"));
+        mealLabel.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
+        mealLabel.setFont(new Font("Arial", 1, 35));
+        mealLabel.setForeground(Color.decode("#FACD97"));
+        mealLabel.setVerticalTextPosition(SwingConstants.CENTER);
+        mealLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        mealLabel.setOpaque(true);
+        frame.add(mealLabel);
+
+        JLabel label = new JLabel("Enter the name of the meal you would like to edit:");
+        label.setBounds(470, 200, 1000, 50);
+        label.setForeground(Color.decode("#331402"));
+        label.setFont(new Font("Arial", 0, 20));
+        frame.add(label);
+
+        RoundedTextfield textField = new RoundedTextfield();
+        textField.setBounds(450, 250, 500, 60);
+        textField.setBackground(Color.WHITE);
+        frame.add(textField);
+
+        RoundedButton button = new RoundedButton("CONFIRM");
+        button.setBounds(600, 320, 200, 50);
+        button.setForeground(Color.white);
+        button.setBackground(Color.decode("#551F01"));
+        button.setBorder(new RoundedBorder(50, Color.decode("#EF9B39")));
+        button.setFocusable(false);
+        button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                nonvegButton.setBackground(Color.decode("#d87436"));
-                nonvegButton.setForeground(Color.white);
-                dietType = "Non-Vegetarian";
-                vegButton.setBackground(Color.white);
-                vegButton.setForeground(Color.black);
+
             }
         });
-        frame.add(nonvegButton);
+        frame.add(button);
 
-        //Add a Spice Label
-        spiceLevel.setText("Spice");
-        spiceLevel.setBounds(450, 170, 250, 30);
-        spiceLevel.setForeground(Color.decode("#d87436"));
-        spiceLevel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(spiceLevel);
+        String mealName = textField.getText().trim();
+        if (mealName != null && !mealName.isEmpty()) {
 
-        //Add Spicy button
-        spicyButton.setText("Spicy");
-        spicyButton.setBounds(450, 200, 120, 40);
-        spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        spicyButton.setBackground(Color.white);
-        spicyButton.setFocusable(false);
-        spicyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                spicyButton.setBackground(Color.decode("#d87436"));
-                spicyButton.setForeground(Color.white);
-                spice = "Spicy";
-                nonspicyButton.setBackground(Color.white);
-                nonspicyButton.setForeground(Color.black);
-            }
-        });
-        frame.add(spicyButton);
+            //Add Meal Name Label
+            mealNameLabel.setText("Meal Name");
+            mealNameLabel.setBounds(350, 100, 250, 30);
+            mealNameLabel.setForeground(Color.decode("#331402"));
+            mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(mealNameLabel);
 
-        //Add Non-Spicy Button
-        nonspicyButton.setText("Not-Spicy");
-        nonspicyButton.setBounds(580, 200, 120, 40);
-        nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        nonspicyButton.setBackground(Color.white);
-        nonspicyButton.setFocusable(false);
-        nonspicyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
-                nonspicyButton.setBackground(Color.decode("#d87436"));
-                nonspicyButton.setForeground(Color.white);
-                spice = "Not-Spicy";
-                spicyButton.setBackground(Color.white);
-                spicyButton.setForeground(Color.black);
-            }
-        });
-        frame.add(nonspicyButton);
+            //Add Meal Name TextField
+            mealNameTf.setBounds(350, 130, 300, 50);
+            mealNameTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            mealNameTf.setBackground(Color.white);
+            frame.add(mealNameTf);
 
-        //Add Calories Label
-        calsLabel.setText("Calories");
-        calsLabel.setBounds(450, 270, 250, 30);
-        calsLabel.setForeground(Color.decode("#d87436"));
-        calsLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(calsLabel);
+            //Add Meal Id Label
+            JLabel mealIdLabel = new JLabel("Meal ID");
+            mealIdLabel.setBounds(350, 180, 250, 30);
+            mealIdLabel.setForeground(Color.decode("#331402"));
+            mealIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(mealIdLabel);
 
-        //Add Calories TextField
-        calsTf.setBounds(450, 300, 250, 40);
-        calsTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        calsTf.setBackground(Color.white);
-        frame.add(calsTf);
+            //Add Meal Id TextField
+            JTextField mealIdTf = new JTextField();
+            mealIdTf.setBounds(350, 210, 300, 50);
+            mealIdTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            mealIdTf.setBackground(Color.white);
+            frame.add(mealIdTf);
 
-        JButton updateButton = new JButton("Update Meal");
-        updateButton.setBounds(450, 400, 150, 40);
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedMeal = (String) mealsDropdown.getSelectedItem();
-                String newDescription = descriptionTf.getText();
-                String newCategory = category;
-                String newDietType = dietType;
-                String newSpice = spice;
-                mealsDatabase.updateMeals(selectedMeal, newDescription, newCategory, newDietType, newSpice);
-            }
-        });
-        frame.add(updateButton);
+            //Add Description Label
+            JLabel descriptionLabel = new JLabel("Description");
+            descriptionLabel.setBounds(350, 260, 250, 30);
+            descriptionLabel.setForeground(Color.decode("#331402"));
+            descriptionLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(descriptionLabel);
+
+            //Add Description TextField
+            JTextField descriptionTf = new JTextField();
+            descriptionTf.setBounds(350, 290, 300, 50);
+            descriptionTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            descriptionTf.setBackground(Color.white);
+            frame.add(descriptionTf);
+
+            //Add Category Label
+            JLabel categoryLabel = new JLabel("Category");
+            categoryLabel.setBounds(350, 340, 250, 30);
+            categoryLabel.setForeground(Color.decode("#331402"));
+            categoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(categoryLabel);
+
+            //Add Category TextField
+            JTextField categoryTf = new JTextField();
+            categoryTf.setBounds(350, 370, 300, 50);
+            categoryTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            categoryTf.setBackground(Color.white);
+            frame.add(categoryTf);
+
+            //Add Ingredients Label
+            JLabel ingredientsLabel = new JLabel("Ingredients");
+            ingredientsLabel.setBounds(350, 420, 250, 30);
+            ingredientsLabel.setForeground(Color.decode("#331402"));
+            ingredientsLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(ingredientsLabel);
+
+            //Add Ingredients TextField
+            JTextField ingredientsTf = new JTextField();
+            ingredientsTf.setBounds(350, 450, 300, 50);
+            ingredientsTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            ingredientsTf.setBackground(Color.white);
+            frame.add(ingredientsTf);
+
+            //Add Diet Type Label
+            JLabel dietTypeLabel = new JLabel("Diet Type");
+            dietTypeLabel.setBounds(700, 100, 250, 30);
+            dietTypeLabel.setForeground(Color.decode("#331402"));
+            dietTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(dietTypeLabel);
+
+            //Add Diet Type TextField
+            JTextField dietTypeTf = new JTextField();
+            dietTypeTf.setBounds(700, 130, 300, 50);
+            dietTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            dietTypeTf.setBackground(Color.white);
+            frame.add(dietTypeTf);
+
+            //Add Spice Type Label
+            JLabel spiceTypeLabel = new JLabel("Spice Type");
+            spiceTypeLabel.setBounds(700, 180, 250, 30);
+            spiceTypeLabel.setForeground(Color.decode("#331402"));
+            spiceTypeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(spiceTypeLabel);
+
+            //Add spice Type TextField
+            JTextField spiceTypeTf = new JTextField();
+            spiceTypeTf.setBounds(700, 210, 300, 50);
+            spiceTypeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            spiceTypeTf.setBackground(Color.white);
+            frame.add(spiceTypeTf);
+
+            //Add Serving Size Label
+            JLabel servingSizeLabel = new JLabel("Serving Size");
+            servingSizeLabel.setBounds(700, 260, 250, 30);
+            servingSizeLabel.setForeground(Color.decode("#331402"));
+            servingSizeLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(servingSizeLabel);
+
+            //Add Serving Size TextField
+            JTextField servingSizeTf = new JTextField();
+            servingSizeTf.setBounds(700, 290, 300, 50);
+            servingSizeTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            servingSizeTf.setBackground(Color.white);
+            frame.add(servingSizeTf);
+
+            //Add Nutritional Value Label
+            JLabel nutValueLabel = new JLabel("Nutritional Value ");
+            nutValueLabel.setBounds(700, 340, 250, 30);
+            nutValueLabel.setForeground(Color.decode("#331402"));
+            nutValueLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));
+            frame.add(nutValueLabel);
+
+            //Add Nutritional Value TextField
+            JTextField nutValueTf = new JTextField();
+            nutValueTf.setBounds(700, 370, 300, 50);
+            nutValueTf.setBorder(new RoundedBorder(10, Color.decode("#331402")));
+            nutValueTf.setBackground(Color.white);
+            frame.add(nutValueTf);
+
+            JButton updateButton = new JButton("Confirm");
+            updateButton.setBounds(450, 400, 150, 40);
+            updateButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String mealName = textField.getText();
+                    String newDescription = descriptionTf.getText();
+                    String newCategory = categoryTf.getText();
+                    String newIngredients = ingredientsTf.getText();
+                    String newDietType = dietTypeTf.getText();
+                    String newSpice = spiceTypeTf.getText();
+                    String newServingSize = servingSizeTf.getText();
+                    String newNutValue = nutValueTf.getText();
+                    mealsDatabase.updateMeals(mealName, newDescription, newCategory, newIngredients, newDietType, newSpice, newServingSize, newNutValue);
+                }
+            });
+            frame.add(updateButton);
+        }
         frame.setVisible(true);
     }
 
     public void deleteMeal(JFrame frame) {
 
+        //Add Side Panel
+        JPanel sidePanel = new JPanel();
+        sidePanel.setBounds(0,  0, 320, 600);
+        sidePanel.setBackground(Color.decode("#752A00"));
+        sidePanel.setLayout(null);
+        frame.add(sidePanel);
+
+        //Add Side Panel Java junction logo
+        ImageIcon logo = new ImageIcon("src/main/java/org/example/img/SidePanelLogo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(10,0,300,300);
+        sidePanel.add(logoLabel);
+
+        //Add Side Panel Welcome Label
+        JLabel welcomeLabel = new JLabel("WELCOME!");
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setBounds(60, 230, 300, 100);
+        welcomeLabel.setForeground(Color.decode("#EF9B39"));
+        welcomeLabel.setFont(new Font("Arial", 1, 40));
+        sidePanel.add(welcomeLabel);
+
+        //Add Menu Button
+        JButton menuButton = new JButton("Menu");
+        menuButton.setBounds(30, 330, 275, 45);
+        menuButton.setBackground(Color.decode("#EF9B39"));
+        menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
+        menuButton.setFocusable(false);
+        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MenuPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        sidePanel.add(menuButton);
+
+        //Add Inventory Button
+        JButton inventoryButton = new JButton("Inventory");
+        inventoryButton.setBounds(30, 390, 275, 45);
+        inventoryButton.setBackground(Color.decode("#EF9B39"));
+        inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setFocusable(false);
+        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(inventoryButton);
+
+        //Add Orders Button
+        JButton ordersButton = new JButton("Orders");
+        ordersButton.setBounds(30, 450, 275, 45);
+        ordersButton.setBackground(Color.decode("#EF9B39"));
+        ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.setForeground(Color.decode("#FACD97"));
+        ordersButton.setFocusable(true);
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(ordersButton);
+
+        //Add Meal Editor Button
+        JButton mealEditorButton = new JButton("+");
+        mealEditorButton.setBounds(140, 520, 50, 50);
+        mealEditorButton.setBackground(Color.decode("#331402"));
+        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
+        mealEditorButton.setForeground(Color.decode("#FACD97"));
+        mealEditorButton.setFocusable(false);
+        mealEditorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new MealEditorPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        sidePanel.add(mealEditorButton);
+
+        //Add Meal
+        JLabel mealLabel = new JLabel("DELETE MEAL");
+        mealLabel.setBounds(550, 10, 300, 70);
+        mealLabel.setBackground(Color.decode("#752A00"));
+        mealLabel.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
+        mealLabel.setFont(new Font("Arial", 1, 35));
+        mealLabel.setForeground(Color.decode("#FACD97"));
+        mealLabel.setOpaque(true);
+        frame.add(mealLabel);
+
         JLabel label = new JLabel("Enter the name of the meal you would like to delete:");
-        label.setBounds(280, 200, 1000, 100);
-        label.setFont(new Font("Arial", 0, 28));
+        label.setBounds(470, 200, 1000, 50);
         label.setForeground(Color.decode("#331402"));
+        label.setFont(new Font("Arial", 0, 20));
         frame.add(label);
 
-        JTextField textField = new JTextField();
-        textField.setBounds(250, 300, 700, 70);
-        textField.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 2));
+        RoundedTextfield textField = new RoundedTextfield();
+        textField.setBounds(450, 250, 500, 60);
+        textField.setBackground(Color.WHITE);
         frame.add(textField);
 
-        JButton deleteButton = new JButton("CONFIRM");
-        deleteButton.setBounds(300, 400, 100, 40);
+        RoundedButton deleteButton = new RoundedButton("CONFIRM");
+        deleteButton.setBounds(450, 400, 150, 40);
         deleteButton.setBackground(Color.decode("#551F01"));
         deleteButton.setForeground(Color.white);
         deleteButton.addActionListener(new ActionListener() {

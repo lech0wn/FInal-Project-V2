@@ -375,11 +375,9 @@ public class InventoryPage extends JPanel{
             JLabel mealNameLabel2 = new JLabel(inventoryId[2], SwingConstants.CENTER);
             mealNameLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
             mealNameLabel2.setForeground(Color.decode("#EF9B39"));
-            mealNameLabel2.setHorizontalAlignment(SwingConstants.CENTER);
             mealNamePanel.add(mealNameLabel2, BorderLayout.CENTER);
+            mealNamePanelContainer.add(mealNamePanel);
 
-            mealNamePanelContainer.add(mealNameLabel2);
-            mealNamePanel.setBackground(Color.decode("#752A00"));
 
             // Create quantity panel
             JPanel quantityPanel = new JPanel();

@@ -280,7 +280,6 @@ public class OrdersPage {
         JPanel pricePanelContainer = new JPanel();
         pricePanelContainer.setLayout(new BoxLayout(pricePanelContainer, BoxLayout.Y_AXIS));
 
-        // Assuming you have a method `listOrders()` to fetch the order data
         List<String[]> orders = ordersDatabase.listOrders();
 
         // Loop through orders and create panels
@@ -293,7 +292,7 @@ public class OrdersPage {
             orderIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
             orderIdPanel.setBackground(Color.decode("#752A00"));
 
-            JLabel orderIdLabel2 = new JLabel(order[0], SwingConstants.CENTER); // Assuming order ID is at index 1
+            JLabel orderIdLabel2 = new JLabel(order[0], SwingConstants.CENTER);
             orderIdLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
             orderIdLabel2.setForeground(Color.decode("#EF9B39"));
             orderIdPanel.add(orderIdLabel2, BorderLayout.CENTER);
@@ -306,7 +305,7 @@ public class OrdersPage {
             datePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
             datePanel.setBackground(Color.decode("#752A00"));
 
-            JLabel dateLabel = new JLabel(order[1], SwingConstants.CENTER); // Assuming date is at index 0
+            JLabel dateLabel = new JLabel(order[1], SwingConstants.CENTER);
             dateLabel.setFont(new Font("Milonga", Font.BOLD, 14));
             dateLabel.setForeground(Color.decode("#EF9B39"));
             datePanel.add(dateLabel, BorderLayout.CENTER);
@@ -320,12 +319,11 @@ public class OrdersPage {
             mealPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
             mealPanel.setBackground(Color.decode("#752A00"));
 
-            JLabel mealLabel2 = new JLabel(order[2], SwingConstants.CENTER); // Assuming meal name is at index 2
+            JLabel mealLabel2 = new JLabel(order[2], SwingConstants.CENTER);
             mealLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
             mealLabel2.setForeground(Color.decode("#EF9B39"));
-            mealLabel2.setHorizontalAlignment(SwingConstants.CENTER);
             mealPanel.add(mealLabel2, BorderLayout.CENTER);
-            mealPanelContainer.add(mealLabel2);
+            mealPanelContainer.add(mealPanel);
 
             // Create Quantity Panel
             JPanel quantityPanel = new JPanel();

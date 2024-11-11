@@ -61,7 +61,7 @@ public class LoginPage {
         password.setBorder(BorderFactory.createEmptyBorder());
         password.setBounds(445, 350, 592, 57);
         password.setFont(new Font("Arial", 1, 20));
-        password.setForeground(Color.darkGray);
+        password.setForeground(Color. darkGray);
         password.setCaretColor(Color.darkGray);
         frame.add(password);
 

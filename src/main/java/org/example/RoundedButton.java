@@ -2,39 +2,24 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class RoundedButton extends JButton {
-    private int round = 25;  // Corner roundness
-    private Color hoverBackgroundColor = Color.decode("#AE8670");  // Color on hover
-    private Color normalBackgroundColor = Color.decode("#551F01");  // Default button color
+    private int round = 25;
+    private int borderThickness = 2;
+    private Color borderColor = Color.BLACK;
 
     public RoundedButton(String text) {
         super(text);
         setOpaque(false);
-        setContentAreaFilled(false);  // Make sure button's background is transparent
-        setBorderPainted(false);  // Remove default border
+        setContentAreaFilled(false);
+        setBorderPainted(false);
         setForeground(Color.WHITE);
         setFont(new Font("Arial", Font.BOLD, 14));
-        setBackground(normalBackgroundColor);
 
-        // Mouse listener for hover effects
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(hoverBackgroundColor);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(normalBackgroundColor);
-            }
-        });
-
-        // Ensure the button is focusable and responds to focus events
         setFocusable(true);
     }
 
+    // Getters and setters for round corner radius
     public int getRound() {
         return round;
     }
@@ -44,6 +29,26 @@ public class RoundedButton extends JButton {
         repaint();
     }
 
+    // Getters and setters for border thickness and color
+    public int getBorderThickness() {
+        return borderThickness;
+    }
+
+    public void setBorderThickness(int borderThickness) {
+        this.borderThickness = borderThickness;
+        repaint();
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+        repaint();
+    }
+
+    // Override paintComponent to draw the button with rounded corners and border
     @Override
     protected void paintComponent(Graphics g) {
         // Create a Graphics2D object to allow advanced rendering
@@ -54,12 +59,20 @@ public class RoundedButton extends JButton {
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), round, round);
 
+        // Draw the border if border thickness is set
+        if (borderThickness > 0) {
+            g2.setColor(borderColor);
+            g2.setStroke(new BasicStroke(borderThickness));
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, round, round);
+        }
+
         // Paint the text
         super.paintComponent(g2);
 
         g2.dispose();
     }
 
+    // Override setBounds to ensure correct painting when the button is resized
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);

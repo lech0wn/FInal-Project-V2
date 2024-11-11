@@ -1,5 +1,4 @@
 package org.example;
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,17 +80,23 @@ public class mealsDatabase {
         String deleteSQL = "DELETE FROM Meals WHERE mealId = ?";
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
+
+            if (connection!=null) {
+                System.out.println("Meal deleted successfully");
+            }
+
             preparedStatement.setInt(1, mealId);
             preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     //Get Meals to display in the Menu Page
     public static List<String[]> getMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, description, category, dietType, spice, calories FROM meals"; // Adjust SQL query
+        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals"; // Adjust SQL query
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -99,12 +104,15 @@ public class mealsDatabase {
 
             while (resultSet.next()) {
                 String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
                 String description = resultSet.getString("description");
                 String category = resultSet.getString("category");
+                String ingredients = resultSet.getString("ingredients");
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
-                String calories = resultSet.getString("calories");
-                menu.add(new String[]{mealName, description, category, dietType, spice, calories}); // Add meal name and description as an array
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue}); // Add meal name and description as an array
             }
 
         } catch (SQLException e) {
@@ -113,16 +121,17 @@ public class mealsDatabase {
         return menu;
     }
 
-    public static void getMealName (String mealName) {
-        String selectMealNameSQL = "SELECT mealName FROM Meals WHERE mealName = ?";
-
+    // Authenticate if the meal exists
+    public static boolean authenticateMealName(String mealName) {
+        String selectSQL = "SELECT * FROM meals WHERE mealName = ?";
         try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectMealNameSQL)) {
-
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
             preparedStatement.setString(1, mealName);
-
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();  // If meal exists, resultSet will have data
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 

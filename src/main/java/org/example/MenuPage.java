@@ -45,11 +45,30 @@ public class MenuPage {
 
         //Add Menu Button
         RoundedButton menuButton = new RoundedButton("Menu");
+        menuButton.setLayout(null);
+        ImageIcon menuLogo = new ImageIcon("src/main/java/org/example/img/Restaurant Menu.png");
+        JLabel menuLogoLabel = new JLabel(menuLogo);
+        menuLogoLabel.setBounds(62,6,30,30);
+        menuButton.add(menuLogoLabel);
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
         menuButton.setFocusable(false);
-        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.setForeground(Color.BLACK);
+        menuButton.setBorderThickness(0);
+        menuButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                menuButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                menuButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,11 +83,31 @@ public class MenuPage {
 
         //Add Inventory Button
         RoundedButton inventoryButton = new RoundedButton("Inventory");
+        inventoryButton.setLayout(null);
+        ImageIcon inventoryLogo = new ImageIcon("src/main/java/org/example/img/Inventory.png");
+        JLabel inventoryLogoLabel = new JLabel(inventoryLogo);
+        inventoryLogoLabel.setBounds(45,6,30,30);
+        inventoryButton.add(inventoryLogoLabel);
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setForeground(Color.BLACK);
         inventoryButton.setFocusable(false);
-        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.setForeground(Color.BLACK);
+        inventoryButton.setBorderThickness(0);
+        inventoryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                inventoryButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                inventoryButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
         inventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,11 +121,31 @@ public class MenuPage {
 
         //Add Orders Button
         RoundedButton ordersButton = new RoundedButton("Orders");
+        ordersButton.setLayout(null);
+        ImageIcon ordersLogo = new ImageIcon("src/main/java/org/example/img/Orders.png");
+        JLabel ordersLogoLabel = new JLabel(ordersLogo);
+        ordersLogoLabel.setBounds(56,7,30,30);
+        ordersButton.add(ordersLogoLabel);
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
-        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
-        ordersButton.setFocusable(true);
+        ordersButton.setForeground(Color.BLACK);
+        ordersButton.setFocusable(false);
+        ordersButton.setForeground(Color.BLACK);
+        ordersButton.setBorderThickness(0);
+        ordersButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                ordersButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                ordersButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
         ordersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,12 +158,26 @@ public class MenuPage {
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        RoundedButton mealEditorButton = new RoundedButton("+");
-        mealEditorButton.setBounds(140, 520, 50, 50);
+        RoundedButton mealEditorButton = new RoundedButton("");
+        mealEditorButton.setBounds(140, 520, 60, 60);
         mealEditorButton.setBackground(Color.decode("#331402"));
-        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
         mealEditorButton.setForeground(Color.decode("#FACD97"));
         mealEditorButton.setFocusable(false);
+        mealEditorButton.setRound(50);
+        mealEditorButton.setBorderThickness(0);
+        mealEditorButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                mealEditorButton.setBackground(Color.decode("#9C9C9C"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                mealEditorButton.setBackground(Color.decode("#331402"));
+            }
+        });
         mealEditorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +187,13 @@ public class MenuPage {
                 frame.repaint();
             }
         });
+
+        //Add eDitor button img
+        ImageIcon mealLogo = new ImageIcon("src/main/java/org/example/img/meal icon.png");
+        JLabel mealLabel = new JLabel(mealLogo);
+        mealLabel.setBounds(0,0,80,80);
+        mealEditorButton.add(mealLabel);
+
         sidePanel.add(mealEditorButton);
 
         //Add Image
@@ -200,11 +280,30 @@ public class MenuPage {
 
         //Add Menu Button
         RoundedButton menuButton = new RoundedButton("Menu");
+        menuButton.setLayout(null);
+        ImageIcon menuLogo = new ImageIcon("src/main/java/org/example/img/Restaurant Menu.png");
+        JLabel menuLogoLabel = new JLabel(menuLogo);
+        menuLogoLabel.setBounds(62,6,30,30);
+        menuButton.add(menuLogoLabel);
         menuButton.setBounds(30, 330, 275, 45);
         menuButton.setBackground(Color.decode("#EF9B39"));
         menuButton.setFont(new Font("Arial", Font.PLAIN, 32));
         menuButton.setFocusable(false);
-        menuButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        menuButton.setForeground(Color.BLACK);
+        menuButton.setBorderThickness(0);
+        menuButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                menuButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                menuButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,29 +318,101 @@ public class MenuPage {
 
         //Add Inventory Button
         RoundedButton inventoryButton = new RoundedButton("Inventory");
+        inventoryButton.setLayout(null);
+        ImageIcon inventoryLogo = new ImageIcon("src/main/java/org/example/img/Inventory.png");
+        JLabel inventoryLogoLabel = new JLabel(inventoryLogo);
+        inventoryLogoLabel.setBounds(45,6,30,30);
+        inventoryButton.add(inventoryLogoLabel);
         inventoryButton.setBounds(30, 390, 275, 45);
         inventoryButton.setBackground(Color.decode("#EF9B39"));
         inventoryButton.setFont(new Font("Arial", 0, 32));
+        inventoryButton.setForeground(Color.BLACK);
         inventoryButton.setFocusable(false);
-        inventoryButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        inventoryButton.setForeground(Color.BLACK);
+        inventoryButton.setBorderThickness(0);
+        inventoryButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                inventoryButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                inventoryButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new InventoryPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         sidePanel.add(inventoryButton);
 
         //Add Orders Button
         RoundedButton ordersButton = new RoundedButton("Orders");
+        ordersButton.setLayout(null);
+        ImageIcon ordersLogo = new ImageIcon("src/main/java/org/example/img/Orders.png");
+        JLabel ordersLogoLabel = new JLabel(ordersLogo);
+        ordersLogoLabel.setBounds(56,7,30,30);
+        ordersButton.add(ordersLogoLabel);
         ordersButton.setBounds(30, 450, 275, 45);
         ordersButton.setBackground(Color.decode("#EF9B39"));
         ordersButton.setFont(new Font("Arial", 0, 32));
+        ordersButton.setForeground(Color.BLACK);
         ordersButton.setFocusable(false);
-        ordersButton.setBorder(new RoundedBorder(30, Color.decode("#752A00")));
+        ordersButton.setForeground(Color.BLACK);
+        ordersButton.setBorderThickness(0);
+        ordersButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                ordersButton.setBackground(Color.decode("#FACD97"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                ordersButton.setBackground(Color.decode("#EF9B39"));
+            }
+        });
+        ordersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new OrdersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
         sidePanel.add(ordersButton);
 
         //Add Meal Editor Button
-        RoundedButton mealEditorButton = new RoundedButton("+");
-        mealEditorButton.setBounds(140, 520, 50, 50);
+        RoundedButton mealEditorButton = new RoundedButton("");
+        mealEditorButton.setBounds(140, 520, 60, 60);
         mealEditorButton.setBackground(Color.decode("#331402"));
-        mealEditorButton.setBorder(new RoundedBorder(50, Color.decode("#752A00")));
         mealEditorButton.setForeground(Color.decode("#FACD97"));
         mealEditorButton.setFocusable(false);
+        mealEditorButton.setRound(50);
+        mealEditorButton.setBorderThickness(0);
+        mealEditorButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                mealEditorButton.setBackground(Color.decode("#9C9C9C"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                mealEditorButton.setBackground(Color.decode("#331402"));
+            }
+        });
         mealEditorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -251,6 +422,13 @@ public class MenuPage {
                 frame.repaint();
             }
         });
+
+        //Add eDitor button img
+        ImageIcon mealLogo = new ImageIcon("src/main/java/org/example/img/meal icon.png");
+        JLabel mealLabel = new JLabel(mealLogo);
+        mealLabel.setBounds(0,0,80,80);
+        mealEditorButton.add(mealLabel);
+
         sidePanel.add(mealEditorButton);
 
 
@@ -288,6 +466,7 @@ public class MenuPage {
         // Create a panel to hold meal panels
         JPanel mealPanelContainer = new JPanel();
         mealPanelContainer.setBounds(370, 170, 670, 400);
+        mealPanelContainer.setBackground(Color.decode("#EF9B39"));
         frame.add(mealPanelContainer);
 
         List<String[]> meals = mealsDatabase.getMeals();
@@ -296,44 +475,61 @@ public class MenuPage {
             JPanel mealPanel = new JPanel();
             mealPanel.setPreferredSize(new Dimension(670, 150));
             mealPanel.setBackground(Color.decode("#FACD97"));
-            mealPanel.setBorder(new RoundedBorder(40, Color.decode("#A8671C")));
-            mealPanel.setBackground(Color.white);
+            mealPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#A8671C"), 2));
             mealPanel.setLayout(null);
 
             JLabel nameLabel = new JLabel(meal[0]);
             nameLabel.setBounds(150, 20, 100, 50);
             nameLabel.setForeground(Color.decode("#551F01"));
             nameLabel.setFont(new Font("Arial", 0, 20));
-            JLabel descriptionLabel = new JLabel(meal[1]);
+
+            JLabel id = new JLabel(meal[1]);
+            id.setBounds(150, 40, 100, 50);
+            id.setForeground(Color.decode("#551F01"));
+            id.setFont(new Font("Arial", 0, 20));
+
+            JLabel descriptionLabel = new JLabel(meal[2]);
             descriptionLabel.setBounds(150, 40, 100, 50);
             descriptionLabel.setForeground(Color.decode("#551F01"));
             descriptionLabel.setFont(new Font("Arial", 0, 20));
-            JLabel categoryLabel = new JLabel(meal[2]);
+
+            JLabel categoryLabel = new JLabel(meal[3]);
             categoryLabel.setBounds(150, 60, 100, 50);
             categoryLabel.setForeground(Color.decode("#551F01"));
             categoryLabel.setFont(new Font("Arial", 0, 20));
-            JLabel dietLabel = new JLabel(meal[3]);
+
+            JLabel ingredients = new JLabel(meal[4]);
+
+            JLabel dietLabel = new JLabel(meal[5]);
             dietLabel.setBounds(300, 20, 100, 50);
             dietLabel.setForeground(Color.decode("#551F01"));
             dietLabel.setFont(new Font("Arial", 0, 20));
-            JLabel spiceLabel = new JLabel(meal[4]);
+
+            JLabel spiceLabel = new JLabel(meal[6]);
             spiceLabel.setBounds(300, 40, 100, 50);
             spiceLabel.setForeground(Color.decode("#551F01"));
             spiceLabel.setFont(new Font("Arial", 0, 20));
-            JLabel caloriesLabel = new JLabel(meal[5]);
-            caloriesLabel.setBounds(300, 60, 100, 50);
-            caloriesLabel.setForeground(Color.decode("#551F01"));
-            caloriesLabel.setFont(new Font("Arial", 0, 20));
+
+            JLabel servSize = new JLabel(meal[7]);
+            servSize.setBounds(300, 60, 100, 50);
+            servSize.setForeground(Color.decode("#551F01"));
+            servSize.setFont(new Font("Arial", 0, 20));
+
+            JLabel nutValue = new JLabel(meal[8]);
+            nutValue.setBounds(300, 60, 100, 50);
+            nutValue.setForeground(Color.decode("#551F01"));
+            nutValue.setFont(new Font("Arial", 0, 20));
 
             mealPanel.add(nameLabel);
+            mealPanel.add(id);
             mealPanel.add(descriptionLabel);
             mealPanel.add(categoryLabel);
+            mealPanel.add(ingredients);
             mealPanel.add(dietLabel);
             mealPanel.add(spiceLabel);
-            mealPanel.add(caloriesLabel);
+            mealPanel.add(servSize);
+            mealPanel.add(nutValue);
             mealPanelContainer.add(mealPanel);
         }
-
-
     }
 }

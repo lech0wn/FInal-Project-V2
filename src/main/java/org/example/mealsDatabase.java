@@ -127,8 +127,11 @@ public class mealsDatabase {
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
             preparedStatement.setString(1, mealName);
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();  // If meal exists, resultSet will have data
+
+            return resultSet.next();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;

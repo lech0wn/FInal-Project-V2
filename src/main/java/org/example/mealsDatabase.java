@@ -7,7 +7,6 @@ public class mealsDatabase {
 
     private static final String url = "jdbc:sqlite:database.db";
 
-
     //Create Meals Table
     public static void createMealsTable() {
         String mealsSql= "CREATE TABLE IF NOT EXISTS meals (" +
@@ -120,6 +119,120 @@ public class mealsDatabase {
         }
         return menu;
     }
+
+    //Get Breakfast Meals to display in the Menu Page
+    public static List<String[]> getBreakfastMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Lunch Meals to display in the Menu Page
+    public static List<String[]> getLunchMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'lunch'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Dinner Meals to display in the Menu Page
+    public static List<String[]> getDinnerMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals WHERE category = 'dinner'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String category = resultSet.getString("category");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Searched Meals to display in the Menu Page
+    public static List<String[]> getSearchedMeals(String search) {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals WHERE mealName = ? VALUES (?)";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String category = resultSet.getString("category");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+
+                preparedStatement.setString(1, search);
+
+                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
 
     // Authenticate if the meal exists
     public static boolean authenticateMealName(String mealName) {

@@ -70,11 +70,11 @@ public class inventoryDatabase {
     }
 
     // Delete inventory item only if mealName exists in meals table
-    public static void deleteInventory(String mealName) {
+    public static boolean deleteInventory(String mealName) {
         Integer mealId = getMealIdByName(mealName);
         if (mealId == null) {
             System.out.println("Meal name not found in meals table. Cannot delete from inventory.");
-            return;
+            return false;
         }
 
         String deleteSQL = "DELETE FROM Inventory WHERE mealName = ?";
@@ -85,12 +85,14 @@ public class inventoryDatabase {
 
             if (rowsDeleted > 0) {
                 System.out.println("Inventory item deleted successfully!");
+                return true;
             } else {
                 System.out.println("No inventory item found with meal name '" + mealName + "'.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     //list inventory

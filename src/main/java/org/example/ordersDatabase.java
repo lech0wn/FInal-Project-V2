@@ -99,6 +99,7 @@ public class ordersDatabase {
 
             if (rowsDeleted > 0) {
                 System.out.println("Order with ID '" + orderId + "' was deleted successfully.");
+                return true;
             } else {
                 System.out.println("No order found with ID '" + orderId + "'.");
             }

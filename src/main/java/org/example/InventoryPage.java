@@ -914,10 +914,9 @@ public class InventoryPage extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 String mealName = mealNameTf.getText();
 
-                try {
-                    inventoryDatabase.deleteInventory(mealName);
+                if (inventoryDatabase.deleteInventory(mealName)) {
                     JOptionPane.showMessageDialog(frame, "Meal deleted successfully.");
-                } catch (Exception exception) {
+                } else {
                     JOptionPane.showMessageDialog(frame, "Meal name not found.");
                 }
 

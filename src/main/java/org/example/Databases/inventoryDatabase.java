@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Databases;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class inventoryDatabase {
     }
 
     //list inventory
-    protected static List<String[]> listInventory() {
+    public static List<String[]> listInventory() {
         List<String[]> inventoryData = new ArrayList<>();
         String query = "SELECT inventoryId, mealId, mealName, quantity, price FROM Inventory ORDER BY inventoryId";
 
@@ -109,7 +109,7 @@ public class inventoryDatabase {
                 String mealId = String.valueOf(resultSet.getInt("mealId"));
                 String mealName = resultSet.getString("mealName");  // Fetch meal name from the result set
                 String quantity = String.valueOf(resultSet.getInt("quantity"));
-                String price = String.format("%.2f", resultSet.getDouble("price"));
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
                 inventoryData.add(new String[]{inventoryId, mealId, mealName, quantity, price});
             }
 

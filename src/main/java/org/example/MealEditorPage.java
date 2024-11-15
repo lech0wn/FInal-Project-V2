@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.Databases.mealsDatabase;
+import org.example.SidePanels.MealSidePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +30,7 @@ public class MealEditorPage {
     String dietType = "non-vegetarian";
     String spiceType = "not-spicy";
 
-    MealEditorPage(JFrame frame) {
+    public MealEditorPage(JFrame frame) {
 
         frame.setTitle("Meal Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
@@ -38,9 +41,8 @@ public class MealEditorPage {
         frame.repaint();
 
         //side panel
-        new SidePanel(frame);
+        new MealSidePanel(frame);
 
-        //Frame
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/meal editor.png");
         JLabel imageLabel = new JLabel(img);
         imageLabel.setBounds(235, 50, 500, 500);
@@ -119,7 +121,7 @@ public class MealEditorPage {
     public void addMeal(JFrame frame) {
 
 
-        new SidePanel(frame);
+        new MealSidePanel(frame);
 
         //Add Meal
         RoundedButton mealLabel = new RoundedButton("ADD MEAL");
@@ -431,7 +433,7 @@ public class MealEditorPage {
 
     public void editMeal(JFrame frame) {
 
-        new SidePanel(frame);
+        new MealSidePanel(frame);
 
         //Edit Meal
         RoundedButton mealLabel = new RoundedButton("EDIT MEAL");
@@ -486,7 +488,7 @@ public class MealEditorPage {
                     frame.repaint();
                     frame.revalidate();
 
-                    new SidePanel(frame);
+                    new MealSidePanel(frame);
 
                     //Add Meal
                     RoundedButton mealLabel = new RoundedButton("EDIT MEAL");
@@ -739,7 +741,7 @@ public class MealEditorPage {
 
     public void deleteMeal(JFrame frame) {
 
-        new SidePanel(frame);
+        new MealSidePanel(frame);
 
         RoundedButton meallLabel = new RoundedButton("DELETE MEAL");
         meallLabel.setBounds(550, 25, 300, 70);
@@ -792,7 +794,7 @@ public class MealEditorPage {
                     frame.repaint();
                     frame.revalidate();
 
-                    new SidePanel(frame);
+                    new MealSidePanel(frame);
                     mealsDatabase.deleteMeal(id);
                     new ConfirmPage(frame);
 

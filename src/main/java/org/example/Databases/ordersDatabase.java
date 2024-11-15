@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Databases;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ordersDatabase {
     }
 
     //retrieve orders
-    protected static List<String[]> listOrders() {
+    public static List<String[]> listOrders() {
         List<String[]> ordersList = new ArrayList<>();
         String query = "SELECT orderId, date, mealName, quantity, subtotalPrice FROM Orders ORDER BY orderId";
 
@@ -41,7 +41,7 @@ public class ordersDatabase {
                 String date = resultSet.getString("date");// Formatting orderId to 3 digits
                 String mealName = resultSet.getString("mealName");
                 String quantity = String.valueOf(resultSet.getInt("quantity"));
-                String subtotalPrice = String.format("%.2f", resultSet.getDouble("subtotalPrice"));  // Format price to 2 decimal places
+                String subtotalPrice = String.format("₱%.2f", resultSet.getDouble("subtotalPrice"));  // Format price to 2 decimal places
 
 
                 ordersList.add(new String[]{orderId, date, mealName, quantity, subtotalPrice});
@@ -58,10 +58,12 @@ public class ordersDatabase {
     public static void addOrders(String mealName, String quantity, String subtotalPrice, String date) {
         String getMealIdSQL = "SELECT mealId FROM meals WHERE mealName = ?";
         String insertOrderSQL = "INSERT INTO Orders (mealId, mealName, quantity, subtotalPrice, date) VALUES (?, ?, ?, ?, ?)";
+        String updateInventorySQL = "UPDATE Inventory SET quantity = quantity - ? WHERE mealId = ?";  // SQL to decrement quantity in Inventory
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement getMealIdStmt = connection.prepareStatement(getMealIdSQL);
-             PreparedStatement insertOrderStmt = connection.prepareStatement(insertOrderSQL)) {
+             PreparedStatement insertOrderStmt = connection.prepareStatement(insertOrderSQL);
+             PreparedStatement updateInventoryStmt = connection.prepareStatement(updateInventorySQL)) {
 
             // Retrieve mealId based on mealName
             getMealIdStmt.setString(1, mealName);
@@ -80,6 +82,17 @@ public class ordersDatabase {
                 int rowsAffected = insertOrderStmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Order added successfully!");
+
+                    // Decrease inventory quantity
+                    updateInventoryStmt.setInt(1, Integer.parseInt(quantity));  // Decrease by the ordered quantity
+                    updateInventoryStmt.setInt(2, mealId);
+
+                    int inventoryUpdated = updateInventoryStmt.executeUpdate();
+                    if (inventoryUpdated > 0) {
+                        System.out.println("Inventory updated: Quantity decreased.");
+                    } else {
+                        System.out.println("Error updating inventory.");
+                    }
                 }
             } else {
                 System.out.println("Meal name not found in meals table.");
@@ -89,6 +102,7 @@ public class ordersDatabase {
             e.printStackTrace();
         }
     }
+
 
     public static boolean deleteOrder(int orderId) {
         String deleteSQL = "DELETE FROM Orders WHERE orderId = ?";

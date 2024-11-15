@@ -1,12 +1,14 @@
-package org.example;
+package org.example.SidePanels;
+
+import org.example.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class SidePanel extends JPanel
+public class MealSidePanel extends JPanel
 {
-      SidePanel(JFrame frame) {
+      public MealSidePanel(JFrame frame) {
           JPanel sidePanel = new JPanel();
           sidePanel.setBounds(0,  0, 320, 600);
           sidePanel.setBackground(Color.decode("#752A00"));

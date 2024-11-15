@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Databases;
 import java.sql.*;
 
 public class usersDatabase {

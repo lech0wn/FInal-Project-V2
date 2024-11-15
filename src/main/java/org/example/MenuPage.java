@@ -1,10 +1,11 @@
 package org.example;
 
+import org.example.Databases.mealsDatabase;
+import org.example.SidePanels.MealSidePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuPage {
@@ -14,7 +15,7 @@ public class MenuPage {
     RoundedButton dinnerButton = new RoundedButton("DINNER");
 
     public void GUI(JFrame frame) {
-        new SidePanel(frame);
+        new MealSidePanel(frame);
         new SearchBar(frame);
 
         RoundedButton breakfastButton = new RoundedButton("BREAKFAST");
@@ -72,7 +73,7 @@ public class MenuPage {
         frame.add(dinnerButton);
     }
 
-    MenuPage(JFrame frame) {
+    public MenuPage(JFrame frame) {
 
         frame.setTitle("Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
@@ -82,7 +83,7 @@ public class MenuPage {
         frame.repaint();
 
         //side panel call
-        new SidePanel(frame);
+        new MealSidePanel(frame);
 
         //Add Image
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/menu.png");

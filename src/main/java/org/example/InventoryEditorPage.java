@@ -30,7 +30,7 @@ public class InventoryEditorPage {
         RoundedButton mealEditor = new RoundedButton("INVENTORY EDITOR");
         mealEditor.setBounds(650, 50, 365, 90);
         mealEditor.setBackground(Color.decode("#752A00"));
-        mealEditor.setFont(new Font("Arial", 1, 45));
+        mealEditor.setFont(new Font("Arial", 1, 30));
         mealEditor.setForeground(Color.decode("#EF9B39"));
         frame.add(mealEditor);
 

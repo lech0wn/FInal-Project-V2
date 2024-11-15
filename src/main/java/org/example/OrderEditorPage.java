@@ -30,7 +30,7 @@ public class OrderEditorPage {
         RoundedButton mealEditor = new RoundedButton("ORDER EDITOR");
         mealEditor.setBounds(650, 50, 365, 90);
         mealEditor.setBackground(Color.decode("#752A00"));
-        mealEditor.setFont(new Font("Arial", 1, 45));
+        mealEditor.setFont(new Font("Arial", 1, 35));
         mealEditor.setForeground(Color.decode("#EF9B39"));
         frame.add(mealEditor);
 

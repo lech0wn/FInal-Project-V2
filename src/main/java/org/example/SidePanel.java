@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SidePanel extends JPanel
-  {
+{
       SidePanel(JFrame frame) {
           JPanel sidePanel = new JPanel();
           sidePanel.setBounds(0,  0, 320, 600);

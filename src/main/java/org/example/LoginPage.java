@@ -41,7 +41,7 @@ public class LoginPage {
         userLabel.setFont(new Font("Arial", 1, 24));
         frame.add(userLabel);
 
-        //Create Username FieldCharisse
+        //Create Username Field
         JTextField userName = new JTextField();
         userName.setBorder(BorderFactory.createEmptyBorder());
         userName.setBounds(445, 230, 592, 57);

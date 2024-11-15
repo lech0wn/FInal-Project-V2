@@ -16,6 +16,8 @@ public class MealEditorPage {
     RoundedButton nonvegButton = new RoundedButton("non-vegetarian");
     RoundedButton spicyButton = new RoundedButton("spicy");
     RoundedButton nonspicyButton = new RoundedButton("not-spicy");
+    RoundedButton gramsButton = new RoundedButton("g");
+    RoundedButton ozButton = new RoundedButton("mL");
     RoundedButton addButton = new RoundedButton("Add");
     RoundedButton addMeal = new RoundedButton("ADD MEAL");
     RoundedButton editMeal = new RoundedButton("EDIT MEAL");
@@ -313,12 +315,44 @@ public class MealEditorPage {
 
         //Add Serving Size TextField
         RoundedTextfield servingSizeTf = new RoundedTextfield();
-        servingSizeTf.setBounds(700, 360, 300, 50);
+        servingSizeTf.setBounds(700, 360, 145, 50);
         servingSizeTf.setBackground(Color.white);
         frame.add(servingSizeTf);
 
+        gramsButton.setBounds(860, 360, 70, 50);
+        gramsButton.setBackground(Color.white);
+        gramsButton.setForeground(Color.black);
+        gramsButton.setFocusable(false);
+        gramsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gramsButton.setBackground(Color.decode("#551F01"));
+                ozButton.setBackground(Color.white);
+                gramsButton.setForeground(Color.white);
+                ozButton.setForeground(Color.black);
+
+
+            }
+        });
+        frame.add(gramsButton);
+        ozButton.setBounds(935, 360, 70, 50);
+        ozButton.setBackground(Color.white);
+        ozButton.setForeground(Color.black);
+        ozButton.setFocusable(false);
+        ozButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ozButton.setBackground(Color.decode("#551F01"));
+                gramsButton.setBackground(Color.white);
+                ozButton.setForeground(Color.white);
+                gramsButton.setForeground(Color.black);
+
+            }
+        });
+        frame.add(ozButton);
+
         //Add Nutritional Value Label
-        JLabel nutValueLabel = new JLabel("Nutritional Value ");
+        JLabel nutValueLabel = new JLabel("Nutritional Value (calories)");
         nutValueLabel.setBounds(700, 430, 250, 30);
         nutValueLabel.setForeground(Color.decode("#331402"));
         nutValueLabel.setFont(new Font("Abadi MT Condensed Extra Bold",0, 20));

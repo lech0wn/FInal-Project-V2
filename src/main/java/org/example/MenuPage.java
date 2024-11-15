@@ -158,68 +158,58 @@ public class MenuPage {
 
         // Create a panel to hold meal panels
         JPanel mealPanelContainer = new JPanel();
-        mealPanelContainer.setBounds(370, 170, 670, 400);
+        mealPanelContainer.setBounds(330, 170, 750, 400);
         mealPanelContainer.setBackground(Color.decode("#EF9B39"));
         frame.add(mealPanelContainer);
 
         List<String[]> meals = mealsDatabase.getBreakfastMeals();
 
         for (String[] meal : meals) {
-            JPanel mealPanel = new JPanel();
-            mealPanel.setPreferredSize(new Dimension(200, 200));
-            mealPanel.setBackground(Color.decode("#FACD97"));
-            mealPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#A8671C"), 2));
-            mealPanel.setLayout(null);
+            JButton mealButton = new JButton();
+            mealButton.setPreferredSize(new Dimension(200, 200));
+            mealButton.setBackground(Color.decode("#cb6a2e"));
+            mealButton.setBorder(BorderFactory.createEmptyBorder());
+            mealButton.setFocusable(false);
+            mealButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    mealButton.setBackground(Color.white);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    mealButton.setBackground(Color.decode("#cb6a2e"));
+                }
+            });
+            mealButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new Dialog(meal, mealPanelContainer);
+                }
+            });
+            mealButton.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 90));
 
             JLabel nameLabel = new JLabel(meal[0]);
-            nameLabel.setBounds(50, 50, 300, 50);
-            nameLabel.setForeground(Color.decode("#551F01"));
+            nameLabel.setForeground(Color.white);
+            nameLabel.setHorizontalTextPosition(JLabel.CENTER);
+            nameLabel.setVerticalTextPosition(JLabel.CENTER);
             nameLabel.setFont(new Font("Arial", 1, 21));
 
-//            JLabel id = new JLabel("Meal ID: " + meal[1]);
-//            id.setBounds(150, 40, 300, 50);
-//            id.setForeground(Color.decode("#551F01"));
-//            id.setFont(new Font("Arial", 1, 16));
-//
-//            JLabel descriptionLabel = new JLabel("Description: " + meal[2]);
-//            descriptionLabel.setBounds(150, 70, 300, 50);
-//            descriptionLabel.setForeground(Color.decode("#551F01"));
-//            descriptionLabel.setFont(new Font("Arial", 1, 16));
-//
-//            JLabel nutValue = new JLabel("Nutritional Value: " + meal[3]);
-//            nutValue.setBounds(150, 100, 300, 50);
-//            nutValue.setForeground(Color.decode("#551F01"));
-//            nutValue.setFont(new Font("Arial", 1, 16));
-//
+
 //            JLabel spiceLabel = new JLabel("Spice Type: " + meal[4]);
 //            spiceLabel.setBounds(400, 10, 300, 50);
-//            spiceLabel.setForeground(Color.decode("#551F01"));
-//            spiceLabel.setFont(new Font("Arial", 1, 16));
-//
-//            JLabel servSize = new JLabel("Serving Size: " + meal[5]);
-//            servSize.setBounds(400, 40, 300, 50);
-//            servSize.setForeground(Color.decode("#551F01"));
-//            servSize.setFont(new Font("Arial", 1, 16));
-//
+//            spiceLabel.setForeground(Color.white);
+//            spiceLabel.setFont(new Font("Arial", 1, 21));
+
 //            JLabel dietLabel = new JLabel("Diet Type: " + meal[6]);
 //            dietLabel.setBounds(400, 70, 300, 50);
-//            dietLabel.setForeground(Color.decode("#551F01"));
-//            dietLabel.setFont(new Font("Arial", 1, 16));
+//            dietLabel.setForeground(Color.white);
+//            dietLabel.setFont(new Font("Arial", 1, 21));
 //
-//            JLabel ingredientsLabel = new JLabel("Ingredients: " + meal[7]);
-//            ingredientsLabel.setBounds(400, 100, 300, 50);
-//            ingredientsLabel.setForeground(Color.decode("#551F01"));
-//            ingredientsLabel.setFont(new Font("Arial", 1, 16));
-
-            mealPanel.add(nameLabel);
-//            mealPanel.add(id);
-//            mealPanel.add(descriptionLabel);
-//            mealPanel.add(ingredientsLabel);
-//            mealPanel.add(dietLabel);
-//            mealPanel.add(spiceLabel);
-//            mealPanel.add(servSize);
-//            mealPanel.add(nutValue);
-            mealPanelContainer.add(mealPanel);
+            mealButton.add(nameLabel);
+            mealPanelContainer.add(mealButton);
         }
     }
 
@@ -238,48 +228,48 @@ public class MenuPage {
         for (String[] meal : meals) {
             JPanel mealPanel = new JPanel();
             mealPanel.setPreferredSize(new Dimension(670, 150));
-            mealPanel.setBackground(Color.decode("#FACD97"));
-            mealPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#A8671C"), 2));
+            mealPanel.setBackground(Color.decode("#cb6a2e"));
+            mealPanel.setBorder(BorderFactory.createEmptyBorder());
             mealPanel.setLayout(null);
 
             JLabel nameLabel = new JLabel("Meal Name: " + meal[0]);
             nameLabel.setBounds(150, 10, 300, 50);
-            nameLabel.setForeground(Color.decode("#551F01"));
+            nameLabel.setForeground(Color.white);
             nameLabel.setFont(new Font("Arial", 1, 21));
 
             JLabel id = new JLabel("Meal ID: " + meal[1]);
             id.setBounds(150, 40, 300, 50);
-            id.setForeground(Color.decode("#551F01"));
+            id.setForeground(Color.white);
             id.setFont(new Font("Arial", 1, 21));
 
             JLabel descriptionLabel = new JLabel("Description: " + meal[2]);
             descriptionLabel.setBounds(150, 70, 300, 50);
-            descriptionLabel.setForeground(Color.decode("#551F01"));
+            descriptionLabel.setForeground(Color.white);
             descriptionLabel.setFont(new Font("Arial", 1, 21));
 
             JLabel nutValue = new JLabel("Nutritional Value: " + meal[3]);
             nutValue.setBounds(150, 100, 300, 50);
-            nutValue.setForeground(Color.decode("#551F01"));
+            nutValue.setForeground(Color.white);
             nutValue.setFont(new Font("Arial", 1, 21));
 
             JLabel spiceLabel = new JLabel("Spice Type: " + meal[4]);
             spiceLabel.setBounds(400, 10, 300, 50);
-            spiceLabel.setForeground(Color.decode("#551F01"));
+            spiceLabel.setForeground(Color.white);
             spiceLabel.setFont(new Font("Arial", 1, 21));
 
             JLabel servSize = new JLabel("Serving Size: " + meal[5]);
             servSize.setBounds(400, 40, 300, 50);
-            servSize.setForeground(Color.decode("#551F01"));
+            servSize.setForeground(Color.white);
             servSize.setFont(new Font("Arial", 1, 21));
 
             JLabel dietLabel = new JLabel("Diet Type: " + meal[6]);
             dietLabel.setBounds(400, 70, 300, 50);
-            dietLabel.setForeground(Color.decode("#551F01"));
+            dietLabel.setForeground(Color.white);
             dietLabel.setFont(new Font("Arial", 1, 21));
 
             JLabel ingredientsLabel = new JLabel("Ingredients: " + meal[7]);
             ingredientsLabel.setBounds(400, 100, 300, 50);
-            ingredientsLabel.setForeground(Color.decode("#551F01"));
+            ingredientsLabel.setForeground(Color.white);
             ingredientsLabel.setFont(new Font("Arial", 1, 21));
 
             mealPanel.add(nameLabel);

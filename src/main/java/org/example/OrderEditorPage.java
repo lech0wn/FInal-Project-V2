@@ -1,13 +1,18 @@
 package org.example;
 
+import org.example.Databases.inventoryDatabase;
 import org.example.Databases.ordersDatabase;
 import org.example.Extensions.RoundedButton;
+import org.example.Extensions.RoundedTextfield;
+import org.example.SidePanels.MealSidePanel;
 import org.example.SidePanels.OrderSidePanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class OrderEditorPage {
     
@@ -201,11 +206,23 @@ public class OrderEditorPage {
                 String price = priceTf.getText();
                 String date = dateTf.getText();
 
-                ordersDatabase.addOrders(name, quantity, price, date);
-                mealNameTf.setText("");
-                quantityTf.setText("");
-                priceTf.setText("");
-                dateTf.setText("");
+                // Calculate subtotal price
+                try {
+                    double priceValue = Double.parseDouble(price);
+                    int quantityValue = Integer.parseInt(quantity);
+                    double subtotalPrice = priceValue * quantityValue; // Calculate subtotal
+
+                    // Call addOrders with the correct parameters
+                    ordersDatabase.addOrders(name, quantity, String.format("%.2f", subtotalPrice), price, date);
+
+                    // Clear input fields after submission
+                    mealNameTf.setText("");
+                    quantityTf.setText("");
+                    priceTf.setText("");
+                    dateTf.setText("");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please enter valid numeric values for price and quantity.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         frame.add(confirmOrderButton);
@@ -218,6 +235,168 @@ public class OrderEditorPage {
     public static void editOrdersPage(JFrame frame){
 
         new OrderSidePanel(frame);
+
+        JLabel errorMessageLabel = new JLabel();
+        errorMessageLabel.setText("Order ID not found!");
+        errorMessageLabel.setForeground(Color.red);
+        errorMessageLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        errorMessageLabel.setBounds(585, 315, 500, 50);
+        errorMessageLabel.setVisible(false);  //initially hidden
+
+        RoundedButton inventoryLabel = new RoundedButton("EDIT ORDER");
+        inventoryLabel.setBounds(550, 25, 300, 70);
+        inventoryLabel.setBackground(Color.decode("#752A00"));
+        inventoryLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        inventoryLabel.setForeground(Color.decode("#FACD97"));
+        inventoryLabel.setFocusable(false);
+        frame.add(inventoryLabel);
+
+        JLabel inventoryIdlabel = new JLabel();
+        inventoryIdlabel.setText("Enter the order ID of the inventory item you would like to delete:  ");
+        inventoryIdlabel.setBounds(390, 190, 800, 45);
+        inventoryIdlabel.setForeground(Color.decode("#331402"));
+        inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(inventoryIdlabel);
+
+        RoundedTextfield textField = new RoundedTextfield();
+        textField.setBounds(450, 250, 500, 70);
+        textField.setBorderColor(Color.decode("#331402"));
+        textField.setBorderThickness(4);
+        textField.setBackground(Color.WHITE);
+        frame.add(textField);
+
+        RoundedButton button = new RoundedButton("CONFIRM");
+        button.setBounds(600, 370, 200, 50);
+        button.setForeground(Color.white);
+        button.setBackground(Color.decode("#551F01"));
+        button.setFont(new Font("Arial", Font.BOLD, 20));
+        button.setFocusable(false);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                button.setBackground(Color.decode("#A8775C"));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                button.setBackground(Color.decode("#551F01"));
+            }
+        });
+        button.addActionListener(e -> {
+            int orderId = Integer.parseInt(textField.getText().trim());
+
+            if(ordersDatabase.authenticateOrderId(orderId)) {
+                frame.getContentPane().removeAll();
+                frame.repaint();
+                frame.revalidate();
+
+                new OrderSidePanel(frame);
+
+                RoundedButton inventoryLabel1 = new RoundedButton("EDIT ORDER");
+                inventoryLabel1.setBounds(550, 25, 300, 70);
+                inventoryLabel1.setBackground(Color.decode("#752A00"));
+                inventoryLabel1.setFont(new Font("Arial", Font.BOLD, 25));
+                inventoryLabel1.setForeground(Color.decode("#FACD97"));
+                inventoryLabel1.setFocusable(false);
+                frame.add(inventoryLabel1);
+
+                //meal name label
+                JLabel mealNameLabel = new JLabel();
+                mealNameLabel.setText("Meal Name");
+                mealNameLabel.setBounds(370, 200, 300, 45);
+                mealNameLabel.setForeground(Color.decode("#331402"));
+                mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+                frame.add(mealNameLabel);
+
+                //meal name text field
+                JTextField mealNameTf = new JTextField("");
+                mealNameTf.setBounds(370, 240, 300, 45);
+                mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                mealNameTf.setBackground(Color.white);
+                frame.add(mealNameTf);
+
+                //price label
+                JLabel priceLabel = new JLabel();
+                priceLabel.setText("Subtotal Price");
+                priceLabel.setBounds(700, 200, 300, 45);
+                priceLabel.setForeground(Color.decode("#331402"));
+                priceLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+                frame.add(priceLabel);
+
+                //price text field
+                JTextField priceTf = new JTextField("");
+                priceTf.setBounds(700, 240, 300, 45);
+                priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                priceTf.setBackground(Color.white);
+                frame.add(priceTf);
+
+                //quantity label
+                JLabel quantityLabel = new JLabel();
+                quantityLabel.setText("Quantity");
+                quantityLabel.setBounds(370, 280, 300, 45);
+                quantityLabel.setForeground(Color.decode("#331402"));
+                quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+                frame.add(quantityLabel);
+
+                //quantity text field
+                JTextField quantityTf = new JTextField("");
+                quantityTf.setBounds(370, 320, 300, 45);
+                quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                quantityTf.setBackground(Color.white);
+                frame.add(quantityTf);
+
+                //date label
+                JLabel dateLabel = new JLabel();
+                dateLabel.setText("Date");
+                dateLabel.setBounds(700, 280, 300, 45);
+                dateLabel.setForeground(Color.decode("#331402"));
+                dateLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+                frame.add(dateLabel);
+
+                //date text field
+                JTextField dateTf = new JTextField("");
+                dateTf.setBounds(700, 320, 300, 45);
+                dateTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                dateTf.setBackground(Color.white);
+                frame.add(dateTf);
+
+                JButton editOrderButton = new JButton();
+                editOrderButton.setText("CONFIRM");
+                editOrderButton.setBounds(850, 500, 160, 40);
+                editOrderButton.setBackground(Color.decode("#551F01"));
+                editOrderButton.setFont(new Font("Arial", Font.BOLD, 18));
+                editOrderButton.setForeground(Color.white);
+                editOrderButton.setFocusable(false);
+
+                editOrderButton.addActionListener(e2 -> {
+                    String date = dateTf.getText().trim();
+                    String mealName = mealNameTf.getText().trim();
+                    String quantity = quantityTf.getText().trim();
+                    String price = priceTf.getText().trim();
+                    String orderId1 = textField.getText().trim();
+
+                    Integer mealId = ordersDatabase.getMealIdByName(mealName);
+                    if (mealId == null) {
+                        //show error message if meal name is not found
+                        errorMessageLabel.setVisible(true);
+                        frame.add(errorMessageLabel);
+                    } else {
+                        //update order
+                        ordersDatabase.updateOrder(date, mealName, quantity, price, orderId1);
+                        new InventoryPage(frame);
+                    }
+                });
+                frame.add(editOrderButton);
+
+            } else {
+                errorMessageLabel.setVisible(true);
+                frame.add(errorMessageLabel);
+            }
+        });
+        frame.add(errorMessageLabel);
+        frame.add(button);
+        frame.setVisible(true);
     }
 
     //delete orders page

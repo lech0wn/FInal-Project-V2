@@ -1,12 +1,20 @@
 package org.example.Databases;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static java.sql.DriverManager.getConnection;
 
 public class inventoryDatabase {
 
     private static final String url = "jdbc:sqlite:database.db";
+
+    public inventoryDatabase() throws SQLException {
+    }
 
     // Create Inventory table
     public static void createInventoryTable() {
@@ -18,7 +26,7 @@ public class inventoryDatabase {
                 + "quantity INTEGER NOT NULL, "
                 + "FOREIGN KEY (mealId) REFERENCES meals(mealId))"; // Link mealId to meals table;
 
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = getConnection(url);
              Statement statement = connection.createStatement()) {
             statement.execute(createTableSQL);
             System.out.println("Table 'Inventory' created successfully!");
@@ -29,9 +37,9 @@ public class inventoryDatabase {
 
 
     // Helper method to check if a meal name exists in the meals table and retrieve its mealId
-    private static Integer getMealIdByName(String mealName) {
+    public static Integer getMealIdByName(String mealName) {
         String query = "SELECT mealId FROM meals WHERE mealName = ?";
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, mealName);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,7 +61,7 @@ public class inventoryDatabase {
         }
 
         String insertSQL = "INSERT INTO Inventory (mealId, mealName, price, quantity) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
             preparedStatement.setInt(1, mealId);
             preparedStatement.setString(2, mealName);
@@ -78,7 +86,7 @@ public class inventoryDatabase {
         }
 
         String deleteSQL = "DELETE FROM Inventory WHERE mealName = ?";
-        try (Connection connection = DriverManager.getConnection(url);
+        try (Connection connection = getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
             preparedStatement.setString(1, mealName);
             int rowsDeleted = preparedStatement.executeUpdate();
@@ -100,7 +108,7 @@ public class inventoryDatabase {
         List<String[]> inventoryData = new ArrayList<>();
         String query = "SELECT inventoryId, mealId, mealName, quantity, price FROM Inventory ORDER BY inventoryId";
 
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+        try (Connection connection = getConnection("jdbc:sqlite:database.db");
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -120,5 +128,44 @@ public class inventoryDatabase {
         return inventoryData;
     }
 
+    public static void updateInventory(String mealName, String quantity, String price, String inventoryId) {
+        String updateInventorySQL = "UPDATE Inventory SET mealName = ?, quantity = ?, price = ? WHERE inventoryId = ?";
 
+        try (Connection connection = getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateInventorySQL)) {
+
+            preparedStatement.setString(1, mealName);
+            preparedStatement.setString(2, quantity);
+            preparedStatement.setString(3, price);
+            preparedStatement.setString(4, inventoryId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Inventory updated successfully!");
+            } else {
+                System.out.println("No inventory item found with the specified ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Authenticate if the inventory ID exists
+    public static boolean authenticateInventoryId(int inventoryId) {
+        String selectSQL = "SELECT * FROM inventory WHERE inventoryId = ?";
+        try (Connection connection = getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+            preparedStatement.setInt(1, inventoryId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

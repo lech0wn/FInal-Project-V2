@@ -8,14 +8,15 @@ public class ordersDatabase {
 
     private static final String url = "jdbc:sqlite:database.db";
 
-    //create Orders table
+    // Create Orders table with price column
     public static void createOrdersTable() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS Orders ("
                 + "orderId INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "mealId INTEGER, "   // Add mealId column to store the meal ID
+                + "mealId INTEGER, "
                 + "mealName TEXT NOT NULL, "
                 + "quantity TEXT NOT NULL, "
                 + "subtotalPrice TEXT NOT NULL, "
+                + "price TEXT, "  // Add the 'price' column
                 + "date TEXT NOT NULL, "
                 + "FOREIGN KEY (mealId) REFERENCES meals(mealId))"; // Link mealId to meals table
         try (Connection connection = DriverManager.getConnection(url);
@@ -27,24 +28,24 @@ public class ordersDatabase {
         }
     }
 
-    //retrieve orders
+    // Retrieve orders
     public static List<String[]> listOrders() {
         List<String[]> ordersList = new ArrayList<>();
-        String query = "SELECT orderId, date, mealName, quantity, subtotalPrice FROM Orders ORDER BY orderId";
+        String query = "SELECT orderId, date, mealName, quantity, subtotalPrice, price FROM Orders ORDER BY orderId";
 
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db");
+        try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
                 String orderId = String.format("%03d", resultSet.getInt("orderId"));
-                String date = resultSet.getString("date");// Formatting orderId to 3 digits
+                String date = resultSet.getString("date");
                 String mealName = resultSet.getString("mealName");
                 String quantity = String.valueOf(resultSet.getInt("quantity"));
-                String subtotalPrice = String.format("₱%.2f", resultSet.getDouble("subtotalPrice"));  // Format price to 2 decimal places
+                String subtotalPrice = String.format("₱%.2f", resultSet.getDouble("subtotalPrice"));
+                String price = resultSet.getString("price");
 
-
-                ordersList.add(new String[]{orderId, date, mealName, quantity, subtotalPrice});
+                ordersList.add(new String[]{orderId, date, mealName, quantity, subtotalPrice, price});
             }
 
         } catch (SQLException e) {
@@ -54,10 +55,25 @@ public class ordersDatabase {
         return ordersList;
     }
 
-    //insert orders into orders table
-    public static void addOrders(String mealName, String quantity, String subtotalPrice, String date) {
+    public static Integer getMealIdByName(String mealName) {
+        String query = "SELECT mealId FROM meals WHERE mealName = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, mealName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("mealId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;  // Return null if meal name does not exist
+    }
+
+    // Insert orders into orders table
+    public static void addOrders(String mealName, String quantity, String subtotalPrice, String price, String date) {
         String getMealIdSQL = "SELECT mealId FROM meals WHERE mealName = ?";
-        String insertOrderSQL = "INSERT INTO Orders (mealId, mealName, quantity, subtotalPrice, date) VALUES (?, ?, ?, ?, ?)";
+        String insertOrderSQL = "INSERT INTO Orders (mealId, mealName, quantity, subtotalPrice, price, date) VALUES (?, ?, ?, ?, ?, ?)";
         String updateInventorySQL = "UPDATE Inventory SET quantity = quantity - ? WHERE mealId = ?";  // SQL to decrement quantity in Inventory
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -77,7 +93,8 @@ public class ordersDatabase {
                 insertOrderStmt.setString(2, mealName);
                 insertOrderStmt.setString(3, quantity);
                 insertOrderStmt.setString(4, subtotalPrice);
-                insertOrderStmt.setString(5, date);
+                insertOrderStmt.setString(5, price);  // Insert price
+                insertOrderStmt.setString(6, date);
 
                 int rowsAffected = insertOrderStmt.executeUpdate();
                 if (rowsAffected > 0) {
@@ -103,7 +120,7 @@ public class ordersDatabase {
         }
     }
 
-
+    // Delete order by order ID
     public static boolean deleteOrder(int orderId) {
         String deleteSQL = "DELETE FROM Orders WHERE orderId = ?";
         try (Connection connection = DriverManager.getConnection(url);
@@ -121,5 +138,48 @@ public class ordersDatabase {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // Update order details
+    public static void updateOrder(String date, String mealName, String quantity, String price, String orderId) {
+        String updateInventorySQL = "UPDATE Orders SET date = ?, mealName = ?, quantity = ?, price = ? WHERE orderId = ?";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateInventorySQL)) {
+
+            preparedStatement.setString(1, date);
+            preparedStatement.setString(2, mealName);
+            preparedStatement.setString(3, quantity);
+            preparedStatement.setString(4, price);  // Update price
+            preparedStatement.setString(5, orderId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Order updated successfully!");
+            } else {
+                System.out.println("No order found with the specified ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Authenticate if the order ID exists
+    public static boolean authenticateOrderId(int orderId) {
+        String selectSQL = "SELECT * FROM Orders WHERE orderId = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
+            preparedStatement.setInt(1, orderId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

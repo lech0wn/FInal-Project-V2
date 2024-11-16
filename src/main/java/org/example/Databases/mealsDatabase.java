@@ -85,8 +85,13 @@ public class mealsDatabase {
             }
 
             preparedStatement.setInt(1, mealId);
-            preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
 
+            if (rowsAffected > 0) {
+                System.out.println("Meal deleted successfully");
+            } else {
+                System.out.println("Meal does not exist.");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -124,6 +129,60 @@ public class mealsDatabase {
     public static List<String[]> getBreakfastMeals() {
         List<String[]> menu = new ArrayList<>();
         String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Vegetarian Breakfast Meals
+    public static List<String[]> getBreakfastVegetarianMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast' AND diettYPE = 'vegetarian'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Non Vegetarian Breakfast Meals
+    public static List<String[]> getBreakfastNonVegetarianMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast' AND diettYPE = 'non-vegetarian'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -233,6 +292,23 @@ public class mealsDatabase {
         return menu;
     }
 
+    public static void deleteMealByName(String mealName) {
+        String deleteSQL = "DELETE FROM Meals WHERE mealName = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
+
+            preparedStatement.setString(1, mealName);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Meal deleted successfully by Name.");
+            } else {
+                System.out.println("No meal found with the given Name.");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // Authenticate if the meal exists
     public static boolean authenticateMealName(String mealName) {
@@ -249,26 +325,5 @@ public class mealsDatabase {
             System.out.println(e.getMessage());
             return false;
         }
-    }
-
-    //Get Meal Id to delete by Meal Name
-    public static int getMealIdByName(String mealName) {
-        int mealId = -1;
-        String selectMealIdSQL = "SELECT mealId FROM Meals WHERE mealName = ?";
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectMealIdSQL)) {
-
-            preparedStatement.setString(1, mealName);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    mealId = resultSet.getInt("mealId");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return mealId;
     }
 }

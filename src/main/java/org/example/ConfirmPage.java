@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Extensions.RoundedButton;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,19 +31,19 @@ public class ConfirmPage extends JPanel {
 
         JLabel label1 = new JLabel("MEAL");
         label1.setBounds(370, 110, 1000, 100);
-        label1.setFont(new Font("Arial", 1, 100));
+        label1.setFont(new Font("Arial", Font.BOLD, 100));
         label1.setForeground(Color.decode("#551F01"));
         panel.add(label1);
 
         JLabel label2 = new JLabel("CREATED!");
         label2.setBounds(260, 210, 1000, 100);
-        label2.setFont(new Font("Arial", 1, 100));
+        label2.setFont(new Font("Arial", Font.BOLD, 100));
         label2.setForeground(Color.decode("#551F01"));
         panel.add(label2);
 
         RoundedButton button = new  RoundedButton("CONFIRM");
         button.setBounds(450, 330, 150, 50);
-        button.setFont(new Font("Arial", 1, 20));
+        button.setFont(new Font("Arial", Font.BOLD, 20));
         button.setFocusable(false);
         button.setBorderThickness(0);
         button.setBackground(Color.decode("#551F01"));

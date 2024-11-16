@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.Databases.inventoryDatabase;
+import org.example.Extensions.RoundedButton;
+import org.example.Extensions.RoundedTextfield;
 import org.example.SidePanels.InventorySidePanel;
 
 import javax.swing.*;

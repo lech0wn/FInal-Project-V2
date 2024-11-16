@@ -1,6 +1,7 @@
 package org.example.SidePanels;
 
 import org.example.*;
+import org.example.Extensions.RoundedButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -179,8 +180,28 @@ public class MealSidePanel extends JPanel
           JLabel mealLabel = new JLabel(mealLogo);
           mealLabel.setBounds(0,0,80,80);
           mealEditorButton.add(mealLabel);
-
           sidePanel.add(mealEditorButton);
-      }
 
+          //Add Log out button
+          JButton logOutButton = new JButton("Log Out");
+          logOutButton.setBounds(220, 560, 100, 30);
+          logOutButton.setFont(new Font("Arial", Font.BOLD, 16));
+          logOutButton.setForeground(Color.white);
+          logOutButton.setFocusable(false);
+          logOutButton.setBackground(Color.decode("#752A00"));
+          logOutButton.setFocusPainted(false);
+          logOutButton.setContentAreaFilled(false);
+          logOutButton.setOpaque(true);
+          logOutButton.setBorder(BorderFactory.createEmptyBorder());
+          logOutButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  frame.getContentPane().removeAll();
+                  new LoginPage(frame);
+                  frame.revalidate();
+                  frame.repaint();
+              }
+          });
+          sidePanel.add(logOutButton);
+      }
 }

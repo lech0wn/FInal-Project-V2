@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Extensions;
 
 import org.example.Databases.mealsDatabase;
 
@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class SearchBar {
 
-    SearchBar(JFrame frame) {
+    public SearchBar(JFrame frame) {
         RoundedTextfield searchbar = new RoundedTextfield();
         searchbar.setBounds(370, 20, 550, 45);
         searchbar.setBackground(Color.decode("#FACD97"));

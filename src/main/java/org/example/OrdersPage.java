@@ -1,12 +1,11 @@
 package org.example;
 
 import org.example.Databases.ordersDatabase;
+import org.example.Extensions.SearchBar;
 import org.example.SidePanels.OrderSidePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class OrdersPage {

@@ -1,19 +1,17 @@
 package org.example;
 
 import org.example.Databases.usersDatabase;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 
 public class LoginPage {
-    public static void main(String[] args) {
+    public LoginPage(JFrame frame) {
 
         JLabel errorLabel = new JLabel();
 
         //Create Frame
-        JFrame frame = new JFrame();
         frame.setSize(1100, 600);
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
         frame.setLayout(null);
@@ -31,7 +29,7 @@ public class LoginPage {
         //Create Login Label
         JLabel label = new JLabel();
         label.setText("EMPLOYEE LOGIN");
-        label.setFont(new Font("Abadi MT Condensed Extra Bold", 1, 60));
+        label.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 60));
         label.setForeground(Color.decode("#752A00"));
         label.setBounds(440, 78, 1000, 70);
         frame.add(label);
@@ -40,14 +38,14 @@ public class LoginPage {
         JLabel userLabel = new JLabel("Username");
         userLabel.setForeground(Color.decode("#752A00"));
         userLabel.setBounds(445, 190, 200, 50);
-        userLabel.setFont(new Font("Arial", 1, 24));
+        userLabel.setFont(new Font("Arial", Font.BOLD, 24));
         frame.add(userLabel);
 
         //Create Username Field
         JTextField userName = new JTextField();
         userName.setBorder(BorderFactory.createEmptyBorder());
         userName.setBounds(445, 230, 592, 57);
-        userName.setFont(new Font("Arial", 1, 20));
+        userName.setFont(new Font("Arial", Font.BOLD, 20));
         userName.setCaretColor(Color.darkGray);
         frame.add(userName);
 
@@ -55,14 +53,14 @@ public class LoginPage {
         JLabel passLabel = new JLabel("Password");
         passLabel.setForeground(Color.decode("#752A00"));
         passLabel.setBounds(445, 310, 200, 50);
-        passLabel.setFont(new Font("Arial", 1, 24));
+        passLabel.setFont(new Font("Arial", Font.BOLD, 24));
         frame.add(passLabel);
 
         //Create Password Field
         JPasswordField password = new JPasswordField();
         password.setBorder(BorderFactory.createEmptyBorder());
         password.setBounds(445, 350, 592, 57);
-        password.setFont(new Font("Arial", 1, 20));
+        password.setFont(new Font("Arial", Font.BOLD, 20));
         password.setForeground(Color. darkGray);
         password.setCaretColor(Color.darkGray);
         frame.add(password);
@@ -74,7 +72,7 @@ public class LoginPage {
         loginButton.setBackground(Color.white);
         loginButton.setText("enter");
         loginButton.setForeground(Color.decode("#551F01"));
-        loginButton.setFont(new Font("Arial", 1, 18));
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18));
         loginButton.setFocusable(false);
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -102,14 +100,14 @@ public class LoginPage {
         JLabel label2 = new JLabel();
         label2.setText("Don't have an account yet? ");
         label2.setBounds(550, 425, 500, 100);
-        label2.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
+        label2.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 16));
         label2.setForeground(Color.decode("#752A00"));
         frame.add(label2);
 
         //Create Register button
         JButton registerButton = new JButton();
         registerButton.setText("Register");
-        registerButton.setFont(new Font("Bitstream Vera Sans Mono", 1, 16));
+        registerButton.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 16));
         registerButton.setForeground(Color.BLUE);
         registerButton.setForeground(Color.decode("#752A00"));
         registerButton.setBorderPainted(false);
@@ -134,5 +132,7 @@ public class LoginPage {
         frame.add(registerButton);
         frame.setVisible(true);
     }
+
+
 }
 

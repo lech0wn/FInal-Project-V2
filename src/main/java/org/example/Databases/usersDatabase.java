@@ -57,4 +57,20 @@ public class usersDatabase {
             return false;
         }
     }
+
+    //Check if the username is already registered
+    public static boolean isUsernameAvailable(String userName) {
+        String checkSql = "SELECT * FROM users WHERE userName = ?";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(checkSql)) {
+            preparedStatement.setString(1, userName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return !resultSet.next();
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
+            return false;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Extensions;
 
 import java.awt.*;
 import javax.swing.border.AbstractBorder;

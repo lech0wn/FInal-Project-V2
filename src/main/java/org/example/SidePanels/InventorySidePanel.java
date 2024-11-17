@@ -183,8 +183,11 @@ public class InventorySidePanel extends JPanel
         sidePanel.add(mealEditorButton);
 
         //Add Log out button
-        JButton logOutButton = new JButton("Log Out");
-        logOutButton.setBounds(220, 560, 100, 30);
+        ImageIcon logOutImg = new ImageIcon("src/main/java/org/example/img/logout.png");
+        JLabel logOUtLabel = new JLabel(logOutImg);
+        logOUtLabel.setBounds(0,0, 60, 60);
+        RoundedButton logOutButton = new RoundedButton("");
+        logOutButton.setBounds(10, 10, 100, 50);
         logOutButton.setFont(new Font("Arial", Font.BOLD, 16));
         logOutButton.setForeground(Color.white);
         logOutButton.setFocusable(false);
@@ -202,6 +205,7 @@ public class InventorySidePanel extends JPanel
                 frame.repaint();
             }
         });
+        logOutButton.add(logOUtLabel);
         sidePanel.add(logOutButton);
     }
 

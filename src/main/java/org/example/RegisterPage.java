@@ -71,6 +71,12 @@ public class RegisterPage {
         password.setBackground(Color.white);
         frame.add(password);
 
+        //Add image
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/register.png");
+        JLabel imgLabel = new JLabel(img);
+        imgLabel.setBounds(520, -10, 575, 600);
+        frame.add(imgLabel);
+
         //Register Button
         JButton registerButton = new JButton("REGISTER");
         registerButton.setBounds(45, 415, 175, 45);

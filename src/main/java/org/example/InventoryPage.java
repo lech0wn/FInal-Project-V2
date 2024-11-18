@@ -2,18 +2,19 @@ package org.example;
 
 import org.example.Databases.inventoryDatabase;
 import org.example.Databases.mealsDatabase;
+import org.example.Extensions.RoundedButton;
 import org.example.Extensions.SearchBar;
 import org.example.SidePanels.InventorySidePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class InventoryPage extends JPanel {
-    private JComboBox<String> filterComboBox;
-    private final String[] categories = {"All", "Vegetarian", "Non-Vegetarian"};
 
     public InventoryPage(JFrame frame) {
         frame.setTitle("Inventory");  // Set the title of the window
@@ -52,11 +53,7 @@ public class InventoryPage extends JPanel {
         styleLabel(priceLabel);
         frame.add(priceLabel);
 
-        // Create container for all column panels
-        JPanel inventoryPanelContainer = new JPanel();
-        inventoryPanelContainer.setLayout(null);  // Use null layout for precise positioning
-
-        // Create individual containers for each column
+        // Create panel to hold inventory id panels
         JPanel inventoryIdPanelContainer = new JPanel();
         inventoryIdPanelContainer.setLayout(new BoxLayout(inventoryIdPanelContainer, BoxLayout.Y_AXIS));
 
@@ -76,47 +73,161 @@ public class InventoryPage extends JPanel {
 
         // Loop through inventory entries
         for (String[] inventoryId : inventoryIds) {
-            // Create and add panels for each entry
-            addInventoryPanels(inventoryId, inventoryIdPanelContainer, mealIdPanelContainer, mealNamePanelContainer,
-                    quantityPanelContainer, pricePanelContainer);
+            // Create inventoryId panel
+            JPanel inventoryIdPanel = new JPanel();
+            inventoryIdPanel.setLayout(new BorderLayout());
+            inventoryIdPanel.setPreferredSize(new Dimension(200, 50));
+            inventoryIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+            inventoryIdPanel.setBackground(Color.decode("#752A00"));
+
+            JLabel idLabel = new JLabel(inventoryId[0], SwingConstants.CENTER);
+            idLabel.setFont(new Font("Milonga", Font.BOLD, 14));
+            idLabel.setForeground(Color.decode("#EF9B39"));
+            inventoryIdPanel.add(idLabel, BorderLayout.CENTER);
+
+            // Add inventoryIdPanel to container
+            inventoryIdPanelContainer.add(inventoryIdPanel);
+
+            // Create mealId panel
+            JPanel mealIdPanel = new JPanel();
+            mealIdPanel.setLayout(new BorderLayout());
+            mealIdPanel.setPreferredSize(new Dimension(200, 50));
+            mealIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+            mealIdPanel.setBackground(Color.decode("#752A00"));
+
+            JLabel mealIdLabel2 = new JLabel(inventoryId[1], SwingConstants.CENTER);
+            mealIdLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+            mealIdLabel2.setForeground(Color.decode("#EF9B39"));
+            mealIdPanel.add(mealIdLabel2, BorderLayout.CENTER);
+
+            // Add mealIdPanel to container
+            mealIdPanelContainer.add(mealIdPanel);
+
+            // Create mealName panel
+            JPanel mealNamePanel = new JPanel();
+            mealNamePanel.setLayout(new BorderLayout());
+            mealNamePanel.setPreferredSize(new Dimension(200, 50));
+            mealNamePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+            mealNamePanel.setBackground(Color.decode("#752A00"));
+
+            JLabel mealNameLabel2 = new JLabel(inventoryId[2], SwingConstants.CENTER);
+            mealNameLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+            mealNameLabel2.setForeground(Color.decode("#EF9B39"));
+            mealNamePanel.add(mealNameLabel2, BorderLayout.CENTER);
+            mealNamePanelContainer.add(mealNamePanel);
+
+
+            // Create quantity panel
+            JPanel quantityPanel = new JPanel();
+            quantityPanel.setLayout(new BorderLayout());
+            quantityPanel.setPreferredSize(new Dimension(200, 50));
+            quantityPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+            quantityPanel.setBackground(Color.decode("#752A00"));
+
+            int quantity = Integer.parseInt(inventoryId[3]);  // Assuming quantity is at index 3
+            JLabel quantityLabel2 = new JLabel(String.valueOf(quantity), SwingConstants.CENTER);
+            quantityLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+            quantityLabel2.setForeground(Color.decode("#EF9B39"));
+
+            if (quantity < 5) {
+                quantityLabel2.setForeground(Color.RED);
+            }
+
+            quantityPanel.add(quantityLabel2, BorderLayout.CENTER);
+
+            // Add quantityPanel to container
+            quantityPanelContainer.add(quantityPanel);
+
+            // Create price panel
+            JPanel pricePanel = new JPanel();
+            pricePanel.setLayout(new BorderLayout());
+            pricePanel.setPreferredSize(new Dimension(200, 50));
+            pricePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+            pricePanel.setBackground(Color.decode("#752A00"));
+
+            JLabel priceLabel2 = new JLabel(inventoryId[4], SwingConstants.CENTER);
+            priceLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+            priceLabel2.setForeground(Color.decode("#EF9B39"));
+            pricePanel.add(priceLabel2, BorderLayout.CENTER);
+
+            // Add pricePanel to container
+            pricePanelContainer.add(pricePanel);
         }
 
-        // Add individual column containers to the inventoryPanelContainer with exact positioning
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(null); // Use null layout for precise positioning
+        dataPanel.setBackground(Color.decode("#EF9B39"));
+        dataPanel.setPreferredSize(new Dimension(750, inventoryIds.size() * 55)); // Adjust height based on number of rows
+
+        // Add individual column containers to dataPanel
         inventoryIdPanelContainer.setBounds(0, 0, 150, inventoryIds.size() * 55);
         mealIdPanelContainer.setBounds(160, 0, 130, inventoryIds.size() * 55);
         mealNamePanelContainer.setBounds(300, 0, 140, inventoryIds.size() * 55);
         quantityPanelContainer.setBounds(450, 0, 130, inventoryIds.size() * 55);
         pricePanelContainer.setBounds(590, 0, 130, inventoryIds.size() * 55);
 
-        inventoryPanelContainer.setBackground(Color.decode("#EF9B39"));
-        inventoryPanelContainer.add(inventoryIdPanelContainer);
-        inventoryPanelContainer.add(mealIdPanelContainer);
-        inventoryPanelContainer.add(mealNamePanelContainer);
-        inventoryPanelContainer.add(quantityPanelContainer);
-        inventoryPanelContainer.add(pricePanelContainer);
+        dataPanel.add(inventoryIdPanelContainer);
+        dataPanel.add(mealIdPanelContainer);
+        dataPanel.add(mealNamePanelContainer);
+        dataPanel.add(quantityPanelContainer);
+        dataPanel.add(pricePanelContainer);
 
         // Create a scrollable area for inventory data
-        JScrollPane scrollPane = new JScrollPane(inventoryPanelContainer);
+        JScrollPane scrollPane = new JScrollPane(dataPanel);
         scrollPane.setBounds(350, 140, 735, 400); // Position and size of the scrolling area
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.setBackground(Color.decode("#EF9B39"));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        // Add the JScrollPane to the frame
         frame.add(scrollPane);
 
-        // Filter combo box for categories
-        filterComboBox = new JComboBox<>(categories);
-        filterComboBox.setBounds(940, 20, 130, 40); // Smaller size and top-right position
-        filterComboBox.setFont(new Font("Arial", Font.BOLD, 14)); // Optional font customization
-        filterComboBox.setForeground(Color.decode("#EF9B39"));
-        filterComboBox.setBackground(Color.decode("#752A00"));
-        filterComboBox.setBorder(BorderFactory.createEmptyBorder());
-        filterComboBox.setFocusable(false);
-        frame.add(filterComboBox);
+        RoundedButton allMealsButton = new RoundedButton("All");
+        allMealsButton.setBounds(350, 550, 60, 30);
+        allMealsButton.setBackground(Color.decode("#331402"));
+        allMealsButton.setForeground(Color.decode("#FACD97"));
+        allMealsButton.setFocusable(false);
+        allMealsButton.setRound(10);
+        allMealsButton.setBorderThickness(0);
+        allMealsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String[]> meals = mealsDatabase.getMeals();
+            }
+        });
+        frame.add(allMealsButton);
+
+        RoundedButton allVegMealsButton = new RoundedButton("Vegetarian");
+        allVegMealsButton.setBounds(420, 550, 140, 30);
+        allVegMealsButton.setBackground(Color.decode("#331402"));
+        allVegMealsButton.setForeground(Color.decode("#FACD97"));
+        allVegMealsButton.setFocusable(false);
+        allVegMealsButton.setRound(10);
+        allVegMealsButton.setBorderThickness(0);
+        allVegMealsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String[]> meals = mealsDatabase.getVegetarianMeals();
+            }
+        });
+        frame.add(allVegMealsButton);
+
+        RoundedButton allNonVegMealsButton = new RoundedButton("Non-Vegetarian");
+        allNonVegMealsButton.setBounds(570, 550, 160, 30);
+        allNonVegMealsButton.setBackground(Color.decode("#331402"));
+        allNonVegMealsButton.setForeground(Color.decode("#FACD97"));
+        allNonVegMealsButton.setFocusable(false);
+        allNonVegMealsButton.setRound(10);
+        allNonVegMealsButton.setBorderThickness(0);
+        allNonVegMealsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String[]> meals = mealsDatabase.getNonVegetarianMeals();
+            }
+        });
+        frame.add(allNonVegMealsButton);
     }
+
 
     private void styleLabel(JLabel label) {
         label.setOpaque(true);
@@ -128,49 +239,5 @@ public class InventoryPage extends JPanel {
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
         ));
         label.setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    private void addInventoryPanels(String[] inventoryId, JPanel inventoryIdPanelContainer, JPanel mealIdPanelContainer,
-                                    JPanel mealNamePanelContainer, JPanel quantityPanelContainer, JPanel pricePanelContainer) {
-        // Inventory ID Panel
-        JPanel inventoryIdPanel = createPanel(inventoryId[0]);
-        inventoryIdPanelContainer.add(inventoryIdPanel);
-
-        // Meal ID Panel
-        JPanel mealIdPanel = createPanel(inventoryId[1]);
-        mealIdPanelContainer.add(mealIdPanel);
-
-        // Meal Name Panel
-        JPanel mealNamePanel = createPanel(inventoryId[2]);
-        mealNamePanelContainer.add(mealNamePanel);
-
-        // Quantity Panel
-        JPanel quantityPanel = createPanel(String.valueOf(inventoryId[3]));
-        int quantity = Integer.parseInt(inventoryId[3]);
-        JLabel quantityLabel = new JLabel(String.valueOf(quantity), SwingConstants.CENTER);
-        if (quantity < 5) {
-            quantityLabel.setForeground(Color.RED);
-        } else {
-            quantityLabel.setForeground(Color.decode("#EF9B39"));
-        }
-        quantityPanel.add(quantityLabel, BorderLayout.CENTER);
-        quantityPanelContainer.add(quantityPanel);
-
-        // Price Panel
-        JPanel pricePanel = createPanel(inventoryId[4]);
-        pricePanelContainer.add(pricePanel);
-    }
-
-    private JPanel createPanel(String text) {
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.decode("#752A00"));
-        panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(200, 50));
-        panel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
-        JLabel label = new JLabel(text, SwingConstants.CENTER);
-        label.setFont(new Font("Milonga", Font.BOLD, 15));
-        label.setForeground(Color.decode("#EF9B39"));
-        panel.add(label, BorderLayout.CENTER);
-        return panel;
     }
 }

@@ -95,40 +95,39 @@ public class MenuPage {
         for (String[] meal : meals) {
             JButton mealButton = new JButton();
             mealButton.setPreferredSize(new Dimension(220, 250));
-            mealButton.setBackground(Color.decode("#cb6a2e"));
-            mealButton.setBorder(BorderFactory.createEmptyBorder());
+            mealButton.setBackground(Color.decode("#331402"));
+            mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#cb6a2e"), 12));
             mealButton.setFocusable(false);
-            mealButton.setLayout(new BoxLayout(mealButton, BoxLayout.Y_AXIS));
+            mealButton.setLayout(null);
             mealButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     super.mouseEntered(e);
-                    mealButton.setBackground(Color.white);
+                    mealButton.setBackground(Color.decode("#331402"));
+                    mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 12));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     super.mouseExited(e);
-                    mealButton.setBackground(Color.decode("#cb6a2e"));
+                    mealButton.setBackground(Color.decode("#331402"));
+                    mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#cb6a2e"), 12));
                 }
             });
             mealButton.addActionListener(e -> new Dialog(meal, frame));
-            mealButton.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 125));
+
+            //Create Panel
+            JPanel namePanel = new JPanel();
+            namePanel.setBounds(12, 180, 196, 35);
+            namePanel.setBackground(Color.white);
+            mealButton.add(namePanel);
 
             // Create meal name label
             JLabel nameLabel = new JLabel(meal[0]);
-            nameLabel.setForeground(Color.white);
-            nameLabel.setFont(new Font("Arial", Font.BOLD, 21));
-            nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            nameLabel.setForeground(Color.decode("#EF9B39"));
+            nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
 
-            // Create diet type label
-            JLabel dietLabel = new JLabel(meal[6]);
-            dietLabel.setForeground(Color.white);
-            dietLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            dietLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            mealButton.add(nameLabel);
-            mealButton.add(dietLabel);
+            namePanel.add(nameLabel);
             mealPanelContainer.add(mealButton);
         }
     }

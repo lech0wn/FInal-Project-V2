@@ -27,11 +27,11 @@ public class OrdersPage {
         frame.repaint();
 
         JLabel orderIdOrdersLabel = new JLabel("Order ID");
-        orderIdOrdersLabel.setBounds(350, 80, 110, 45);
+        orderIdOrdersLabel.setBounds(330, 80, 90, 40);
         orderIdOrdersLabel.setOpaque(true);
         orderIdOrdersLabel.setBackground(Color.decode("#752A00"));
         orderIdOrdersLabel.setForeground(Color.decode("#EF9B39"));
-        orderIdOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        orderIdOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 14));
         orderIdOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
@@ -40,11 +40,11 @@ public class OrdersPage {
         frame.add(orderIdOrdersLabel);
 
         JLabel dateOrdersLabel = new JLabel("Date");
-        dateOrdersLabel.setBounds(470, 80, 160, 45);
+        dateOrdersLabel.setBounds(430, 80, 140, 40);
         dateOrdersLabel.setOpaque(true);
         dateOrdersLabel.setBackground(Color.decode("#752A00"));
         dateOrdersLabel.setForeground(Color.decode("#EF9B39"));
-        dateOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        dateOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 14));
         dateOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
@@ -53,11 +53,11 @@ public class OrdersPage {
         frame.add(dateOrdersLabel);
 
         JLabel mealOrdersLabel = new JLabel("Meal");
-        mealOrdersLabel.setBounds(640, 80, 170, 45);
+        mealOrdersLabel.setBounds(580, 80, 160, 40);
         mealOrdersLabel.setOpaque(true);
         mealOrdersLabel.setBackground(Color.decode("#752A00"));
         mealOrdersLabel.setForeground(Color.decode("#EF9B39"));
-        mealOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        mealOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 14));
         mealOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
@@ -66,11 +66,11 @@ public class OrdersPage {
         frame.add(mealOrdersLabel);
 
         JLabel quantityOrdersLabel = new JLabel("Quantity");
-        quantityOrdersLabel.setBounds(820, 80, 110, 45);
+        quantityOrdersLabel.setBounds(750, 80, 90, 40);
         quantityOrdersLabel.setOpaque(true);
         quantityOrdersLabel.setBackground(Color.decode("#752A00"));
         quantityOrdersLabel.setForeground(Color.decode("#EF9B39"));
-        quantityOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        quantityOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 14));
         quantityOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
@@ -79,17 +79,30 @@ public class OrdersPage {
         frame.add(quantityOrdersLabel);
 
         JLabel priceOrdersLabel = new JLabel("Total Price");
-        priceOrdersLabel.setBounds(940, 80, 130, 45);
+        priceOrdersLabel.setBounds(850, 80, 110, 40);
         priceOrdersLabel.setOpaque(true);
         priceOrdersLabel.setBackground(Color.decode("#752A00"));
         priceOrdersLabel.setForeground(Color.decode("#EF9B39"));
-        priceOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 18));
+        priceOrdersLabel.setFont(new Font("Milonga", Font.BOLD, 14));
         priceOrdersLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(3, 10, 3, 10)
         ));
         priceOrdersLabel.setHorizontalAlignment(SwingConstants.CENTER);
         frame.add(priceOrdersLabel);
+
+        JLabel statusLabel = new JLabel("Status");
+        statusLabel.setBounds(970, 80, 110, 40);
+        statusLabel.setOpaque(true);
+        statusLabel.setBackground(Color.decode("#752A00"));
+        statusLabel.setForeground(Color.decode("#EF9B39"));
+        statusLabel.setFont(new Font("Milonga", Font.BOLD, 14));
+        statusLabel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
+                BorderFactory.createEmptyBorder(3, 10, 3, 10)
+        ));
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(statusLabel);
 
         // Create panel containers for each column
         JPanel datePanelContainer = new JPanel();
@@ -106,6 +119,9 @@ public class OrdersPage {
 
         JPanel pricePanelContainer = new JPanel();
         pricePanelContainer.setLayout(new BoxLayout(pricePanelContainer, BoxLayout.Y_AXIS));
+
+        JPanel statusPanelContainer = new JPanel();
+        statusPanelContainer.setLayout(new BoxLayout(statusPanelContainer, BoxLayout.Y_AXIS));
 
         List<String[]> orders = ordersDatabase.listOrders();
 
@@ -203,7 +219,10 @@ public class OrdersPage {
         // Wrap the parent panel in a JScrollPane
         JScrollPane scrollPane = new JScrollPane(ordersPanel);
         scrollPane.setBounds(350, 140, 735, 400); // Position and size of the scrollable area
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.setBackground(Color.decode("#EF9B39"));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         // Add the scroll pane to the frame

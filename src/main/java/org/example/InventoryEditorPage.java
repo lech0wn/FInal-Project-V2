@@ -370,7 +370,7 @@ public class InventoryEditorPage {
 
         // meal name delete label
         JLabel mealNameLabel = new JLabel();
-        mealNameLabel.setText("Enter the meal name of the inventory item you would like to delete:  ");
+        mealNameLabel.setText("Enter the inventory ID of the inventory item you would like to delete:  ");
         mealNameLabel.setBounds(400, 190, 800, 45);
         mealNameLabel.setForeground(Color.decode("#331402"));
         mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
@@ -391,18 +391,19 @@ public class InventoryEditorPage {
         deleteInventoryButton.setFont(new Font("Arial", Font.BOLD, 18));
         deleteInventoryButton.setForeground(Color.white);
         deleteInventoryButton.setFocusable(false);
-        deleteInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String mealName = mealNameTf.getText();
-                if (inventoryDatabase.deleteInventory(mealName)) {
-                    JOptionPane.showMessageDialog(frame, "Meal deleted successfully.");
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Meal name not found.");
-                }
-                mealNameTf.setText("");
-            }
-        });
+//        deleteInventoryButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                //TODO: CHANGE MEALNAME TO INVENTORYID
+//                String mealName = mealNameTf.getText();
+//                if (inventoryDatabase.deleteInventory(inventoryId)) {
+//                    JOptionPane.showMessageDialog(frame, "Inventory ID deleted successfully.");
+//                } else {
+//                    JOptionPane.showMessageDialog(frame, "Inventory ID not found.");
+//                }
+//                mealNameTf.setText("");
+//            }
+//        });
         frame.add(deleteInventoryButton);
 
         frame.setLayout(null);

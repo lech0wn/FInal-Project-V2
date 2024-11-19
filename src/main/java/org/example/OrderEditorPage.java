@@ -213,7 +213,7 @@ public class OrderEditorPage {
                     double subtotalPrice = priceValue * quantityValue; // Calculate subtotal
 
                     // Call addOrders with the correct parameters
-                    ordersDatabase.addOrders(name, quantity, String.format("%.2f", subtotalPrice), price, date);
+                    ordersDatabase.addOrders(name, quantity, String.format("%.2f", price), date);
 
                     // Clear input fields after submission
                     mealNameTf.setText("");
@@ -252,7 +252,7 @@ public class OrderEditorPage {
         frame.add(inventoryLabel);
 
         JLabel inventoryIdlabel = new JLabel();
-        inventoryIdlabel.setText("Enter the order ID of the inventory item you would like to delete:  ");
+        inventoryIdlabel.setText("Enter the order ID of the inventory item you would like to edit:  ");
         inventoryIdlabel.setBounds(390, 190, 800, 45);
         inventoryIdlabel.setForeground(Color.decode("#331402"));
         inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));

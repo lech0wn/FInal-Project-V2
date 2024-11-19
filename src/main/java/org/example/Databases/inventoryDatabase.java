@@ -78,30 +78,25 @@ public class inventoryDatabase {
     }
 
     // Delete inventory item only if mealName exists in meals table
-    public static boolean deleteInventory(String mealName) {
-        Integer mealId = getMealIdByName(mealName);
-        if (mealId == null) {
-            System.out.println("Meal name not found in meals table. Cannot delete from inventory.");
-            return false;
-        }
-
-        String deleteSQL = "DELETE FROM Inventory WHERE mealName = ?";
+    public static boolean deleteInventory(int inventoryId) {
+        String deleteSQL = "DELETE FROM Inventory WHERE inventoryId = ?";
         try (Connection connection = getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
-            preparedStatement.setString(1, mealName);
+            preparedStatement.setInt(1, inventoryId);
             int rowsDeleted = preparedStatement.executeUpdate();
 
             if (rowsDeleted > 0) {
                 System.out.println("Inventory item deleted successfully!");
                 return true;
             } else {
-                System.out.println("No inventory item found with meal name '" + mealName + "'.");
+                System.out.println("No inventory item found with inventoryId '" + inventoryId + "'.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
 
     //list inventory
     public static List<String[]> listInventory() {
@@ -153,6 +148,33 @@ public class inventoryDatabase {
         }
 
         return vegetarianMeals;
+    }
+
+    // Method to get vegetarian meals and store them in a new list
+    public static List<String[]> getNonVegetarianMeals() {
+        List<String[]> nonVegetarianMeals = new ArrayList<>();
+        String query = "SELECT inventoryId, mealId, mealName, price, quantity FROM Inventory WHERE mealId IN " +
+                "(SELECT mealId FROM meals WHERE dietType = 'non-vegetarian')";
+
+        try (Connection connection = getConnection(url);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            // Iterate over the result set and add vegetarian meals to the list
+            while (resultSet.next()) {
+                String inventoryId = String.format("%03d", resultSet.getInt("inventoryId"));
+                String mealId = String.format("%03d", resultSet.getInt("mealId"));
+                String mealName = resultSet.getString("mealName");
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                nonVegetarianMeals.add(new String[]{inventoryId, mealId, mealName,  quantity, price});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nonVegetarianMeals;
     }
 
     public static void updateInventory(String mealName, String quantity, String price, String inventoryId) {

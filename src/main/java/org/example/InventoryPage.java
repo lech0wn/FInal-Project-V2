@@ -178,7 +178,7 @@ public class InventoryPage extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.setBackground(Color.decode("#EF9B39"));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
 
@@ -189,20 +189,10 @@ public class InventoryPage extends JPanel {
         allMealsButton.setFocusable(false);
         allMealsButton.setRound(10);
         allMealsButton.setBorderThickness(0);
-        frame.add(allMealsButton);
-
-        RoundedButton allVegMealsButton = new RoundedButton("Vegetarian");
-        allVegMealsButton.setBounds(420, 550, 140, 30);
-        allVegMealsButton.setBackground(Color.decode("#331402"));
-        allVegMealsButton.setForeground(Color.decode("#FACD97"));
-        allVegMealsButton.setFocusable(false);
-        allVegMealsButton.setRound(10);
-        allVegMealsButton.setBorderThickness(0);
-        allVegMealsButton.addActionListener(new ActionListener() {
+        allMealsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<String[]> meals = inventoryDatabase.getVegetarianMeals();
-                System.out.println(meals);
+                List<String[]> meals = inventoryDatabase.listInventory();
 
                 inventoryIdPanelContainer.removeAll();
                 mealIdPanelContainer.removeAll();
@@ -301,8 +291,119 @@ public class InventoryPage extends JPanel {
                 quantityPanelContainer.repaint();
                 pricePanelContainer.revalidate();
                 pricePanelContainer.repaint();
+            }
+        });
+        frame.add(allMealsButton);
+
+        RoundedButton allVegMealsButton = new RoundedButton("Vegetarian");
+        allVegMealsButton.setBounds(420, 550, 140, 30);
+        allVegMealsButton.setBackground(Color.decode("#331402"));
+        allVegMealsButton.setForeground(Color.decode("#FACD97"));
+        allVegMealsButton.setFocusable(false);
+        allVegMealsButton.setRound(10);
+        allVegMealsButton.setBorderThickness(0);
+        allVegMealsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String[]> meals = inventoryDatabase.getVegetarianMeals();
+
+                inventoryIdPanelContainer.removeAll();
+                mealIdPanelContainer.removeAll();
+                mealNamePanelContainer.removeAll();
+                quantityPanelContainer.removeAll();
+                pricePanelContainer.removeAll();
+                // Loop through inventory entries
+                for (String[] inventoryId : meals) {
+                    // Create inventoryId panel
+                    JPanel inventoryIdPanel = new JPanel();
+                    inventoryIdPanel.setLayout(new BorderLayout());
+                    inventoryIdPanel.setPreferredSize(new Dimension(200, 50));
+                    inventoryIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    inventoryIdPanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel idLabel = new JLabel(inventoryId[0], SwingConstants.CENTER);
+                    idLabel.setFont(new Font("Milonga", Font.BOLD, 14));
+                    idLabel.setForeground(Color.decode("#EF9B39"));
+                    inventoryIdPanel.add(idLabel, BorderLayout.CENTER);
+
+                    // Add inventoryIdPanel to container
+                    inventoryIdPanelContainer.add(inventoryIdPanel);
+
+                    // Create mealId panel
+                    JPanel mealIdPanel = new JPanel();
+                    mealIdPanel.setLayout(new BorderLayout());
+                    mealIdPanel.setPreferredSize(new Dimension(200, 50));
+                    mealIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    mealIdPanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel mealIdLabel2 = new JLabel(inventoryId[1], SwingConstants.CENTER);
+                    mealIdLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    mealIdLabel2.setForeground(Color.decode("#EF9B39"));
+                    mealIdPanel.add(mealIdLabel2, BorderLayout.CENTER);
+
+                    // Add mealIdPanel to container
+                    mealIdPanelContainer.add(mealIdPanel);
+
+                    // Create mealName panel
+                    JPanel mealNamePanel = new JPanel();
+                    mealNamePanel.setLayout(new BorderLayout());
+                    mealNamePanel.setPreferredSize(new Dimension(200, 50));
+                    mealNamePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    mealNamePanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel mealNameLabel2 = new JLabel(inventoryId[2], SwingConstants.CENTER);
+                    mealNameLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    mealNameLabel2.setForeground(Color.decode("#EF9B39"));
+                    mealNamePanel.add(mealNameLabel2, BorderLayout.CENTER);
+                    mealNamePanelContainer.add(mealNamePanel);
 
 
+                    // Create quantity panel
+                    JPanel quantityPanel = new JPanel();
+                    quantityPanel.setLayout(new BorderLayout());
+                    quantityPanel.setPreferredSize(new Dimension(200, 50));
+                    quantityPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    quantityPanel.setBackground(Color.decode("#752A00"));
+
+                    int quantity = Integer.parseInt(inventoryId[3]);  // Assuming quantity is at index 3
+                    JLabel quantityLabel2 = new JLabel(String.valueOf(quantity), SwingConstants.CENTER);
+                    quantityLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    quantityLabel2.setForeground(Color.decode("#EF9B39"));
+
+                    if (quantity < 5) {
+                        quantityLabel2.setForeground(Color.RED);
+                    }
+
+                    quantityPanel.add(quantityLabel2, BorderLayout.CENTER);
+
+                    // Add quantityPanel to container
+                    quantityPanelContainer.add(quantityPanel);
+
+                    // Create price panel
+                    JPanel pricePanel = new JPanel();
+                    pricePanel.setLayout(new BorderLayout());
+                    pricePanel.setPreferredSize(new Dimension(200, 50));
+                    pricePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    pricePanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel priceLabel2 = new JLabel(inventoryId[4], SwingConstants.CENTER);
+                    priceLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    priceLabel2.setForeground(Color.decode("#EF9B39"));
+                    pricePanel.add(priceLabel2, BorderLayout.CENTER);
+
+                    // Add pricePanel to container
+                    pricePanelContainer.add(pricePanel);
+                }
+                inventoryIdPanelContainer.revalidate();
+                inventoryIdPanelContainer.repaint();
+                mealIdPanelContainer.revalidate();
+                mealIdPanelContainer.repaint();
+                mealNamePanelContainer.revalidate();
+                mealNamePanelContainer.repaint();
+                quantityPanelContainer.revalidate();
+                quantityPanelContainer.repaint();
+                pricePanelContainer.revalidate();
+                pricePanelContainer.repaint();
             }
         });
         frame.add(allVegMealsButton);
@@ -314,6 +415,110 @@ public class InventoryPage extends JPanel {
         allNonVegMealsButton.setFocusable(false);
         allNonVegMealsButton.setRound(10);
         allNonVegMealsButton.setBorderThickness(0);
+        allNonVegMealsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String[]> meals = inventoryDatabase.getNonVegetarianMeals();
+
+                inventoryIdPanelContainer.removeAll();
+                mealIdPanelContainer.removeAll();
+                mealNamePanelContainer.removeAll();
+                quantityPanelContainer.removeAll();
+                pricePanelContainer.removeAll();
+                // Loop through inventory entries
+                for (String[] inventoryId : meals) {
+                    // Create inventoryId panel
+                    JPanel inventoryIdPanel = new JPanel();
+                    inventoryIdPanel.setLayout(new BorderLayout());
+                    inventoryIdPanel.setPreferredSize(new Dimension(200, 50));
+                    inventoryIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    inventoryIdPanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel idLabel = new JLabel(inventoryId[0], SwingConstants.CENTER);
+                    idLabel.setFont(new Font("Milonga", Font.BOLD, 14));
+                    idLabel.setForeground(Color.decode("#EF9B39"));
+                    inventoryIdPanel.add(idLabel, BorderLayout.CENTER);
+
+                    // Add inventoryIdPanel to container
+                    inventoryIdPanelContainer.add(inventoryIdPanel);
+
+                    // Create mealId panel
+                    JPanel mealIdPanel = new JPanel();
+                    mealIdPanel.setLayout(new BorderLayout());
+                    mealIdPanel.setPreferredSize(new Dimension(200, 50));
+                    mealIdPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    mealIdPanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel mealIdLabel2 = new JLabel(inventoryId[1], SwingConstants.CENTER);
+                    mealIdLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    mealIdLabel2.setForeground(Color.decode("#EF9B39"));
+                    mealIdPanel.add(mealIdLabel2, BorderLayout.CENTER);
+
+                    // Add mealIdPanel to container
+                    mealIdPanelContainer.add(mealIdPanel);
+
+                    // Create mealName panel
+                    JPanel mealNamePanel = new JPanel();
+                    mealNamePanel.setLayout(new BorderLayout());
+                    mealNamePanel.setPreferredSize(new Dimension(200, 50));
+                    mealNamePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    mealNamePanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel mealNameLabel2 = new JLabel(inventoryId[2], SwingConstants.CENTER);
+                    mealNameLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    mealNameLabel2.setForeground(Color.decode("#EF9B39"));
+                    mealNamePanel.add(mealNameLabel2, BorderLayout.CENTER);
+                    mealNamePanelContainer.add(mealNamePanel);
+
+
+                    // Create quantity panel
+                    JPanel quantityPanel = new JPanel();
+                    quantityPanel.setLayout(new BorderLayout());
+                    quantityPanel.setPreferredSize(new Dimension(200, 50));
+                    quantityPanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    quantityPanel.setBackground(Color.decode("#752A00"));
+
+                    int quantity = Integer.parseInt(inventoryId[3]);  // Assuming quantity is at index 3
+                    JLabel quantityLabel2 = new JLabel(String.valueOf(quantity), SwingConstants.CENTER);
+                    quantityLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    quantityLabel2.setForeground(Color.decode("#EF9B39"));
+
+                    if (quantity < 5) {
+                        quantityLabel2.setForeground(Color.RED);
+                    }
+
+                    quantityPanel.add(quantityLabel2, BorderLayout.CENTER);
+
+                    // Add quantityPanel to container
+                    quantityPanelContainer.add(quantityPanel);
+
+                    // Create price panel
+                    JPanel pricePanel = new JPanel();
+                    pricePanel.setLayout(new BorderLayout());
+                    pricePanel.setPreferredSize(new Dimension(200, 50));
+                    pricePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#551F01"), 3));
+                    pricePanel.setBackground(Color.decode("#752A00"));
+
+                    JLabel priceLabel2 = new JLabel(inventoryId[4], SwingConstants.CENTER);
+                    priceLabel2.setFont(new Font("Milonga", Font.BOLD, 14));
+                    priceLabel2.setForeground(Color.decode("#EF9B39"));
+                    pricePanel.add(priceLabel2, BorderLayout.CENTER);
+
+                    // Add pricePanel to container
+                    pricePanelContainer.add(pricePanel);
+                }
+                inventoryIdPanelContainer.revalidate();
+                inventoryIdPanelContainer.repaint();
+                mealIdPanelContainer.revalidate();
+                mealIdPanelContainer.repaint();
+                mealNamePanelContainer.revalidate();
+                mealNamePanelContainer.repaint();
+                quantityPanelContainer.revalidate();
+                quantityPanelContainer.repaint();
+                pricePanelContainer.revalidate();
+                pricePanelContainer.repaint();
+            }
+        });
         frame.add(allNonVegMealsButton);
     }
 

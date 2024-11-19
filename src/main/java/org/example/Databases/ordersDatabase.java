@@ -15,9 +15,9 @@ public class ordersDatabase {
                 + "mealId INTEGER, "
                 + "mealName TEXT NOT NULL, "
                 + "quantity TEXT NOT NULL, "
-                + "subtotalPrice TEXT NOT NULL, "
-                + "price TEXT, "  // Add the 'price' column
+                + "price TEXT NOT NULL, "
                 + "date TEXT NOT NULL, "
+                + "status TEXT DEFAULT 'Pending', "
                 + "FOREIGN KEY (mealId) REFERENCES meals(mealId))"; // Link mealId to meals table
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
@@ -31,7 +31,7 @@ public class ordersDatabase {
     // Retrieve orders
     public static List<String[]> listOrders() {
         List<String[]> ordersList = new ArrayList<>();
-        String query = "SELECT orderId, date, mealName, quantity, subtotalPrice, price FROM Orders ORDER BY orderId";
+        String query = "SELECT orderId, date, mealName, quantity, price, status FROM Orders ORDER BY orderId";
 
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement();
@@ -42,10 +42,10 @@ public class ordersDatabase {
                 String date = resultSet.getString("date");
                 String mealName = resultSet.getString("mealName");
                 String quantity = String.valueOf(resultSet.getInt("quantity"));
-                String subtotalPrice = String.format("₱%.2f", resultSet.getDouble("subtotalPrice"));
-                String price = resultSet.getString("price");
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
+                String status = resultSet.getString("status");
 
-                ordersList.add(new String[]{orderId, date, mealName, quantity, subtotalPrice, price});
+                ordersList.add(new String[]{orderId, date, mealName, quantity, price, status});
             }
 
         } catch (SQLException e) {
@@ -71,9 +71,9 @@ public class ordersDatabase {
     }
 
     // Insert orders into orders table
-    public static void addOrders(String mealName, String quantity, String subtotalPrice, String price, String date) {
+    public static void addOrders(String mealName, String quantity, String price, String date) {
         String getMealIdSQL = "SELECT mealId FROM meals WHERE mealName = ?";
-        String insertOrderSQL = "INSERT INTO Orders (mealId, mealName, quantity, subtotalPrice, price, date) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertOrderSQL = "INSERT INTO Orders (mealId, mealName, quantity, price, date, status) VALUES (?, ?, ?, ?, ?, 'Pending')";
         String updateInventorySQL = "UPDATE Inventory SET quantity = quantity - ? WHERE mealId = ?";  // SQL to decrement quantity in Inventory
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -92,9 +92,9 @@ public class ordersDatabase {
                 insertOrderStmt.setInt(1, mealId);
                 insertOrderStmt.setString(2, mealName);
                 insertOrderStmt.setString(3, quantity);
-                insertOrderStmt.setString(4, subtotalPrice);
-                insertOrderStmt.setString(5, price);  // Insert price
-                insertOrderStmt.setString(6, date);
+                insertOrderStmt.setString(4, price);
+                insertOrderStmt.setString(5, date);
+
 
                 int rowsAffected = insertOrderStmt.executeUpdate();
                 if (rowsAffected > 0) {

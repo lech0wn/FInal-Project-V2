@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Databases.usersDatabase;
+import org.example.Extensions.RoundedButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +20,13 @@ public class RegisterPage {
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
 
         //Back to Login Button
-        JButton loginButton = new JButton("LogIn");
-        loginButton.setBorder(BorderFactory.createEmptyBorder());
-        loginButton.setBounds(270, 420, 100, 30);
-        loginButton.setBackground(Color.decode("#EF9B39"));
+        RoundedButton loginButton = new RoundedButton("LogIn");
+        loginButton.setBorderThickness(2);
+        loginButton.setBorderColor(Color.decode("#331402"));
+        loginButton.setBounds(270, 415, 120, 45);
+        loginButton.setBackground(Color.white);
         loginButton.setFont(new Font("Arial", Font.BOLD, 20));
+        loginButton.setForeground(Color.decode("#331402"));
         loginButton.setFocusable(false);
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -38,7 +41,7 @@ public class RegisterPage {
 
         //Create Account Label
         JLabel label = new JLabel("CREATE ACCOUNT");
-        label.setBounds(45, 50, 500, 100);
+        label.setBounds(45, 80, 500, 100);
         label.setFont(new Font("Arial", Font.BOLD, 50));
         label.setForeground(Color.decode("#752A00"));
         frame.add(label);
@@ -46,13 +49,13 @@ public class RegisterPage {
         //Username Label
         JLabel userLabel = new JLabel("Username");
         userLabel.setBounds(45, 150, 500, 100);
-        userLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        userLabel.setFont(new Font("Arial", Font.BOLD, 24));
         userLabel.setForeground(Color.decode("#752A00"));
         frame.add(userLabel);
 
         //Username Textfield
         JTextField username = new JTextField();
-        username.setBounds(45, 210, 470, 57);
+        username.setBounds(45, 215, 470, 57);
         username.setBorder(BorderFactory.createEmptyBorder());
         username.setBackground(Color.white);
         frame.add(username);
@@ -60,13 +63,13 @@ public class RegisterPage {
         //Password Label
         JLabel passLabel = new JLabel("Password");
         passLabel.setBounds(45, 260, 500, 100);
-        passLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        passLabel.setFont(new Font("Arial", Font.BOLD, 24));
         passLabel.setForeground(Color.decode("#752A00"));
         frame.add(passLabel);
 
         //Password Textfield
         JPasswordField password = new JPasswordField();
-        password.setBounds(44, 320, 470, 57);
+        password.setBounds(44, 325, 470, 57);
         password.setBorder(BorderFactory.createEmptyBorder());
         password.setBackground(Color.white);
         frame.add(password);
@@ -90,7 +93,7 @@ public class RegisterPage {
 
             if(userName.isEmpty()||passWord.isEmpty()) {
                 JLabel errorLabel = new JLabel("Fields cannot be empty");
-                errorLabel.setBounds(200, 370, 1000, 50);
+                errorLabel.setBounds(180, 370, 1000, 50);
                 errorLabel.setFont(new Font("Arial", Font.BOLD, 16));
                 errorLabel.setForeground(Color.red);
                 frame.add(errorLabel);

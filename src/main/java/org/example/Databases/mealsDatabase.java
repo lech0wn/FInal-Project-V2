@@ -18,6 +18,7 @@ public class mealsDatabase {
                 "dietType TEXT, " +
                 "spice TEXT, " +
                 "servingSize TEXT, " +
+                "unit TEXT, " +
                 "nutritionalValue TEXT);";
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -32,7 +33,7 @@ public class mealsDatabase {
     }
 
     //Add Meals
-    public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String nutritionalValue) {
+    public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String unit, String nutritionalValue) {
         String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, nutritionalValue) VALUES (?,?,?,?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url);
@@ -44,7 +45,8 @@ public class mealsDatabase {
             preparedStatement.setString(5, dietType);
             preparedStatement.setString(6, spice);
             preparedStatement.setString(7, servingSize);
-            preparedStatement.setString(8, nutritionalValue);
+            preparedStatement.setString(8, unit);
+            preparedStatement.setString(9, nutritionalValue);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -96,7 +96,7 @@ public class MenuPage {
             JButton mealButton = new JButton();
             mealButton.setPreferredSize(new Dimension(220, 250));
             mealButton.setBackground(Color.decode("#331402"));
-            mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#cb6a2e"), 12));
+            mealButton.setBorder(BorderFactory.createEmptyBorder());
             mealButton.setFocusable(false);
             mealButton.setLayout(null);
             mealButton.addMouseListener(new MouseAdapter() {
@@ -104,21 +104,19 @@ public class MenuPage {
                 public void mouseEntered(MouseEvent e) {
                     super.mouseEntered(e);
                     mealButton.setBackground(Color.decode("#331402"));
-                    mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#331402"), 12));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     super.mouseExited(e);
                     mealButton.setBackground(Color.decode("#331402"));
-                    mealButton.setBorder(BorderFactory.createLineBorder(Color.decode("#cb6a2e"), 12));
                 }
             });
             mealButton.addActionListener(e -> new Dialog(meal, frame));
 
             //Create Panel
             JPanel namePanel = new JPanel();
-            namePanel.setBounds(12, 180, 196, 35);
+            namePanel.setBounds(0, 180, 220, 70);
             namePanel.setBackground(Color.white);
             mealButton.add(namePanel);
 
@@ -127,7 +125,7 @@ public class MenuPage {
             nameLabel.setForeground(Color.decode("#EF9B39"));
             nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
 
-            namePanel.add(nameLabel);
+            namePanel.add(nameLabel, BorderLayout.CENTER);
             mealPanelContainer.add(mealButton);
         }
     }

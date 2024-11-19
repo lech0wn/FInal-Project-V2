@@ -128,6 +128,33 @@ public class inventoryDatabase {
         return inventoryData;
     }
 
+    // Method to get vegetarian meals and store them in a new list
+    public static List<String[]> getVegetarianMeals() {
+        List<String[]> vegetarianMeals = new ArrayList<>();
+        String query = "SELECT inventoryId, mealId, mealName, price, quantity FROM Inventory WHERE mealId IN " +
+                "(SELECT mealId FROM meals WHERE dietType = 'vegetarian')";
+
+        try (Connection connection = getConnection(url);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            // Iterate over the result set and add vegetarian meals to the list
+            while (resultSet.next()) {
+                String inventoryId = String.format("%03d", resultSet.getInt("inventoryId"));
+                String mealId = String.format("%03d", resultSet.getInt("mealId"));
+                String mealName = resultSet.getString("mealName");
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                vegetarianMeals.add(new String[]{inventoryId, mealId, mealName,  quantity, price});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vegetarianMeals;
+    }
+
     public static void updateInventory(String mealName, String quantity, String price, String inventoryId) {
         String updateInventorySQL = "UPDATE Inventory SET mealName = ?, quantity = ?, price = ? WHERE inventoryId = ?";
 

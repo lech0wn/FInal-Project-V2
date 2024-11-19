@@ -31,6 +31,7 @@ public class MealEditorPage {
     String category = "breakfast";
     String dietType = "non-vegetarian";
     String spiceType = "not-spicy";
+    String unit = "g";
 
     public static boolean isNumeric(String str) {
         if (str == null || str.isEmpty()) {
@@ -314,8 +315,7 @@ public class MealEditorPage {
             ozButton.setBackground(Color.white);
             gramsButton.setForeground(Color.white);
             ozButton.setForeground(Color.black);
-
-
+            unit = "g";
         });
         frame.add(gramsButton);
         ozButton.setBounds(935, 360, 70, 50);
@@ -327,7 +327,7 @@ public class MealEditorPage {
             gramsButton.setBackground(Color.white);
             ozButton.setForeground(Color.white);
             gramsButton.setForeground(Color.black);
-
+            unit = "mL";
         });
         frame.add(ozButton);
 
@@ -373,8 +373,9 @@ public class MealEditorPage {
             String diet = dietType;
             String spice = spiceType;
             String servingSize = servingSizeTf.getText();
+            String Unit = unit;
             String nutritionalValue = nutValueTf.getText();
-            mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, nutritionalValue);
+            mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, Unit, nutritionalValue);
             mealNameTf.setText("");
             descriptionTf.setText("");
             ingredientsTf.setText("");
@@ -401,6 +402,10 @@ public class MealEditorPage {
             nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
             nonspicyButton.setBackground(Color.white);
             nonspicyButton.setForeground(Color.black);
+            gramsButton.setBackground(Color.white);
+            gramsButton.setForeground(Color.black);
+            ozButton.setBackground(Color.white);
+            ozButton.setForeground(Color.black);
             new ConfirmPage(frame);
         });
         frame.add(addButton);

@@ -34,7 +34,7 @@ public class mealsDatabase {
 
     //Add Meals
     public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String unit, String nutritionalValue) {
-        String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, nutritionalValue) VALUES (?,?,?,?,?,?,?,?)";
+        String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, unit, nutritionalValue) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(insertMeals)) {

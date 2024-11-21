@@ -166,6 +166,27 @@ public class ordersDatabase {
         }
     }
 
+    //method to update the order status
+    public static void updateOrderStatus(int orderId, String status) {
+        String updateStatusSQL = "UPDATE Orders SET status = ? WHERE orderId = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(updateStatusSQL)) {
+
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, orderId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Order status updated successfully for Order ID: " + orderId);
+            } else {
+                System.out.println("No order found with Order ID: " + orderId);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Authenticate if the order ID exists
     public static boolean authenticateOrderId(int orderId) {
         String selectSQL = "SELECT * FROM Orders WHERE orderId = ?";

@@ -274,11 +274,11 @@ public class InventoryEditorPage {
                 mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
                 frame.add(mealNameLabel);
 
-                // order ID text field
                 RoundedTextfield mealNameTf = new RoundedTextfield();
                 mealNameTf.setBounds(370, 280, 300, 45);
-                mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-                mealNameTf.setBackground(Color.white);
+                mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92")));
+                mealNameTf.setBorder(null);
+                mealNameTf.setBackground(Color.WHITE);
                 frame.add(mealNameTf);
 
                 JLabel quantityLabel = new JLabel();
@@ -291,6 +291,7 @@ public class InventoryEditorPage {
                 RoundedTextfield quantityTf = new RoundedTextfield();
                 quantityTf.setBounds(700, 280, 300, 45);
                 quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                quantityTf.setBorder(null);
                 quantityTf.setBackground(Color.white);
                 frame.add(quantityTf);
 
@@ -304,6 +305,7 @@ public class InventoryEditorPage {
                 RoundedTextfield priceTf = new RoundedTextfield();
                 priceTf.setBounds(370, 360, 300, 45);
                 priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                priceTf.setBorder(null);
                 priceTf.setBackground(Color.white);
                 frame.add(priceTf);
 
@@ -380,6 +382,7 @@ public class InventoryEditorPage {
         JTextField mealNameTf = new JTextField("");
         mealNameTf.setBounds(460, 230, 500, 45);
         mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBorder(null);
         mealNameTf.setBackground(Color.white);
         frame.add(mealNameTf);
 

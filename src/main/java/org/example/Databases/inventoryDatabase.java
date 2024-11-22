@@ -201,6 +201,22 @@ public class inventoryDatabase {
         }
     }
 
+    public static boolean doesMealExist(String mealName) {
+        String query = "SELECT COUNT(*) FROM meals WHERE mealName = ?";
+        try (Connection connection = getConnection(url);
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, mealName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // If count is greater than 0, the meal exists
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; // Return false if query fails or no rows are found
+    }
+
     // Authenticate if the inventory ID exists
     public static boolean authenticateInventoryId(int inventoryId) {
         String selectSQL = "SELECT * FROM inventory WHERE inventoryId = ?";

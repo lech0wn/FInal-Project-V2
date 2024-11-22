@@ -32,7 +32,7 @@ public class OrderEditorPage {
         RoundedButton mealEditor = new RoundedButton("ORDER EDITOR");
         mealEditor.setBounds(650, 50, 365, 90);
         mealEditor.setBackground(Color.decode("#752A00"));
-        mealEditor.setFont(new Font("Arial", Font.PLAIN, 35));
+        mealEditor.setFont(new Font("Arial", Font.BOLD, 35));
         mealEditor.setForeground(Color.decode("#EF9B39"));
         frame.add(mealEditor);
 
@@ -45,7 +45,7 @@ public class OrderEditorPage {
         RoundedButton addOrdersButton = new RoundedButton("Add Order");
         addOrdersButton.setBounds(650, 250, 365, 85);
         addOrdersButton.setBackground(Color.white);
-        addOrdersButton.setFont(new Font ("Arial", Font.PLAIN, 32));
+        addOrdersButton.setFont(new Font ("Arial", Font.BOLD, 32));
         addOrdersButton.setBorderThickness(2);
         addOrdersButton.setBorderColor(Color.decode("#331402"));
         addOrdersButton.setForeground(Color.decode("#551F01"));
@@ -61,7 +61,7 @@ public class OrderEditorPage {
         RoundedButton editOrdersButton = new RoundedButton("Edit Order");
         editOrdersButton.setBounds(650, 350, 365, 85);
         editOrdersButton.setBackground(Color.white);
-        editOrdersButton.setFont(new Font ("Arial", Font.PLAIN, 32));
+        editOrdersButton.setFont(new Font ("Arial", Font.BOLD, 32));
         editOrdersButton.setBorderThickness(2);
         editOrdersButton.setForeground(Color.decode("#551F01"));
         editOrdersButton.setFocusable(false);
@@ -76,7 +76,7 @@ public class OrderEditorPage {
         RoundedButton deleteOrdersButton = new RoundedButton("Delete Order");
         deleteOrdersButton.setBounds(650, 450, 365, 85);
         deleteOrdersButton.setBackground(Color.white);
-        deleteOrdersButton.setFont(new Font ("Arial", Font.PLAIN, 32));
+        deleteOrdersButton.setFont(new Font ("Arial", Font.BOLD, 32));
         deleteOrdersButton.setBorderThickness(2);
         deleteOrdersButton.setBorderColor(Color.decode("#331402"));
         deleteOrdersButton.setForeground(Color.decode("#551F01"));
@@ -106,6 +106,11 @@ public class OrderEditorPage {
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
+
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/addicon.png"); // Replace with the path to your image
+        addOrderLabel.setIcon(icon);
+        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
+
         addOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         frame.add(addOrderLabel);
 
@@ -119,7 +124,8 @@ public class OrderEditorPage {
         // Meal name text field
         RoundedTextfield mealNameTf = new RoundedTextfield();
         mealNameTf.setBounds(370, 240, 300, 45);
-        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBorderColor(Color.decode("#331402"));
+        mealNameTf.setBorderThickness(2);
         mealNameTf.setBackground(Color.white);
         frame.add(mealNameTf);
 
@@ -133,7 +139,8 @@ public class OrderEditorPage {
         // Price text field
         RoundedTextfield priceTf = new RoundedTextfield();
         priceTf.setBounds(700, 240, 300, 45);
-        priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        priceTf.setBorderColor(Color.decode("#331402"));
+        priceTf.setBorderThickness(2);
         priceTf.setBackground(Color.white);
         frame.add(priceTf);
 
@@ -147,7 +154,8 @@ public class OrderEditorPage {
         // Quantity text field
         RoundedTextfield quantityTf = new RoundedTextfield();
         quantityTf.setBounds(370, 320, 300, 45);
-        quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        quantityTf.setBorderColor(Color.decode("#331402"));
+        quantityTf.setBorderThickness(2);
         quantityTf.setBackground(Color.white);
         frame.add(quantityTf);
 
@@ -161,7 +169,8 @@ public class OrderEditorPage {
         // Date text field
         RoundedTextfield dateTf = new RoundedTextfield();
         dateTf.setBounds(700, 320, 300, 45);
-        dateTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        dateTf.setBorderColor(Color.decode("#331402"));
+        dateTf.setBorderThickness(2);
         dateTf.setBackground(Color.white);
         frame.add(dateTf);
 
@@ -205,6 +214,7 @@ public class OrderEditorPage {
             } catch (NumberFormatException ex) {
                 // If there's a NumberFormatException, handle the validation for invalid fields
                 if (name.isEmpty() || !isValidPrice(price) || !isValidQuantity(quantity) || date.isEmpty()) {
+                    confirmationLabel.setForeground(Color.RED);
                     confirmationLabel.setText("Invalid input, please check fields.");
                 } else {
                     confirmationLabel.setText("Order has been added.");
@@ -262,7 +272,7 @@ public class OrderEditorPage {
         frame.add(inventoryLabel);
 
         JLabel inventoryIdlabel = new JLabel();
-        inventoryIdlabel.setText("Enter the order ID of the inventory item you would like to edit:  ");
+        inventoryIdlabel.setText("Enter the order ID of the item you would like to edit:  ");
         inventoryIdlabel.setBounds(390, 190, 800, 45);
         inventoryIdlabel.setForeground(Color.decode("#331402"));
         inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
@@ -328,7 +338,8 @@ public class OrderEditorPage {
                 // meal name text field
                 RoundedTextfield mealNameTf = new RoundedTextfield();
                 mealNameTf.setBounds(370, 240, 300, 45);
-                mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                mealNameTf.setBorderColor(Color.decode("#331402"));
+                mealNameTf.setBorderThickness(2);
                 mealNameTf.setBackground(Color.white);
                 frame.add(mealNameTf);
 
@@ -343,7 +354,8 @@ public class OrderEditorPage {
                 // price text field
                 RoundedTextfield priceTf = new RoundedTextfield();
                 priceTf.setBounds(700, 240, 300, 45);
-                priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                priceTf.setBorderColor(Color.decode("#331402"));
+                priceTf.setBorderThickness(2);
                 priceTf.setBackground(Color.white);
                 frame.add(priceTf);
 
@@ -358,7 +370,8 @@ public class OrderEditorPage {
                 // quantity text field
                 RoundedTextfield quantityTf = new RoundedTextfield();
                 quantityTf.setBounds(370, 320, 300, 45);
-                quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                quantityTf.setBorderColor(Color.decode("#331402"));
+                quantityTf.setBorderThickness(2);
                 quantityTf.setBackground(Color.white);
                 frame.add(quantityTf);
 
@@ -373,7 +386,8 @@ public class OrderEditorPage {
                 // date text field
                 RoundedTextfield dateTf = new RoundedTextfield();
                 dateTf.setBounds(700, 320, 300, 45);
-                dateTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                dateTf.setBorderColor(Color.decode("#331402"));
+                dateTf.setBorderThickness(2);
                 dateTf.setBackground(Color.white);
                 frame.add(dateTf);
 
@@ -431,10 +445,9 @@ public class OrderEditorPage {
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
-        //add this if naa nay image
-//        ImageIcon icon = new ImageIcon("path/to/your/image.png"); // Replace with the path to your image
-//        addOrderLabel.setIcon(icon);
-//        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/deleteicon.png"); // Replace with the path to your image
+        deleteOrderLabel.setIcon(icon);
+        deleteOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
 
         deleteOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
         frame.add(deleteOrderLabel);
@@ -449,8 +462,9 @@ public class OrderEditorPage {
 
         // order ID text field
         RoundedTextfield orderIdTf = new RoundedTextfield();
-        orderIdTf.setBounds(460, 230, 500, 45);
-        orderIdTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        orderIdTf.setBounds(460, 230, 500, 70);
+        orderIdTf.setBorderColor(Color.decode("#331402"));
+        orderIdTf.setBorderThickness(4);
         orderIdTf.setBackground(Color.white);
         frame.add(orderIdTf);
 

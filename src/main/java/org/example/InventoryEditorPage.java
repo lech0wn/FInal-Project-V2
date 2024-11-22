@@ -15,8 +15,6 @@ import java.awt.event.MouseEvent;
 
 public class InventoryEditorPage {
 
-    static JLabel errorMessageLabel = new JLabel("Meal name not found");
-
     public InventoryEditorPage(JFrame frame){
 
         frame.setTitle("Inventory Editor");
@@ -55,14 +53,11 @@ public class InventoryEditorPage {
         addInventoryButton.setBorderColor(Color.decode("#331402"));
         addInventoryButton.setForeground(Color.decode("#551F01"));
         addInventoryButton.setFocusable(false);
-        addInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                addInventoryPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
+        addInventoryButton.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            addInventoryPage(frame);
+            frame.revalidate();
+            frame.repaint();
         });
         frame.add(addInventoryButton);
 
@@ -73,14 +68,11 @@ public class InventoryEditorPage {
         editInventoryButton.setBorderThickness(2);
         editInventoryButton.setForeground(Color.decode("#551F01"));
         editInventoryButton.setFocusable(false);
-        editInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                editInventoryPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
+        editInventoryButton.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            editInventoryPage(frame);
+            frame.revalidate();
+            frame.repaint();
         });
         frame.add(editInventoryButton);
 
@@ -92,23 +84,19 @@ public class InventoryEditorPage {
         deleteInventoryButton.setBorderColor(Color.decode("#331402"));
         deleteInventoryButton.setForeground(Color.decode("#551F01"));
         deleteInventoryButton.setFocusable(false);
-        deleteInventoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                deleteInventoryPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
+        deleteInventoryButton.addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            deleteInventoryPage(frame);
+            frame.revalidate();
+            frame.repaint();
         });
         frame.add(deleteInventoryButton);
         frame.setLayout(null);
         frame.setVisible(true);
     }
 
-    public static void addInventoryPage(JFrame frame){
-
-        //side panel
+    public static void addInventoryPage(JFrame frame) {
+        // Side panel
         new InventorySidePanel(frame);
 
         JLabel addInventoryLabel = new JLabel("ADD INVENTORY");
@@ -122,80 +110,127 @@ public class InventoryEditorPage {
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
-        //add this if naa nay image
-//        ImageIcon icon = new ImageIcon("path/to/your/image.png"); // Replace with the path to your image
-//        addOrderLabel.setIcon(icon);
-//        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
-
-        addInventoryLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/addicon.png"); // Replace with the path to your image
+        addInventoryLabel.setIcon(icon);
+        addInventoryLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
+        addInventoryLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
         frame.add(addInventoryLabel);
 
-        JLabel mealNameLabel = new JLabel();
-        mealNameLabel.setText("Meal Name");
+        JLabel mealNameLabel = new JLabel("Meal Name");
         mealNameLabel.setBounds(370, 240, 300, 45);
         mealNameLabel.setForeground(Color.decode("#331402"));
         mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
         frame.add(mealNameLabel);
 
-        // order ID text field
+        // Meal Name text field
         RoundedTextfield mealNameTf = new RoundedTextfield();
         mealNameTf.setBounds(370, 280, 300, 45);
-        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        mealNameTf.setBorderColor(Color.decode("#331402"));
+        mealNameTf.setBorderThickness(2);
         mealNameTf.setBackground(Color.white);
         frame.add(mealNameTf);
 
-        JLabel quantityLabel = new JLabel();
-        quantityLabel.setText("Quantity");
+        JLabel quantityLabel = new JLabel("Quantity");
         quantityLabel.setBounds(700, 240, 300, 45);
         quantityLabel.setForeground(Color.decode("#331402"));
         quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
         frame.add(quantityLabel);
 
+        // Quantity text field
         RoundedTextfield quantityTf = new RoundedTextfield();
         quantityTf.setBounds(700, 280, 300, 45);
-        quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        quantityTf.setBorderColor(Color.decode("#331402"));
+        quantityTf.setBorderThickness(2);
         quantityTf.setBackground(Color.white);
         frame.add(quantityTf);
 
-        JLabel priceLabel = new JLabel();
-        priceLabel.setText("Price");
+        JLabel priceLabel = new JLabel("Price");
         priceLabel.setBounds(370, 320, 300, 45);
         priceLabel.setForeground(Color.decode("#331402"));
         priceLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
         frame.add(priceLabel);
 
+        // Price text field
         RoundedTextfield priceTf = new RoundedTextfield();
         priceTf.setBounds(370, 360, 300, 45);
-        priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+        priceTf.setBorderColor(Color.decode("#331402"));
+        priceTf.setBorderThickness(2);
         priceTf.setBackground(Color.white);
         frame.add(priceTf);
 
-        JButton confirmInventoryButton = new JButton();
-        confirmInventoryButton.setText("CONFIRM");
+        // Error label (persistent, updated on validation failure)
+        JLabel errorLabel = new JLabel("");
+        errorLabel.setBounds(370, 420, 630, 45);
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        frame.add(errorLabel);
+
+        JLabel confirmLabel = new JLabel("Inventory item added!");
+        confirmLabel.setBounds(370, 420, 630, 45);
+        confirmLabel.setForeground(Color.GREEN);
+        confirmLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        confirmLabel.setVisible(false);
+        frame.add(confirmLabel);
+
+
+        JButton confirmInventoryButton = new JButton("CONFIRM");
         confirmInventoryButton.setBounds(850, 500, 160, 40);
         confirmInventoryButton.setBackground(Color.decode("#551F01"));
-        confirmInventoryButton.setFont(new Font("Arial", 1, 18));
+        confirmInventoryButton.setFont(new Font("Arial", Font.BOLD, 18));
         confirmInventoryButton.setForeground(Color.white);
         confirmInventoryButton.setFocusable(false);
         confirmInventoryButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
+
         confirmInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String mealName = mealNameTf.getText();
-                int quantity = Integer.parseInt(quantityTf.getText());
-                int price = Integer.parseInt(priceTf.getText());
+                String quantityStr = quantityTf.getText();
+                String priceStr = priceTf.getText();
 
-                inventoryDatabase.addInventory(/* mealId, */ mealName, quantity, price); // Pass appropriate mealId if available
+                // Reset error label before validation
+                errorLabel.setText("");
+
+                // Validate inputs
+                if (mealName.isEmpty()) {
+                    errorLabel.setText("Meal Name cannot be empty.");
+                    return;
+                }
+                if (!quantityStr.matches("\\d+")) {
+                    errorLabel.setText("Quantity must be a numeric value.");
+                    return;
+                }
+                if (!priceStr.matches("\\d+")) {
+                    errorLabel.setText("Price must be a numeric value.");
+                    return;
+                }
+
+                int quantity = Integer.parseInt(quantityStr);
+                int price = Integer.parseInt(priceStr);
+
+                // Check if the meal exists in the database
+                if (!inventoryDatabase.doesMealExist(mealName)) {
+                    errorLabel.setText("Meal does not exist.");
+                    return;
+                }
+
+                // Add inventory to the database
+                inventoryDatabase.addInventory(mealName, quantity, price);
                 mealNameTf.setText("");
                 quantityTf.setText("");
                 priceTf.setText("");
+                errorLabel.setText(""); // Clear error message
+
+                confirmLabel.setVisible(true);
             }
         });
+
         frame.add(confirmInventoryButton);
 
         frame.setLayout(null);
         frame.setVisible(true);
     }
+
 
     public static void editInventoryPage(JFrame frame) {
 
@@ -218,10 +253,10 @@ public class InventoryEditorPage {
         frame.add(inventoryLabel);
 
         JLabel inventoryIdlabel = new JLabel();
-        inventoryIdlabel.setText("Enter the inventory ID of the inventory item you would like to delete:  ");
-        inventoryIdlabel.setBounds(390, 190, 800, 45);
+        inventoryIdlabel.setText("Enter the inventory ID of the item to edit:  ");
+        inventoryIdlabel.setBounds(470, 190, 800, 45);
         inventoryIdlabel.setForeground(Color.decode("#331402"));
-        inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 25));
         frame.add(inventoryIdlabel);
 
         RoundedTextfield textField = new RoundedTextfield();
@@ -276,8 +311,8 @@ public class InventoryEditorPage {
 
                 RoundedTextfield mealNameTf = new RoundedTextfield();
                 mealNameTf.setBounds(370, 280, 300, 45);
-                mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92")));
-                mealNameTf.setBorder(null);
+                mealNameTf.setBorderColor(Color.decode("#331402"));
+                mealNameTf.setBorderThickness(4);
                 mealNameTf.setBackground(Color.WHITE);
                 frame.add(mealNameTf);
 
@@ -290,8 +325,8 @@ public class InventoryEditorPage {
 
                 RoundedTextfield quantityTf = new RoundedTextfield();
                 quantityTf.setBounds(700, 280, 300, 45);
-                quantityTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-                quantityTf.setBorder(null);
+                quantityTf.setBorderColor(Color.decode("#331402"));
+                quantityTf.setBorderThickness(4);
                 quantityTf.setBackground(Color.white);
                 frame.add(quantityTf);
 
@@ -304,8 +339,8 @@ public class InventoryEditorPage {
 
                 RoundedTextfield priceTf = new RoundedTextfield();
                 priceTf.setBounds(370, 360, 300, 45);
-                priceTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-                priceTf.setBorder(null);
+                priceTf.setBorderColor(Color.decode("#331402"));
+                priceTf.setBorderThickness(4);
                 priceTf.setBackground(Color.white);
                 frame.add(priceTf);
 
@@ -318,10 +353,10 @@ public class InventoryEditorPage {
                 editInventoryButton.setFocusable(false);
 
                 editInventoryButton.addActionListener(e1 -> {
-                    String mealName = mealNameTf.getText().trim();
-                    String quantity = quantityTf.getText().trim();
-                    String price = priceTf.getText().trim();
-                    String inventoryId1 = textField.getText().trim();
+                    String mealName = mealNameTf.getText();
+                    String quantity = quantityTf.getText();
+                    String price = priceTf.getText();
+                    String inventoryId1 = textField.getText();
 
                     Integer mealId = inventoryDatabase.getMealIdByName(mealName);
                     if (mealId == null) {
@@ -356,35 +391,40 @@ public class InventoryEditorPage {
         deleteInventoryLabel.setOpaque(true);
         deleteInventoryLabel.setBackground(Color.decode("#752A00"));
         deleteInventoryLabel.setForeground(Color.decode("#FACD97"));
-        deleteInventoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 40));
+        deleteInventoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 32));
         deleteInventoryLabel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#551F01"), 3),
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
-                //add this if naa nay image
-//        ImageIcon icon = new ImageIcon("path/to/your/image.png"); // Replace with the path to your image
-//        addOrderLabel.setIcon(icon);
-//        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
-
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/deleteicon.png"); // Replace with the path to your image
+        deleteInventoryLabel.setIcon(icon);
+        deleteInventoryLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
         deleteInventoryLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
         frame.add(deleteInventoryLabel);
 
-        // meal name delete label
-        JLabel mealNameLabel = new JLabel();
-        mealNameLabel.setText("Enter the inventory ID of the inventory item you would like to delete:  ");
-        mealNameLabel.setBounds(400, 190, 800, 45);
-        mealNameLabel.setForeground(Color.decode("#331402"));
-        mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(mealNameLabel);
+        // inventory id delete label
+        JLabel inventoryLabel = new JLabel();
+        inventoryLabel.setText("Enter the inventory ID of the inventory item you would like to delete:  ");
+        inventoryLabel.setBounds(400, 190, 800, 45);
+        inventoryLabel.setForeground(Color.decode("#331402"));
+        inventoryLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(inventoryLabel);
 
-        // order ID text field
-        JTextField mealNameTf = new JTextField("");
-        mealNameTf.setBounds(460, 230, 500, 45);
-        mealNameTf.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-        mealNameTf.setBorder(null);
-        mealNameTf.setBackground(Color.white);
-        frame.add(mealNameTf);
+        // inventory ID text field
+        RoundedTextfield inventoryIdTf = new RoundedTextfield();
+        inventoryIdTf.setBounds(460, 230, 500, 70);
+        inventoryIdTf.setBorderColor(Color.decode("#331402"));
+        inventoryIdTf.setBorderThickness(4);
+        inventoryIdTf.setBackground(Color.white);
+        frame.add(inventoryIdTf);
+
+        // Error/Confirmation Label
+        JLabel statusLabel = new JLabel("");
+        statusLabel.setBounds(460, 290, 500, 45);
+        statusLabel.setForeground(Color.RED); // Default to error color
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        frame.add(statusLabel);
 
         // delete order button
         JButton deleteInventoryButton = new JButton();
@@ -393,22 +433,36 @@ public class InventoryEditorPage {
         deleteInventoryButton.setBackground(Color.decode("#551F01"));
         deleteInventoryButton.setFont(new Font("Arial", Font.BOLD, 18));
         deleteInventoryButton.setForeground(Color.white);
-        deleteInventoryButton.setFocusable(false);
-//        deleteInventoryButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                //TODO: CHANGE MEALNAME TO INVENTORYID
-//                String mealName = mealNameTf.getText();
-//                if (inventoryDatabase.deleteInventory(inventoryId)) {
-//                    JOptionPane.showMessageDialog(frame, "Inventory ID deleted successfully.");
-//                } else {
-//                    JOptionPane.showMessageDialog(frame, "Inventory ID not found.");
-//                }
-//                mealNameTf.setText("");
-//            }
-//        });
-        frame.add(deleteInventoryButton);
+        deleteInventoryButton.addActionListener(e -> {
+            String inventoryIdStr = inventoryIdTf.getText();
 
+            // Clear previous status message
+            statusLabel.setText("");
+
+            // Validate input
+            if (inventoryIdStr.isEmpty()) {
+                statusLabel.setText("Inventory ID cannot be empty.");
+                return;
+            }
+
+            if (!inventoryIdStr.matches("\\d+")) {
+                statusLabel.setText("Inventory ID must be a numeric value.");
+                return;
+            }
+
+            int inventoryId = Integer.parseInt(inventoryIdStr);
+
+            // Attempt to delete the inventory
+            if (inventoryDatabase.deleteInventory(inventoryId)) {
+                statusLabel.setForeground(new Color(0, 128, 0)); // Change to green for success
+                statusLabel.setText("Inventory ID deleted successfully.");
+                inventoryIdTf.setText(""); // Clear input field
+            } else {
+                statusLabel.setForeground(Color.RED); // Red for errors
+                statusLabel.setText("Inventory ID not found.");
+            }
+        });
+        frame.add(deleteInventoryButton);
         frame.setLayout(null);
         frame.setVisible(true);
     }

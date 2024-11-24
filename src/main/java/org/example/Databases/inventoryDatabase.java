@@ -217,6 +217,80 @@ public class inventoryDatabase {
         return false; // Return false if query fails or no rows are found
     }
 
+    // Get the available stock of a meal by its name
+    public static int getAvailableStock(String mealName) {
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement("SELECT quantity FROM inventory WHERE mealName = ?")) {
+            stmt.setString(1, mealName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Default to 0 if not found
+    }
+
+    // Update stock after an order
+    public static void updateStock(String mealName, int newQuantity) {
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement("UPDATE inventory SET quantity = ? WHERE mealName = ?")) {
+            stmt.setInt(1, newQuantity);
+            stmt.setString(2, mealName);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String[]> getSortedInventoryByName() {
+        List<String[]> sortedInventory = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM inventory ORDER BY mealName ASC")) {
+            while (rs.next()) {
+                double price = rs.getDouble("price");
+                String priceWithPesoSign = "₱" + String.format("%.2f", price);
+                sortedInventory.add(new String[]{
+                        rs.getString("inventoryID"),
+                        rs.getString("mealID"),
+                        rs.getString("mealName"),
+                        rs.getString("quantity"),
+                        priceWithPesoSign
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sortedInventory;
+    }
+
+    public static List<String[]> getSortedInventoryByStockLevel(boolean ascending) {
+        List<String[]> sortedInventory = new ArrayList<>();
+        String order = ascending ? "ASC" : "DESC";
+        String query = "SELECT * FROM inventory ORDER BY quantity " + order;
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                double price = rs.getDouble("price");
+                String priceWithPesoSign = "₱" + String.format("%.2f", price);
+                sortedInventory.add(new String[]{
+                        rs.getString("inventoryID"),
+                        rs.getString("mealID"),
+                        rs.getString("mealName"),
+                        rs.getString("quantity"),
+                        priceWithPesoSign
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sortedInventory;
+    }
+
+
     // Authenticate if the inventory ID exists
     public static boolean authenticateInventoryId(int inventoryId) {
         String selectSQL = "SELECT * FROM inventory WHERE inventoryId = ?";

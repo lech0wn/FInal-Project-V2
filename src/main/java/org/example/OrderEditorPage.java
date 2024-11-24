@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Databases.inventoryDatabase;
 import org.example.Databases.ordersDatabase;
 import org.example.Extensions.RoundedButton;
 import org.example.Extensions.RoundedTextfield;
@@ -190,36 +191,51 @@ public class OrderEditorPage {
         confirmOrderButton.setBorder(BorderFactory.createLineBorder(Color.decode("#d87436"), 2));
         confirmOrderButton.addActionListener(e -> {
             String name = mealNameTf.getText();
-            String quantity = quantityTf.getText();
-            String price = priceTf.getText();
+            String quantityStr = quantityTf.getText();
+            String priceStr = priceTf.getText();
             String date = dateTf.getText();
 
-            // Validate and calculate subtotal price
-            try {
-                double priceValue = Double.parseDouble(price);
-                int quantityValue = Integer.parseInt(quantity);
-                double subtotalPrice = priceValue * quantityValue; // Calculate subtotal
-
-                // Call addOrders with the correct parameters
-                ordersDatabase.addOrders(name, quantity, String.format("%.2f", subtotalPrice), date);
-
-                // Clear input fields after submission
-                mealNameTf.setText("");
-                quantityTf.setText("");
-                priceTf.setText("");
-                dateTf.setText("");
-
-                // Display success message
-                confirmationLabel.setText("Order has been added.");
-            } catch (NumberFormatException ex) {
-                // If there's a NumberFormatException, handle the validation for invalid fields
-                if (name.isEmpty() || !isValidPrice(price) || !isValidQuantity(quantity) || date.isEmpty()) {
-                    confirmationLabel.setForeground(Color.RED);
-                    confirmationLabel.setText("Invalid input, please check fields.");
-                } else {
-                    confirmationLabel.setText("Order has been added.");
-                }
+            // Validate input fields
+            if (name.isEmpty() || !isValidPrice(priceStr) || !isValidQuantity(quantityStr) || date.isEmpty()) {
+                confirmationLabel.setForeground(Color.RED);
+                confirmationLabel.setText("Invalid input, please check fields.");
+                return;
             }
+
+            // Convert to numeric values
+            int quantity = Integer.parseInt(quantityStr);
+            double price = Double.parseDouble(priceStr);
+
+            // Check inventory
+            int availableStock = inventoryDatabase.getAvailableStock(name); // Implement this in your database class
+            if (availableStock < quantity) {
+                confirmationLabel.setForeground(Color.RED);
+                if (availableStock == 0) {
+                    confirmationLabel.setText("Meal is out of stock.");
+                } else {
+                    confirmationLabel.setText("Only " + availableStock + " items available.");
+                }
+                return;
+            }
+
+            // Calculate subtotal price
+            double subtotalPrice = price * quantity;
+
+            // Add order to the database
+            ordersDatabase.addOrders(name, String.valueOf(quantity), String.format("%.2f", subtotalPrice), date);
+
+            // Update inventory stock
+            inventoryDatabase.updateStock(name, availableStock - quantity); // Deduct stock
+
+            // Clear input fields after submission
+            mealNameTf.setText("");
+            quantityTf.setText("");
+            priceTf.setText("");
+            dateTf.setText("");
+
+            // Display success message
+            confirmationLabel.setForeground(Color.GREEN);
+            confirmationLabel.setText("Order has been added.");
         });
         frame.add(confirmOrderButton);
 

@@ -9,6 +9,11 @@ import java.awt.event.*;
 
 public class MealSidePanel extends JPanel
 {
+
+    RoundedButton menuButton = new RoundedButton("Menu");
+    RoundedButton inventoryButton = new RoundedButton("Inventory");
+    RoundedButton ordersButton = new RoundedButton("Orders");
+
       public MealSidePanel(JFrame frame) {
           JPanel sidePanel = new JPanel();
           sidePanel.setBounds(0,  0, 320, 600);
@@ -31,7 +36,6 @@ public class MealSidePanel extends JPanel
           sidePanel.add(welcomeLabel);
 
           //Add Menu Button
-          RoundedButton menuButton = new RoundedButton("Menu");
           menuButton.setLayout(null);
           ImageIcon menuLogo = new ImageIcon("src/main/java/org/example/img/Restaurant Menu.png");
           JLabel menuLogoLabel = new JLabel(menuLogo);
@@ -61,6 +65,9 @@ public class MealSidePanel extends JPanel
               public void actionPerformed(ActionEvent e) {
                   frame.getContentPane().removeAll();
                   new MenuPage(frame);
+                  menuButton.setBackground(Color.decode("#FACD97"));
+                  inventoryButton.setBackground(Color.decode("#EF9B39"));
+                  ordersButton.setBackground(Color.decode("#EF9B39"));
                   frame.revalidate();
                   frame.repaint();
               }
@@ -69,7 +76,6 @@ public class MealSidePanel extends JPanel
           sidePanel.add(menuButton);
 
           //Add Inventory Button
-          RoundedButton inventoryButton = new RoundedButton("Inventory");
           inventoryButton.setLayout(null);
           ImageIcon inventoryLogo = new ImageIcon("src/main/java/org/example/img/Inventory.png");
           JLabel inventoryLogoLabel = new JLabel(inventoryLogo);
@@ -100,6 +106,9 @@ public class MealSidePanel extends JPanel
               public void actionPerformed(ActionEvent e) {
                   frame.getContentPane().removeAll();
                   new InventoryPage(frame);
+                  inventoryButton.setBackground(Color.decode("#FACD97"));
+                  ordersButton.setBackground(Color.decode("#EF9B39"));
+                  menuButton.setBackground(Color.decode("#EF9B39"));
                   frame.revalidate();
                   frame.repaint();
               }
@@ -107,7 +116,6 @@ public class MealSidePanel extends JPanel
           sidePanel.add(inventoryButton);
 
           //Add Orders Button
-          RoundedButton ordersButton = new RoundedButton("Orders");
           ordersButton.setLayout(null);
           ImageIcon ordersLogo = new ImageIcon("src/main/java/org/example/img/Orders.png");
           JLabel ordersLogoLabel = new JLabel(ordersLogo);
@@ -138,6 +146,9 @@ public class MealSidePanel extends JPanel
               public void actionPerformed(ActionEvent e) {
                   frame.getContentPane().removeAll();
                   new OrdersPage(frame);
+                  ordersButton.setBackground(Color.decode("#FACD97"));
+                  inventoryButton.setBackground(Color.decode("#EF9B39"));
+                  menuButton.setBackground(Color.decode("#EF9B39"));
                   frame.revalidate();
                   frame.repaint();
               }
@@ -188,8 +199,6 @@ public class MealSidePanel extends JPanel
           logOUtLabel.setBounds(0,0, 60, 60);
           RoundedButton logOutButton = new RoundedButton("");
           logOutButton.setBounds(10, 10, 100, 50);
-          logOutButton.setFont(new Font("Arial", Font.BOLD, 16));
-          logOutButton.setForeground(Color.white);
           logOutButton.setFocusable(false);
           logOutButton.setBackground(Color.decode("#752A00"));
           logOutButton.setFocusPainted(false);
@@ -207,5 +216,28 @@ public class MealSidePanel extends JPanel
           });
           logOutButton.add(logOUtLabel);
           sidePanel.add(logOutButton);
+
+          ImageIcon usersImg = new ImageIcon("src/main/java/org/example/img/userstry.png");
+          JLabel usersLabel = new JLabel(usersImg);
+          usersLabel.setBounds(0,0, 60, 60);
+          RoundedButton usersButton = new RoundedButton("");
+          usersButton.setBounds(250, 10, 100, 52);
+          usersButton.setFocusable(false);
+          usersButton.setBackground(Color.decode("#752A00"));
+          usersButton.setFocusPainted(false);
+          usersButton.setContentAreaFilled(false);
+          usersButton.setOpaque(true);
+          usersButton.setBorder(BorderFactory.createEmptyBorder());
+          usersButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  frame.getContentPane().removeAll();
+                  new usersPage(frame);
+                  frame.revalidate();
+                  frame.repaint();
+              }
+          });
+          usersButton.add(usersLabel);
+          sidePanel.add(usersButton);
       }
 }

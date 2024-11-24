@@ -1,14 +1,17 @@
 package org.example;
 
 import org.example.Databases.mealsDatabase;
+import org.example.Extensions.ConfirmPage;
 import org.example.Extensions.RoundedBorder;
 import org.example.Extensions.RoundedButton;
 import org.example.Extensions.RoundedTextfield;
 import org.example.SidePanels.MealSidePanel;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class MealEditorPage {
 
@@ -68,6 +71,7 @@ public class MealEditorPage {
         mealEditor.setBackground(Color.decode("#752A00"));
         mealEditor.setFont(new Font("Arial", Font.BOLD, 45));
         mealEditor.setForeground(Color.decode("#EF9B39"));
+        mealEditor.setFocusable(false);
         frame.add(mealEditor);
 
         JLabel label = new JLabel("Hello! What would you like to do?");
@@ -126,7 +130,6 @@ public class MealEditorPage {
 
     public void addMeal(JFrame frame) {
 
-
         new MealSidePanel(frame);
 
         //Add Meal
@@ -171,7 +174,7 @@ public class MealEditorPage {
         frame.add(categoryLabel);
 
         //Add Category Button
-        breakfastButton.setBounds(350, 360, 90, 50);
+        breakfastButton.setBounds(350, 360, 110, 50);
         breakfastButton.setBackground(Color.white);
         breakfastButton.setForeground(Color.black);
         breakfastButton.setFocusable(false);
@@ -185,7 +188,7 @@ public class MealEditorPage {
             category = "breakfast";
         });
         frame.add(breakfastButton);
-        lunchButton.setBounds(450, 360, 90, 50);
+        lunchButton.setBounds(468, 360, 75, 50);
         lunchButton.setBackground(Color.white);
         lunchButton.setForeground(Color.black);
         lunchButton.setFocusable(false);
@@ -199,7 +202,7 @@ public class MealEditorPage {
             category = "lunch";
         });
         frame.add(lunchButton);
-        dinnerButton.setBounds(550, 360, 90, 50);
+        dinnerButton.setBounds(550, 360, 80, 50);
         dinnerButton.setBackground(Color.white);
         dinnerButton.setForeground(Color.black);
         dinnerButton.setFocusable(false);
@@ -344,6 +347,27 @@ public class MealEditorPage {
         nutValueTf.setBackground(Color.white);
         frame.add(nutValueTf);
 
+        final String[] imgPath = {""};
+        RoundedButton uploadImage = new  RoundedButton("Upload Image");
+        uploadImage.setFont(new Font("Abadi MT Condensed Extra Bold", Font.PLAIN, 20));
+        uploadImage.setForeground(Color.decode("#551F01"));
+        uploadImage.setFocusable(false);
+        uploadImage.setBounds(350, 525, 300, 50);
+        uploadImage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Select image to upload");
+                fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg"));
+                int result = fileChooser.showOpenDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    imgPath[0] = selectedFile.getAbsolutePath();
+                }
+            }
+        });
+        frame.add(uploadImage);
+
         //Add Add Meal button
         addButton.setText("CONFIRM");
         addButton.setBounds(820, 530, 180, 45);
@@ -375,38 +399,44 @@ public class MealEditorPage {
             String servingSize = servingSizeTf.getText();
             String Unit = unit;
             String nutritionalValue = nutValueTf.getText();
-            mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, Unit, nutritionalValue);
-            mealNameTf.setText("");
-            descriptionTf.setText("");
-            ingredientsTf.setText("");
-            servingSizeTf.setText("");
-            nutValueTf.setText("");
-            breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            breakfastButton.setBackground(Color.white);
-            breakfastButton.setForeground(Color.black);
-            lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            lunchButton.setBackground(Color.white);
-            lunchButton.setForeground(Color.black);
-            dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            dinnerButton.setBackground(Color.white);
-            dinnerButton.setForeground(Color.black);
-            vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            vegButton.setBackground(Color.white);
-            vegButton.setForeground(Color.black);
-            nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            nonvegButton.setBackground(Color.white);
-            nonvegButton.setForeground(Color.black);
-            spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            spicyButton.setBackground(Color.white);
-            spicyButton.setForeground(Color.black);
-            nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
-            nonspicyButton.setBackground(Color.white);
-            nonspicyButton.setForeground(Color.black);
-            gramsButton.setBackground(Color.white);
-            gramsButton.setForeground(Color.black);
-            ozButton.setBackground(Color.white);
-            ozButton.setForeground(Color.black);
-            new ConfirmPage(frame);
+            if(name.isEmpty()||description.isEmpty()||ingredients.isEmpty()||servingSize.isEmpty()||nutritionalValue.isEmpty()) {
+                frame.getContentPane().removeAll();
+                frame.revalidate();
+                frame.repaint();
+            } else {
+                mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, Unit, nutritionalValue, imgPath[0]);
+                mealNameTf.setText("");
+                descriptionTf.setText("");
+                ingredientsTf.setText("");
+                servingSizeTf.setText("");
+                nutValueTf.setText("");
+                breakfastButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                breakfastButton.setBackground(Color.white);
+                breakfastButton.setForeground(Color.black);
+                lunchButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                lunchButton.setBackground(Color.white);
+                lunchButton.setForeground(Color.black);
+                dinnerButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                dinnerButton.setBackground(Color.white);
+                dinnerButton.setForeground(Color.black);
+                vegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                vegButton.setBackground(Color.white);
+                vegButton.setForeground(Color.black);
+                nonvegButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                nonvegButton.setBackground(Color.white);
+                nonvegButton.setForeground(Color.black);
+                spicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                spicyButton.setBackground(Color.white);
+                spicyButton.setForeground(Color.black);
+                nonspicyButton.setBorder(BorderFactory.createLineBorder(Color.decode("#7c8a92"), 2));
+                nonspicyButton.setBackground(Color.white);
+                nonspicyButton.setForeground(Color.black);
+                gramsButton.setBackground(Color.white);
+                gramsButton.setForeground(Color.black);
+                ozButton.setBackground(Color.white);
+                ozButton.setForeground(Color.black);
+                new ConfirmPage(frame);
+            }
         });
         frame.add(addButton);
     }
@@ -510,46 +540,55 @@ public class MealEditorPage {
                 frame.add(categoryLabel);
 
                 //Add Category Button
-                breakfastButton.setBounds(350, 360, 90, 50);
+                breakfastButton.setBounds(350, 360, 110, 50);
                 breakfastButton.setBackground(Color.white);
                 breakfastButton.setForeground(Color.black);
                 breakfastButton.setFocusable(false);
-                breakfastButton.addActionListener(e3 -> {
-                    breakfastButton.setBackground(Color.decode("#551F01"));
-                    dinnerButton.setBackground(Color.white);
-                    lunchButton.setBackground(Color.white);
-                    breakfastButton.setForeground(Color.white);
-                    lunchButton.setForeground(Color.black);
-                    dinnerButton.setForeground(Color.black);
-                    category = "breakfast";
+                breakfastButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        breakfastButton.setBackground(Color.decode("#551F01"));
+                        dinnerButton.setBackground(Color.white);
+                        lunchButton.setBackground(Color.white);
+                        breakfastButton.setForeground(Color.white);
+                        lunchButton.setForeground(Color.black);
+                        dinnerButton.setForeground(Color.black);
+                        category = "breakfast";
+                    }
                 });
                 frame.add(breakfastButton);
-                lunchButton.setBounds(450, 360, 90, 50);
+                lunchButton.setBounds(468, 360, 75, 50);
                 lunchButton.setBackground(Color.white);
                 lunchButton.setForeground(Color.black);
                 lunchButton.setFocusable(false);
-                lunchButton.addActionListener(e1 -> {
-                    lunchButton.setBackground(Color.decode("#551F01"));
-                    breakfastButton.setBackground(Color.white);
-                    dinnerButton.setBackground(Color.white);
-                    lunchButton.setForeground(Color.white);
-                    breakfastButton.setForeground(Color.black);
-                    dinnerButton.setForeground(Color.black);
-                    category = "lunch";
+                lunchButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        lunchButton.setBackground(Color.decode("#551F01"));
+                        breakfastButton.setBackground(Color.white);
+                        dinnerButton.setBackground(Color.white);
+                        lunchButton.setForeground(Color.white);
+                        breakfastButton.setForeground(Color.black);
+                        dinnerButton.setForeground(Color.black);
+                        category = "lunch";
+                    }
                 });
                 frame.add(lunchButton);
-                dinnerButton.setBounds(550, 360, 90, 50);
+                dinnerButton.setBounds(550, 360, 80, 50);
                 dinnerButton.setBackground(Color.white);
                 dinnerButton.setForeground(Color.black);
                 dinnerButton.setFocusable(false);
-                dinnerButton.addActionListener(e2 -> {
-                    dinnerButton.setBackground(Color.decode("#551F01"));
-                    breakfastButton.setBackground(Color.white);
-                    lunchButton.setBackground(Color.white);
-                    dinnerButton.setForeground(Color.white);
-                    lunchButton.setForeground(Color.black);
-                    breakfastButton.setForeground(Color.black);
-                    category = "dinner";
+                dinnerButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dinnerButton.setBackground(Color.decode("#551F01"));
+                        breakfastButton.setBackground(Color.white);
+                        lunchButton.setBackground(Color.white);
+                        dinnerButton.setForeground(Color.white);
+                        lunchButton.setForeground(Color.black);
+                        breakfastButton.setForeground(Color.black);
+                        category = "dinner";
+                    }
                 });
                 frame.add(dinnerButton);
 
@@ -641,9 +680,40 @@ public class MealEditorPage {
 
                 //Add Serving Size TextField
                 RoundedTextfield servingSizeTf = new RoundedTextfield();
-                servingSizeTf.setBounds(700, 360, 300, 50);
+                servingSizeTf.setBounds(700, 360, 145, 50);
                 servingSizeTf.setBackground(Color.white);
                 frame.add(servingSizeTf);
+
+                gramsButton.setBounds(860, 360, 70, 50);
+                gramsButton.setBackground(Color.white);
+                gramsButton.setForeground(Color.black);
+                gramsButton.setFocusable(false);
+                gramsButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        gramsButton.setBackground(Color.decode("#551F01"));
+                        ozButton.setBackground(Color.white);
+                        gramsButton.setForeground(Color.white);
+                        ozButton.setForeground(Color.black);
+                        unit = "g";
+                    }
+                });
+                frame.add(gramsButton);
+                ozButton.setBounds(935, 360, 70, 50);
+                ozButton.setBackground(Color.white);
+                ozButton.setForeground(Color.black);
+                ozButton.setFocusable(false);
+                ozButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ozButton.setBackground(Color.decode("#551F01"));
+                        gramsButton.setBackground(Color.white);
+                        ozButton.setForeground(Color.white);
+                        gramsButton.setForeground(Color.black);
+                        unit = "mL";
+                    }
+                });
+                frame.add(ozButton);
 
                 //Add Nutritional Value Label
                 JLabel nutValueLabel = new JLabel("Nutritional Value ");
@@ -739,7 +809,7 @@ public class MealEditorPage {
         button.addActionListener(e -> {
                 String meal = textField.getText();
 
-            if (meal.isEmpty()){
+            if (meal.isEmpty() || !mealsDatabase.authenticateMealName(meal)){
                 error.setBounds(630, 320, 500, 50);
                 error.setForeground(Color.red);
                 error.setFont(new Font("Arial", Font.BOLD, 20));

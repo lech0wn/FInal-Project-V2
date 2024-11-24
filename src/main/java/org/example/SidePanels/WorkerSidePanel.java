@@ -2,14 +2,19 @@ package org.example.SidePanels;
 
 import org.example.*;
 import org.example.Extensions.RoundedButton;
+import org.example.WorkersPage.WorkerInventoryPage;
+import org.example.WorkersPage.WorkerMenuPage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class InventorySidePanel extends JPanel
-{
-    public InventorySidePanel(JFrame frame) {
+public class WorkerSidePanel {
+
+    public WorkerSidePanel(JFrame frame) {
         JPanel sidePanel = new JPanel();
         sidePanel.setBounds(0,  0, 320, 600);
         sidePanel.setBackground(Color.decode("#752A00"));
@@ -60,7 +65,7 @@ public class InventorySidePanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-                new MenuPage(frame);
+                new WorkerMenuPage(frame);
                 frame.revalidate();
                 frame.repaint();
             }
@@ -99,88 +104,12 @@ public class InventorySidePanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.getContentPane().removeAll();
-                new InventoryPage(frame);
+                new WorkerInventoryPage(frame);
                 frame.revalidate();
                 frame.repaint();
             }
         });
         sidePanel.add(inventoryButton);
-
-        //Add Orders Button
-        RoundedButton ordersButton = new RoundedButton("Orders");
-        ordersButton.setLayout(null);
-        ImageIcon ordersLogo = new ImageIcon("src/main/java/org/example/img/Orders.png");
-        JLabel ordersLogoLabel = new JLabel(ordersLogo);
-        ordersLogoLabel.setBounds(56,7,30,30);
-        ordersButton.add(ordersLogoLabel);
-        ordersButton.setBounds(30, 450, 275, 45);
-        ordersButton.setBackground(Color.decode("#EF9B39"));
-        ordersButton.setFont(new Font("Arial", 0, 32));
-        ordersButton.setForeground(Color.BLACK);
-        ordersButton.setFocusable(false);
-        ordersButton.setForeground(Color.BLACK);
-        ordersButton.setBorderThickness(0);
-        ordersButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                ordersButton.setBackground(Color.decode("#FACD97"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                ordersButton.setBackground(Color.decode("#EF9B39"));
-            }
-        });
-        ordersButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                new OrdersPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-        sidePanel.add(ordersButton);
-
-        //Add Meal Editor Button
-        RoundedButton mealEditorButton = new RoundedButton("");
-        mealEditorButton.setBounds(140, 520, 60, 60);
-        mealEditorButton.setBackground(Color.decode("#331402"));
-        mealEditorButton.setForeground(Color.decode("#FACD97"));
-        mealEditorButton.setFocusable(false);
-        mealEditorButton.setRound(50);
-        mealEditorButton.setBorderThickness(0);
-        mealEditorButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                mealEditorButton.setBackground(Color.decode("#9C9C9C"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                mealEditorButton.setBackground(Color.decode("#331402"));
-            }
-        });
-        mealEditorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                new InventoryEditorPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-
-        //Add eDitor button img
-        ImageIcon mealLogo = new ImageIcon("src/main/java/org/example/img/meal icon.png");
-        JLabel mealLabel = new JLabel(mealLogo);
-        mealLabel.setBounds(0,0,80,80);
-        mealEditorButton.add(mealLabel);
-        sidePanel.add(mealEditorButton);
 
         //Add Log out button
         ImageIcon logOutImg = new ImageIcon("src/main/java/org/example/img/logout.png");
@@ -207,29 +136,5 @@ public class InventorySidePanel extends JPanel
         });
         logOutButton.add(logOUtLabel);
         sidePanel.add(logOutButton);
-
-        ImageIcon usersImg = new ImageIcon("src/main/java/org/example/img/userstry.png");
-        JLabel usersLabel = new JLabel(usersImg);
-        usersLabel.setBounds(0,0, 60, 60);
-        RoundedButton usersButton = new RoundedButton("");
-        usersButton.setBounds(250, 10, 100, 52);
-        usersButton.setFocusable(false);
-        usersButton.setBackground(Color.decode("#752A00"));
-        usersButton.setFocusPainted(false);
-        usersButton.setContentAreaFilled(false);
-        usersButton.setOpaque(true);
-        usersButton.setBorder(BorderFactory.createEmptyBorder());
-        usersButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.getContentPane().removeAll();
-                new usersPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
-        usersButton.add(usersLabel);
-        sidePanel.add(usersButton);
     }
-
 }

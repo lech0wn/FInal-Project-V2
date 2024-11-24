@@ -195,6 +195,29 @@ public class OrderSidePanel extends JPanel
         });
         logOutButton.add(logOUtLabel);
         sidePanel.add(logOutButton);
+
+        ImageIcon usersImg = new ImageIcon("src/main/java/org/example/img/userstry.png");
+        JLabel usersLabel = new JLabel(usersImg);
+        usersLabel.setBounds(0,0, 60, 60);
+        RoundedButton usersButton = new RoundedButton("");
+        usersButton.setBounds(250, 10, 100, 52);
+        usersButton.setFocusable(false);
+        usersButton.setBackground(Color.decode("#752A00"));
+        usersButton.setFocusPainted(false);
+        usersButton.setContentAreaFilled(false);
+        usersButton.setOpaque(true);
+        usersButton.setBorder(BorderFactory.createEmptyBorder());
+        usersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new usersPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        usersButton.add(usersLabel);
+        sidePanel.add(usersButton);
     }
 
 }

@@ -19,7 +19,8 @@ public class mealsDatabase {
                 "spice TEXT, " +
                 "servingSize TEXT, " +
                 "unit TEXT, " +
-                "nutritionalValue TEXT);";
+                "nutritionalValue TEXT, " +
+                "imagePath TEXT);";
 
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
@@ -33,8 +34,8 @@ public class mealsDatabase {
     }
 
     //Add Meals
-    public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String unit, String nutritionalValue) {
-        String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, unit, nutritionalValue) VALUES (?,?,?,?,?,?,?,?,?)";
+    public static void addMeals(String mealName, String description, String category, String ingredients, String dietType, String spice, String servingSize, String unit, String nutritionalValue, String imagePath) {
+        String insertMeals = "INSERT INTO meals (mealName, description, category, ingredients, dietType, spice, servingSize, unit, nutritionalValue, imagePath) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(insertMeals)) {
@@ -47,6 +48,7 @@ public class mealsDatabase {
             preparedStatement.setString(7, servingSize);
             preparedStatement.setString(8, unit);
             preparedStatement.setString(9, nutritionalValue);
+            preparedStatement.setString(10, imagePath);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -99,92 +101,10 @@ public class mealsDatabase {
         }
     }
 
-    //Get Meals to display in the Menu Page
-    public static List<String[]> getMeals() {
-        List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals"; // Adjust SQL query
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String mealName = resultSet.getString("mealName");
-                String mealId = resultSet.getString("mealId");
-                String description = resultSet.getString("description");
-                String category = resultSet.getString("category");
-                String ingredients = resultSet.getString("ingredients");
-                String dietType = resultSet.getString("dietType");
-                String spice = resultSet.getString("spice");
-                String servingSize = resultSet.getString("servingSize");
-                String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue}); // Add meal name and description as an array
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return menu;
-    }
-
-    //Get Vegetarian Meals to display in Inventory Page
-    public static List<String[]> getVegetarianMeals(){
-        List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients FROM meals WHERE  diettYPE = 'vegetarian'";
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String mealName = resultSet.getString("mealName");
-                String mealId = resultSet.getString("mealId");
-                String description = resultSet.getString("description");
-                String ingredients = resultSet.getString("ingredients");
-                String dietType = resultSet.getString("dietType");
-                String spice = resultSet.getString("spice");
-                String servingSize = resultSet.getString("servingSize");
-                String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return menu;
-    }
-
-    //Get NON Vegetarian Meals to display in Inventory Page
-    public static List<String[]> getNonVegetarianMeals(){
-        List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients FROM meals WHERE  diettYPE = 'non-vegetarian'";
-
-        try (Connection connection = DriverManager.getConnection(url);
-             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String mealName = resultSet.getString("mealName");
-                String mealId = resultSet.getString("mealId");
-                String description = resultSet.getString("description");
-                String ingredients = resultSet.getString("ingredients");
-                String dietType = resultSet.getString("dietType");
-                String spice = resultSet.getString("spice");
-                String servingSize = resultSet.getString("servingSize");
-                String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return menu;
-    }
-
     //Get Breakfast Meals to display in the Menu Page
     public static List<String[]> getBreakfastMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast'";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'breakfast'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -198,8 +118,10 @@ public class mealsDatabase {
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -211,7 +133,7 @@ public class mealsDatabase {
     //Get Vegetarian Breakfast Meals
     public static List<String[]> getBreakfastVegetarianMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast' AND diettYPE = 'vegetarian'";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'breakfast' AND dietType = 'vegetarian'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -225,8 +147,10 @@ public class mealsDatabase {
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -238,7 +162,7 @@ public class mealsDatabase {
     //Get Non Vegetarian Breakfast Meals
     public static List<String[]> getBreakfastNonVegetarianMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'breakfast' AND diettYPE = 'non-vegetarian'";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'breakfast' AND dietType = 'non-vegetarian'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -252,8 +176,10 @@ public class mealsDatabase {
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -265,7 +191,7 @@ public class mealsDatabase {
     //Get Lunch Meals to display in the Menu Page
     public static List<String[]> getLunchMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients   FROM meals WHERE category = 'lunch'";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'lunch'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -279,8 +205,10 @@ public class mealsDatabase {
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, dietType, ingredients});
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -288,11 +216,70 @@ public class mealsDatabase {
         }
         return menu;
     }
+
+    //Get Vegetarian Lunch Meals
+    public static List<String[]> getLunchVegetarianMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'lunch' AND dietType = 'vegetarian'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
+    //Get Non Vegetarian Lunch Meals
+    public static List<String[]> getLunchNonVegetarianMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'lunch' AND dietType = 'non-vegetarian'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
+
 
     //Get Dinner Meals to display in the Menu Page
     public static List<String[]> getDinnerMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals WHERE category = 'dinner'";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'dinner'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -302,13 +289,14 @@ public class mealsDatabase {
                 String mealName = resultSet.getString("mealName");
                 String mealId = resultSet.getString("mealId");
                 String description = resultSet.getString("description");
-                String category = resultSet.getString("category");
                 String ingredients = resultSet.getString("ingredients");
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
-                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue});
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -317,10 +305,10 @@ public class mealsDatabase {
         return menu;
     }
 
-    //Get Searched Meals to display in the Menu Page
-    public static List<String[]> getSearchedMeals(String search) {
+    //Get Vegetarian Dinner Meals
+    public static List<String[]> getDinnerVegetarianMeals() {
         List<String[]> menu = new ArrayList<>();
-        String selectMeals = "SELECT mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue FROM meals WHERE mealName = ? VALUES (?)";
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'dinner' AND dietType = 'vegetarian'";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
@@ -330,16 +318,43 @@ public class mealsDatabase {
                 String mealName = resultSet.getString("mealName");
                 String mealId = resultSet.getString("mealId");
                 String description = resultSet.getString("description");
-                String category = resultSet.getString("category");
                 String ingredients = resultSet.getString("ingredients");
                 String dietType = resultSet.getString("dietType");
                 String spice = resultSet.getString("spice");
                 String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
                 String nutritionalValue = resultSet.getString("nutritionalValue");
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
+            }
 
-                preparedStatement.setString(1, search);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return menu;
+    }
 
-                menu.add(new String[]{mealName, mealId, description, category, ingredients, dietType, spice, servingSize, nutritionalValue});
+    //Get Non Vegetarian Dinner Meals
+    public static List<String[]> getDinnerNonVegetarianMeals() {
+        List<String[]> menu = new ArrayList<>();
+        String selectMeals = "SELECT mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, imagePath   FROM meals WHERE category = 'dinner' AND dietType = 'non-vegetarian'";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(selectMeals);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String mealName = resultSet.getString("mealName");
+                String mealId = resultSet.getString("mealId");
+                String description = resultSet.getString("description");
+                String ingredients = resultSet.getString("ingredients");
+                String dietType = resultSet.getString("dietType");
+                String spice = resultSet.getString("spice");
+                String servingSize = resultSet.getString("servingSize");
+                String unit = resultSet.getString("unit");
+                String nutritionalValue = resultSet.getString("nutritionalValue");
+                String img = resultSet.getString("imagePath");
+                menu.add(new String[]{mealName, mealId, description, nutritionalValue, spice, servingSize, unit, dietType, ingredients, img});
             }
 
         } catch (SQLException e) {
@@ -354,13 +369,7 @@ public class mealsDatabase {
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
 
             preparedStatement.setString(1, mealName);
-            int rowsAffected = preparedStatement.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("Meal deleted successfully by Name.");
-            } else {
-                System.out.println("No meal found with the given Name.");
-            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

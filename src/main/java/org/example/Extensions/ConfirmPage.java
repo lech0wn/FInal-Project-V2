@@ -1,6 +1,6 @@
-package org.example;
+package org.example.Extensions;
 
-import org.example.Extensions.RoundedButton;
+import org.example.MealEditorPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 
 public class ConfirmPage extends JPanel {
 
-    ConfirmPage (JFrame frame) {
+    public ConfirmPage(JFrame frame) {
 
         frame.getContentPane().removeAll();
         frame.revalidate();
@@ -24,9 +24,9 @@ public class ConfirmPage extends JPanel {
         panel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         frame.add(panel);
 
-        ImageIcon img = new ImageIcon("src/main/java/org/example/confirm.png");
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/confirm.png");
         JLabel imgLabel = new JLabel(img);
-        imgLabel.setBounds(0, 0, 310, 400);
+        imgLabel.setBounds(10, 10, 310, 400);
         panel.add(imgLabel);
 
         JLabel label1 = new JLabel("MEAL");

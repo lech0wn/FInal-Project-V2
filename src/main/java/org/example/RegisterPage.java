@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Databases.usersDatabase;
 import org.example.Extensions.RoundedButton;
+import org.example.WorkersPage.WorkerMenuPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,15 @@ import java.awt.event.*;
 public class RegisterPage {
 
     String role = "Manager";
+
+    //labels
+    JLabel roleSelectionLabel = new JLabel();
+    JLabel selectChoicesLabel = new JLabel();
+
+    //buttons
+    JButton managerButton = new JButton();
+    JButton employeeButton = new JButton();
+
 
     RegisterPage(JFrame frame) {
 
@@ -88,6 +98,7 @@ public class RegisterPage {
         registerButton.setFont(new Font("Arial", Font.BOLD, 20));
         registerButton.setFocusable(false);
         registerButton.addActionListener(e -> {
+
             String userName = username.getText();
             String passWord = new String(password.getPassword());
 
@@ -111,18 +122,77 @@ public class RegisterPage {
                 return;
                 }
 
-            usersDatabase.registerUser(userName, passWord, role);
-
             username.setText("");
             password.setText("");
 
             frame.getContentPane().removeAll();
-            new RoleSelectionPage(frame);
+            ImageIcon imag = new ImageIcon("src/main/java/org/example/img/logo.png");
+            JLabel image = new JLabel(imag);
+            image.setBounds(0, 0, 450, 600);
+            frame.add(image);
+
+            //role selection label
+            roleSelectionLabel.setText("ROLE SELECTION");
+            roleSelectionLabel.setBounds(450, 90, 900, 100);
+            roleSelectionLabel.setFont(new Font("Arial", Font.PLAIN, 70));
+            roleSelectionLabel.setForeground(Color.decode("#752A00"));
+            frame.add(roleSelectionLabel);
+
+            //select choices label
+            selectChoicesLabel.setText("Hello! Kindly select your role from the choices below:");
+            selectChoicesLabel.setBounds(500, 150, 900, 100);
+            selectChoicesLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            selectChoicesLabel.setForeground(Color.decode("#752A00"));
+            frame.add(selectChoicesLabel);
+
+            // Manager button
+            managerButton.setBounds(600, 250, 300, 40);
+            managerButton.setBackground(Color.decode("#FFFFFF"));
+            managerButton.setText("MANAGER");
+            managerButton.setFont(new Font("Arial", Font.BOLD, 18));
+            managerButton.setForeground(new Color(0xFF752A00));
+            managerButton.setFocusable(false);
+            managerButton.setBorderPainted(false);
+            managerButton.setFocusPainted(false);
+            managerButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    role = "Manager";
+                    usersDatabase.registerUser(userName, passWord, role);
+                    frame.getContentPane().removeAll();
+                    new MenuPage(frame);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            });
+            frame.add(managerButton);
+
+            // Employee button
+            employeeButton.setBounds(600, 310, 300, 40);
+            employeeButton.setBackground(Color.decode("#FFFFFF"));
+            employeeButton.setText("EMPLOYEE");
+            employeeButton.setFont(new Font("Arial", Font.BOLD, 18));
+            employeeButton.setForeground(new Color(0xFF752A00));
+            employeeButton.setFocusable(false);
+            employeeButton.setBorderPainted(false);
+            employeeButton.setFocusPainted(false);
+            employeeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    role = "Worker";
+                    usersDatabase.registerUser(userName, passWord, role);
+                    frame.getContentPane().removeAll();
+                    new WorkerMenuPage(frame);
+                    frame.revalidate();
+                    frame.repaint();
+                }
+            });
+            frame.add(employeeButton);
+
             frame.revalidate();
             frame.repaint();
         });
         frame.add(registerButton);
-
         frame.setResizable(false);
         frame.setVisible(true);
     }

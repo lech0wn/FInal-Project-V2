@@ -15,6 +15,21 @@ public class Dialog extends JDialog {
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
+        String imagePath = meal[9];
+        try {
+            ImageIcon mealImage = new ImageIcon(imagePath);
+            Image image = mealImage.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+            mealImage = new ImageIcon(image);
+
+            JLabel imageLabel = new JLabel(mealImage);
+            imageLabel.setBounds(0, 0, 300, 150);
+            dialog.add(imageLabel);
+            dialog.revalidate();
+            dialog.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
             //Create Panel
             JPanel namePanel = new JPanel();
             namePanel.setBounds(0, 150, 300, 40);
@@ -54,21 +69,21 @@ public class Dialog extends JDialog {
             spiceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             dialog.add(spiceLabel);
 
-            JLabel servSize = new JLabel(meal[5]);
+            JLabel servSize = new JLabel(meal[5] + " " + meal[6]);
             servSize.setBounds(0, 225, 300, 50);
             servSize.setHorizontalAlignment(SwingConstants.CENTER);
             servSize.setForeground(Color.decode("#EF9B39"));
             servSize.setFont(new Font("Arial", Font.PLAIN, 18));
             dialog.add(servSize);
 
-            JLabel dietLabel = new JLabel(meal[6]);
+            JLabel dietLabel = new JLabel(meal[7]);
             dietLabel.setBounds(0, 245, 300, 50);
             dietLabel.setHorizontalAlignment(SwingConstants.CENTER);
             dietLabel.setForeground(Color.decode("#EF9B39"));
             dietLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             dialog.add(dietLabel);
 
-            JLabel ingredientsLabel = new JLabel(meal[7]);
+            JLabel ingredientsLabel = new JLabel(meal[8]);
             ingredientsLabel.setBounds(0, 285, 300, 50);
             ingredientsLabel.setHorizontalAlignment(SwingConstants.CENTER);
             ingredientsLabel.setForeground(Color.decode("#EF9B39"));

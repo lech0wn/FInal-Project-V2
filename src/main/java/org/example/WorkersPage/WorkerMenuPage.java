@@ -1,47 +1,44 @@
-package org.example;
+package org.example.WorkersPage;
 
 import org.example.Databases.mealsDatabase;
-import org.example.Extensions.*;
 import org.example.Extensions.Dialog;
-import org.example.SidePanels.MealSidePanel;
+import org.example.Extensions.RoundedBorder;
+import org.example.Extensions.RoundedButton;
+import org.example.Extensions.RoundedTextfield;
+import org.example.Extensions.SearchBar;
+import org.example.SidePanels.WorkerSidePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class MenuPage {
+public class WorkerMenuPage {
 
     RoundedButton breakfastButton = new RoundedButton("BREAKFAST");
     RoundedButton lunchButton = new RoundedButton("LUNCH");
     RoundedButton dinnerButton = new RoundedButton("DINNER");
-    RoundedButton dietVegFilter = new RoundedButton("Vegetarian");
-    RoundedButton dietNonFilter = new RoundedButton("Non-Vegetarian");
+    JButton dietVegFilter = new JButton("Vegetarian");
+    JButton dietNonFilter = new JButton("Non-Vegetarian");
+    JLabel errorLabel = new JLabel("Meal not found");
+    RoundedTextfield searchbar = new RoundedTextfield();
+    ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
+    JButton search = new JButton(img);
 
     public void GUI(JFrame frame) {
-        new MealSidePanel(frame);
+        new WorkerSidePanel(frame);
         new SearchBar(frame);
 
         RoundedButton breakfastButton = new RoundedButton("BREAKFAST");
-        breakfastButton.setBounds(370, 80, 200, 45);
+        breakfastButton.setBounds(370, 90, 200, 45);
         breakfastButton.setBackground(Color.decode("#752A00"));
         breakfastButton.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
         breakfastButton.setForeground(Color.decode("#EF9B39"));
         breakfastButton.setFont(new Font("Arial", Font.BOLD, 20));
         breakfastButton.setFocusable(false);
-        breakfastButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                breakfastButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                breakfastButton.setBackground(Color.decode("#752A00"));
-            }
-        });
         breakfastButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
             breakfastPage(frame);
@@ -51,25 +48,12 @@ public class MenuPage {
         frame.add(breakfastButton);
 
         RoundedButton lunchButton = new RoundedButton("LUNCH");
-        lunchButton.setBounds(600, 80, 200, 45);
+        lunchButton.setBounds(600, 90, 200, 45);
         lunchButton.setBackground(Color.decode("#752A00"));
         lunchButton.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
         lunchButton.setForeground(Color.decode("#EF9B39"));
         lunchButton.setFont(new Font("Arial", Font.BOLD, 20));
         lunchButton.setFocusable(false);
-        lunchButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                lunchButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                lunchButton.setBackground(Color.decode("#752A00"));
-            }
-        });
         lunchButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
             lunchPage(frame);
@@ -79,25 +63,12 @@ public class MenuPage {
         frame.add(lunchButton);
 
         RoundedButton dinnerButton = new RoundedButton("DINNER");
-        dinnerButton.setBounds(830, 80, 200, 45);
+        dinnerButton.setBounds(830, 90, 200, 45);
         dinnerButton.setBackground(Color.decode("#752A00"));
         dinnerButton.setBorder(new RoundedBorder(30, Color.decode("#551F01")));
         dinnerButton.setForeground(Color.decode("#EF9B39"));
         dinnerButton.setFont(new Font("Arial", Font.BOLD, 20));
         dinnerButton.setFocusable(false);
-        dinnerButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                dinnerButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                dinnerButton.setBackground(Color.decode("#752A00"));
-            }
-        });
         dinnerButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
             dinnerPage(frame);
@@ -115,20 +86,20 @@ public class MenuPage {
 
         dietVegFilter.setBounds(450, 140, 120, 30);
         dietVegFilter.setFocusable(false);
-        dietVegFilter.setBackground(Color.decode("#331402"));
-        dietVegFilter.setBorderThickness(0);
+        dietVegFilter.setBackground(Color.decode("#752A00"));
+        dietVegFilter.setBorder(BorderFactory.createEmptyBorder());
         dietVegFilter.setForeground(Color.decode("#EF9B39"));
         frame.add(dietVegFilter);
 
-        dietNonFilter.setBounds(580, 140, 160, 30);
+        dietNonFilter.setBounds(580, 140, 130, 30);
         dietNonFilter.setFocusable(false);
-        dietNonFilter.setBackground(Color.decode("#331402"));
-        dietNonFilter.setBorderThickness(0);
+        dietNonFilter.setBackground(Color.decode("#752A00"));
+        dietNonFilter.setBorder(BorderFactory.createEmptyBorder());
         dietNonFilter.setForeground(Color.decode("#EF9B39"));
         frame.add(dietNonFilter);
     }
 
-    public void menuContainer(List<String[]> meals, JFrame frame, JPanel mealPanelContainer) {
+    public void menuContainer(java.util.List<String[]> meals, JFrame frame, JPanel mealPanelContainer) {
         for (String[] meal : meals) {
             JButton mealButton = new JButton();
             mealButton.setPreferredSize(new Dimension(220, 250));
@@ -155,13 +126,13 @@ public class MenuPage {
             JPanel namePanel = new JPanel();
             namePanel.setBounds(0, 180, 220, 70);
             namePanel.setBackground(Color.decode("#331402"));
-            namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
             mealButton.add(namePanel);
 
             // Create meal name label
             JLabel nameLabel = new JLabel(meal[0]);
             nameLabel.setForeground(Color.decode("#EF9B39"));
             nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
+            nameLabel.setBounds(0, 0, 220, 250);
 
             String imagePath = meal[9];
             try {
@@ -178,12 +149,12 @@ public class MenuPage {
                 ex.printStackTrace();
             }
 
-            namePanel.add(nameLabel);
+            namePanel.add(nameLabel, BorderLayout.CENTER);
             mealPanelContainer.add(mealButton);
         }
     }
 
-    public MenuPage(JFrame frame) {
+    public WorkerMenuPage(JFrame frame) {
 
         frame.setTitle("Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
@@ -193,7 +164,7 @@ public class MenuPage {
         frame.repaint();
 
         //side panel call
-        new MealSidePanel(frame);
+        new WorkerSidePanel(frame);
 
         //Add Image
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/menu.png");
@@ -220,19 +191,6 @@ public class MenuPage {
         breakfastButton.setBackground(Color.decode("#752A00"));
         breakfastButton.setFocusable(false);
         breakfastButton.setBorder(new RoundedBorder(30, Color.decode("#331402")));
-        breakfastButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                breakfastButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                breakfastButton.setBackground(Color.decode("#752A00"));
-            }
-        });
         breakfastButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
             breakfastPage(frame);
@@ -248,19 +206,6 @@ public class MenuPage {
         lunchButton.setBackground(Color.decode("#752A00"));
         lunchButton.setFocusable(false);
         lunchButton.setBorder(new RoundedBorder(30, Color.decode("#331402")));
-        lunchButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                lunchButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                lunchButton.setBackground(Color.decode("#752A00"));
-            }
-        });
         lunchButton.addActionListener(e -> {
             frame.getContentPane().removeAll();
             lunchPage(frame);
@@ -276,25 +221,6 @@ public class MenuPage {
         dinnerButton.setBackground(Color.decode("#752A00"));
         dinnerButton.setFocusable(false);
         dinnerButton.setBorder(new RoundedBorder(30, Color.decode("#331402")));
-        dinnerButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                dinnerButton.setBackground(Color.decode("#7b492b"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                dinnerButton.setBackground(Color.decode("#752A00"));
-            }
-        });
-        dinnerButton.addActionListener(e -> {
-            frame.getContentPane().removeAll();
-            dinnerPage(frame);
-            frame.revalidate();
-            frame.repaint();
-        });
         frame.add(dinnerButton);
 
         frame.setLayout(null);
@@ -312,7 +238,7 @@ public class MenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
-        List<String[]> meals = mealsDatabase.getBreakfastMeals();
+        java.util.List<String[]> meals = mealsDatabase.getBreakfastMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
         mealPanelContainer.setPreferredSize(new Dimension(750, meals.size() * 260));
@@ -330,7 +256,7 @@ public class MenuPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
-                List<String[]> meals = mealsDatabase.getBreakfastVegetarianMeals();
+                java.util.List<String[]> meals = mealsDatabase.getBreakfastVegetarianMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();
@@ -340,7 +266,7 @@ public class MenuPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
-                List<String[]> meals = mealsDatabase.getBreakfastNonVegetarianMeals();
+                java.util.List<String[]> meals = mealsDatabase.getBreakfastNonVegetarianMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();
@@ -358,7 +284,7 @@ public class MenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
-        List<String[]> meals = mealsDatabase.getLunchMeals();
+        java.util.List<String[]> meals = mealsDatabase.getLunchMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
         mealPanelContainer.setPreferredSize(new Dimension(750, meals.size() * 260));
@@ -376,7 +302,7 @@ public class MenuPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
-                List<String[]> meals = mealsDatabase.getLunchVegetarianMeals();
+                java.util.List<String[]> meals = mealsDatabase.getLunchVegetarianMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();
@@ -386,7 +312,7 @@ public class MenuPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
-                List<String[]> meals = mealsDatabase.getLunchNonVegetarianMeals();
+                java.util.List<String[]> meals = mealsDatabase.getLunchNonVegetarianMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();
@@ -404,7 +330,7 @@ public class MenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
-        List<String[]> meals = mealsDatabase.getDinnerMeals();
+        java.util.List<String[]> meals = mealsDatabase.getDinnerMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
         mealPanelContainer.setPreferredSize(new Dimension(750, meals.size() * 260));
@@ -422,7 +348,7 @@ public class MenuPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
-                List<String[]> meals = mealsDatabase.getDinnerVegetarianMeals();
+                java.util.List<String[]> meals = mealsDatabase.getDinnerVegetarianMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();
@@ -440,3 +366,4 @@ public class MenuPage {
         });
     }
 }
+

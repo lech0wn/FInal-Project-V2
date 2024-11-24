@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.Databases.usersDatabase;
+import org.example.WorkersPage.WorkerMenuPage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -79,8 +81,16 @@ public class LoginPage {
                 String usernameInput = userName.getText();
                 String passwordInput = new String(password.getPassword());
 
-                if (usersDatabase.authenticateUser(usernameInput, passwordInput)) {
-                    new MenuPage(frame);
+                String role = usersDatabase.authenticateUser(usernameInput, passwordInput);
+
+                if (role != null) {
+                    if (role.equals("Manager")) {
+                        // Open Manager Dashboard or Menu Page
+                        new MenuPage(frame);
+                    } else if (role.equals("Worker")) {
+                        // Open Worker Dashboard or Menu Page
+                        new WorkerMenuPage(frame);
+                    }
                 } else {
                     //Create Error Login Label
                     errorLabel.setText("Invalid username and password. Please try again");
@@ -90,7 +100,6 @@ public class LoginPage {
                     userName.setText("");
                     password.setText("");
                 }
-
             }
         });
         frame.add(errorLabel);

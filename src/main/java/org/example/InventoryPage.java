@@ -90,6 +90,24 @@ public class InventoryPage {
         JButton nonVegMealsButton = createRoundedButton("Non-Vegetarian", 570, 160);
         nonVegMealsButton.addActionListener(e -> refreshInventoryData(inventoryPanel, inventoryDatabase.getNonVegetarianMeals(), columnWidths, rowHeight));
         frame.add(nonVegMealsButton);
+
+        JButton sortByNameButton = createRoundedButton("Name", 740, 60);
+        sortByNameButton.addActionListener(e -> refreshInventoryData(inventoryPanel, inventoryDatabase.getSortedInventoryByName(), columnWidths, rowHeight));
+        frame.add(sortByNameButton);
+
+        // Sort by stock level (Ascending)
+        JButton sortByStockAscButton = createRoundedButton("Stock (Asc)", 810, 80);
+        sortByStockAscButton.addActionListener(e ->
+                refreshInventoryData(inventoryPanel, inventoryDatabase.getSortedInventoryByStockLevel(true), columnWidths, rowHeight)
+        );
+        frame.add(sortByStockAscButton);
+
+        // Sort by stock level (Descending)
+        JButton sortByStockDescButton = createRoundedButton("Stock (Desc)", 900, 80);
+        sortByStockDescButton.addActionListener(e ->
+                refreshInventoryData(inventoryPanel, inventoryDatabase.getSortedInventoryByStockLevel(false), columnWidths, rowHeight)
+        );
+        frame.add(sortByStockDescButton);
     }
 
     private JLabel createHeaderLabel(String text) {

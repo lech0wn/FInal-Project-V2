@@ -48,5 +48,6 @@ public class mealsSearchBar {
         frame.add(errorLabel);
         searchbar.add(search);
     }
+
 }
 

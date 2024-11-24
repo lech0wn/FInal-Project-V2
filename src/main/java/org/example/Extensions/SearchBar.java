@@ -1,7 +1,5 @@
 package org.example.Extensions;
-
 import org.example.Databases.mealsDatabase;
-import org.example.SidePanels.MealSidePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SearchBar {
+
+    JLabel errorLabel = new JLabel("Meal not found");
 
     public SearchBar(JFrame frame) {
         RoundedTextfield searchbar = new RoundedTextfield();
@@ -26,6 +26,23 @@ public class SearchBar {
         search.setFocusable(false);
         search.setBackground(Color.decode("#FACD97"));
         search.setBounds(9, 2, 30, 40);
+
+        search.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchName = searchbar.getText().trim();
+                if(mealsDatabase.authenticateMealName(searchName)){
+                    frame.removeAll();
+                    System.out.println("success");
+                    frame.revalidate();
+                    frame.repaint();
+                } else {
+                    errorLabel.setBounds(370, 65, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
+                }
+            }
+        });
 
         searchbar.add(search);
     }

@@ -737,7 +737,6 @@ public class MealEditorPage {
                 addButton.setFocusable(false);
                 addButton.setBorder(new RoundedBorder(50, Color.decode("#EF9B39")));
                 addButton.addActionListener(e7 -> {
-                    String mealName1 = mealNameTf.getText();
                     String description = descriptionTf.getText();
                     String ingredients = ingredientsTf.getText();
                     String diet = dietType;
@@ -746,7 +745,7 @@ public class MealEditorPage {
                     String serving = servingSizeTf.getText();
                     String nutVal = nutValueTf.getText();
 
-                    mealsDatabase.updateMeals(mealName1, description, categ, ingredients,diet, spice, serving, nutVal);
+                    mealsDatabase.updateMeals(description, categ, ingredients,diet, spice, serving, nutVal, mealName);
                     new ConfirmPage(frame);
                 });
                 frame.add(addButton);

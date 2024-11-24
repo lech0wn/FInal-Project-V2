@@ -83,23 +83,45 @@ public class LoginPage {
 
                 String role = usersDatabase.authenticateUser(usernameInput, passwordInput);
 
-                if (role != null) {
+                if (usernameInput.isEmpty() && passwordInput.isEmpty()){
+                    errorLabel.setText("Username and Password cannot be empty");
+                    errorLabel.setBounds(580, 420, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
+                    userName.setText("");
+                    password.setText("");
+                } else if(usernameInput.isEmpty()) {
+                    errorLabel.setText("Username cannot be empty");
+                    errorLabel.setBounds(650, 420, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
+                    userName.setText("");
+                    password.setText("");
+                } else if (passwordInput.isEmpty()) {
+                    errorLabel.setText("Password cannot be empty");
+                    errorLabel.setBounds(650, 420, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
+                    userName.setText("");
+                    password.setText("");
+                }  else if (role != null) {
                     if (role.equals("Manager")) {
-                        // Open Manager Dashboard or Menu Page
                         new MenuPage(frame);
                     } else if (role.equals("Worker")) {
-                        // Open Worker Dashboard or Menu Page
                         new WorkerMenuPage(frame);
                     }
                 } else {
-                    //Create Error Login Label
-                    errorLabel.setText("Invalid username and password. Please try again");
-                    errorLabel.setBounds(550, 420, 500, 20);
+                    errorLabel.setText("Invalid username or password");
+                    errorLabel.setBounds(630, 420, 500, 20);
                     errorLabel.setForeground(Color.red);
                     errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 14));
                     userName.setText("");
                     password.setText("");
                 }
+
+
+
+
             }
         });
         frame.add(errorLabel);

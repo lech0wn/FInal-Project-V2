@@ -4,7 +4,6 @@ import org.example.Databases.mealsDatabase;
 import org.example.Extensions.*;
 import org.example.Extensions.Dialog;
 import org.example.SidePanels.MealSidePanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,10 +16,98 @@ public class MenuPage {
     RoundedButton dinnerButton = new RoundedButton("DINNER");
     RoundedButton dietVegFilter = new RoundedButton("Vegetarian");
     RoundedButton dietNonFilter = new RoundedButton("Non-Vegetarian");
+    RoundedButton alphabetical = new RoundedButton("Alphabetical");
+    RoundedButton all = new RoundedButton("All");
+
+    public void searchbar(JFrame frame, JPanel mealPanelContainer) {
+        JLabel errorLabel = new JLabel("Meal not found");
+
+        RoundedTextfield searchbar = new RoundedTextfield();
+        searchbar.setBounds(370, 20, 550, 45);
+        searchbar.setBackground(Color.decode("#FACD97"));
+        searchbar.setForeground(Color.black);
+        searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
+        searchbar.setText("            ");
+        frame.add(searchbar);
+
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
+        JButton search = new JButton(img);
+        search.setBorder(BorderFactory.createEmptyBorder());
+        search.setFocusable(false);
+        search.setBackground(Color.decode("#FACD97"));
+        search.setBounds(9, 2, 30, 40);
+
+        search.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchName = searchbar.getText().trim();
+                String[] meal = mealsDatabase.getMealByName(searchName);
+                if (meal != null) {
+                    mealPanelContainer.removeAll();
+                    JButton mealButton = new JButton();
+                    mealButton.setPreferredSize(new Dimension(220, 250));
+                    mealButton.setBackground(Color.decode("#331402"));
+                    mealButton.setBorder(BorderFactory.createEmptyBorder());
+                    mealButton.setFocusable(false);
+                    mealButton.setLayout(null);
+
+                    String mealId = meal[1];
+                    boolean isAvailable = mealsDatabase.isMealAvailable(mealId);
+
+                    if (!isAvailable) {
+                        JLabel notAvailable = new JLabel("Out of Stock");
+                        notAvailable.setBounds(140, 213, 100, 50);
+                        notAvailable.setFont(new Font("Arial", Font.BOLD, 12));
+                        notAvailable.setForeground(Color.white);
+                        mealButton.add(notAvailable);
+                    }
+
+                    mealButton.addActionListener(e1 -> {
+                        if (isAvailable) {
+                            new Dialog(meal, frame);
+                        }
+                    });
+
+                    JPanel namePanel = new JPanel();
+                    namePanel.setBounds(0, 180, 220, 70);
+                    namePanel.setBackground(Color.decode("#331402"));
+                    namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+                    mealButton.add(namePanel);
+
+                    JLabel nameLabel = new JLabel(meal[0]);
+                    nameLabel.setForeground(Color.decode("#EF9B39"));
+                    nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
+
+                    String imagePath = meal[10];
+                    try {
+                        ImageIcon mealImage = new ImageIcon(imagePath);
+                        Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
+                        mealImage = new ImageIcon(image);
+
+                        JLabel imageLabel = new JLabel(mealImage);
+                        imageLabel.setBounds(0, 0, 220, 180);
+                        mealButton.add(imageLabel);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    namePanel.add(nameLabel);
+                    mealPanelContainer.add(mealButton);
+                    mealPanelContainer.revalidate();
+                    mealPanelContainer.repaint();
+                } else {
+                    errorLabel.setBounds(370, 60, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 10));
+                    frame.add(errorLabel);
+                    searchbar.setText("            ");
+                }
+            }
+        });
+        searchbar.add(search);
+    }
 
     public void GUI(JFrame frame) {
         new MealSidePanel(frame);
-        new SearchBar(frame);
 
         RoundedButton breakfastButton = new RoundedButton("BREAKFAST");
         breakfastButton.setBounds(370, 80, 200, 45);
@@ -118,6 +205,19 @@ public class MenuPage {
         dietVegFilter.setBackground(Color.decode("#331402"));
         dietVegFilter.setBorderThickness(0);
         dietVegFilter.setForeground(Color.decode("#EF9B39"));
+        dietVegFilter.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                dietVegFilter.setBackground(Color.decode("#5d493f"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                dietVegFilter.setBackground(Color.decode("#331402"));
+            }
+        });
         frame.add(dietVegFilter);
 
         dietNonFilter.setBounds(580, 140, 160, 30);
@@ -125,7 +225,60 @@ public class MenuPage {
         dietNonFilter.setBackground(Color.decode("#331402"));
         dietNonFilter.setBorderThickness(0);
         dietNonFilter.setForeground(Color.decode("#EF9B39"));
+        dietNonFilter.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                dietNonFilter.setBackground(Color.decode("#5d493f"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                dietNonFilter.setBackground(Color.decode("#331402"));
+            }
+        });
         frame.add(dietNonFilter);
+
+        alphabetical.setBounds(750, 140, 140, 30);
+        alphabetical.setFocusable(false);
+        alphabetical.setBackground(Color.decode("#331402"));
+        alphabetical.setBorderThickness(0);
+        alphabetical.setForeground(Color.decode("#EF9B39"));
+        alphabetical.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                alphabetical.setBackground(Color.decode("#5d493f"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                alphabetical.setBackground(Color.decode("#331402"));
+            }
+        });
+        frame.add(alphabetical);
+
+        all.setBounds(900, 140, 70, 30);
+        all.setFocusable(false);
+        all.setBackground(Color.decode("#331402"));
+        all.setBorderThickness(0);
+        all.setForeground(Color.decode("#EF9B39"));
+        all.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                all.setBackground(Color.decode("#5d493f"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                all.setBackground(Color.decode("#331402"));
+            }
+        });
+        frame.add(all);
     }
 
     public void menuContainer(List<String[]> meals, JFrame frame, JPanel mealPanelContainer) {
@@ -136,20 +289,22 @@ public class MenuPage {
             mealButton.setBorder(BorderFactory.createEmptyBorder());
             mealButton.setFocusable(false);
             mealButton.setLayout(null);
-            mealButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    mealButton.setBackground(Color.decode("#331402"));
-                }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    super.mouseExited(e);
-                    mealButton.setBackground(Color.decode("#331402"));
+            String mealId = meal[1];
+            boolean isAvailable = mealsDatabase.isMealAvailable(mealId);
+            if (!isAvailable) {
+                JLabel notAvailable = new JLabel("Out of Stock");
+                notAvailable.setBounds(140, 213, 100, 50);
+                notAvailable.setFont(new Font("Arial", Font.BOLD, 12));
+                notAvailable.setForeground(Color.white);
+                mealButton.add(notAvailable);
+            }
+
+            mealButton.addActionListener(e -> {
+                if (isAvailable) {
+                    new Dialog(meal, frame);
                 }
             });
-            mealButton.addActionListener(e -> new Dialog(meal, frame));
 
             //Create Panel
             JPanel namePanel = new JPanel();
@@ -312,6 +467,8 @@ public class MenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
+        searchbar(frame, mealPanelContainer);
+
         List<String[]> meals = mealsDatabase.getBreakfastMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
@@ -346,6 +503,26 @@ public class MenuPage {
                 mealPanelContainer.repaint();
             }
         });
+        alphabetical.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getBreakfastSortedMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
+        all.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getBreakfastMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
     }
 
     public void lunchPage(JFrame frame) {
@@ -357,6 +534,8 @@ public class MenuPage {
         mealPanelContainer.setBackground(Color.decode("#EF9B39"));
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
+
+        searchbar(frame, mealPanelContainer);
 
         List<String[]> meals = mealsDatabase.getLunchMeals();
         menuContainer(meals, frame, mealPanelContainer);
@@ -392,6 +571,26 @@ public class MenuPage {
                 mealPanelContainer.repaint();
             }
         });
+        alphabetical.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getLunchSortedMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
+        all.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getLunchMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
     }
 
     public void dinnerPage(JFrame frame) {
@@ -403,6 +602,8 @@ public class MenuPage {
         mealPanelContainer.setBackground(Color.decode("#EF9B39"));
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
+
+        searchbar(frame, mealPanelContainer);
 
         List<String[]> meals = mealsDatabase.getDinnerMeals();
         menuContainer(meals, frame, mealPanelContainer);
@@ -433,6 +634,26 @@ public class MenuPage {
             public void actionPerformed(ActionEvent e) {
                 mealPanelContainer.removeAll();
                 List<String[]> meals = mealsDatabase.getDinnerNonVegetarianMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
+        alphabetical.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getDinnerSortedMeals();
+                menuContainer(meals, frame, mealPanelContainer);
+                mealPanelContainer.revalidate();
+                mealPanelContainer.repaint();
+            }
+        });
+        all.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mealPanelContainer.removeAll();
+                List<String[]> meals = mealsDatabase.getDinnerMeals();
                 menuContainer(meals, frame, mealPanelContainer);
                 mealPanelContainer.revalidate();
                 mealPanelContainer.repaint();

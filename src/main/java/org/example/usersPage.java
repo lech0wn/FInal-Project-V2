@@ -34,31 +34,60 @@ public class usersPage {
         userEditor.setForeground(Color.decode("#EF9B39"));
         frame.add(userEditor);
 
-        JLabel usersLabel = new  JLabel();
-        usersLabel.setText("USER");
-        usersLabel.setForeground(Color.white);
-        usersLabel.setBounds(500, 90, 100, 70);
-        usersLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        frame.add(usersLabel);
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBounds(400, 100, 600, 50);
+        titlePanel.setBackground(Color.black);
+        titlePanel.setBackground(Color.decode("#752A00"));
+        titlePanel.setLayout(null);
+        frame.add(titlePanel);
 
-        JLabel rolesLabel = new  JLabel();
-        rolesLabel.setText("ROLE");
+        JLabel usersLabel = new  JLabel("USER");
+        usersLabel.setForeground(Color.white);
+        usersLabel.setBounds(100, 10, 100, 40);
+        usersLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titlePanel.add(usersLabel);
+
+        JLabel rolesLabel = new  JLabel("ROLE");
         rolesLabel.setForeground(Color.white);
-        rolesLabel.setBounds(715, 90, 100, 70);
+        rolesLabel.setBounds(310, 10, 100, 40);
         rolesLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        frame.add(rolesLabel);
+        titlePanel.add(rolesLabel);
+
+        RoundedButton addUser = new RoundedButton("Add a User");
+        addUser.setBounds(450, 12, 130, 30);
+        addUser.setBackground(Color.white);
+        addUser.setBorderThickness(0);
+        addUser.setForeground(Color.black);
+        addUser.setFocusable(false);
+        addUser.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                addUser.setBackground(Color.decode("#dceaff"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                addUser.setBackground(Color.white);
+            }
+        });
+        addUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.getContentPane().removeAll();
+                new RegisterPage(frame);
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+        titlePanel.add(addUser);
 
         JPanel panel = new JPanel();
         panel.setBounds(400, 150, 600, 400);
         panel.setBackground(Color.decode("#752A00"));
         panel.setLayout(null);
         frame.add(panel);
-
-        JPanel panel1 = new JPanel();
-        panel1.setBounds(400, 100, 600, 50);
-        panel1.setBackground(Color.decode("#752A00"));
-        panel1.setLayout(null);
-        frame.add(panel1);
 
         List<String[]>  user = usersDatabase.getUsers();
 

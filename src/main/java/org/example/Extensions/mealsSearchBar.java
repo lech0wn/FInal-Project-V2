@@ -17,7 +17,7 @@ public class mealsSearchBar {
         searchbar.setBackground(Color.decode("#FACD97"));
         searchbar.setForeground(Color.black);
         searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
-        searchbar.setText("            ");
+        //searchbar.setText("            ");
         frame.add(searchbar);
 
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");

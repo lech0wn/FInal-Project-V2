@@ -1,14 +1,20 @@
 package org.example;
 
 import org.example.Databases.ordersDatabase;
+import org.example.Extensions.RoundedTextfield;
 import org.example.Extensions.SearchBar;
 import org.example.SidePanels.OrderSidePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class OrdersPage {
+
+    private JComboBox<String> filterDropdown; // Class-level variable to store the JComboBox reference
 
     public OrdersPage(JFrame frame) {
         frame.setTitle("Orders");
@@ -18,7 +24,6 @@ public class OrdersPage {
         frame.setLayout(null);
 
         new OrderSidePanel(frame);
-        new SearchBar(frame);
 
         frame.revalidate();
         frame.repaint();
@@ -40,27 +45,11 @@ public class OrdersPage {
         ordersPanel.setLayout(null); // Absolute layout for precise positioning
         ordersPanel.setBackground(Color.decode("#EF9B39"));
 
-        List<String[]> orders = ordersDatabase.listOrders();
-        int rowHeight = 50;
-        int yPosition = 0;
+        // Add order search bar
+        addOrderSearchBar(frame, ordersPanel, columnWidths, 50);
 
-        for (String[] order : orders) {
-            int xPosition = 0;
-
-            // Create and add cells for each column
-            for (int i = 0; i < headers.length; i++) {
-                JPanel cellPanel = createCellPanel(i == 5 ? null : order[i]);
-                if (i == 5) { // Add status dropdown
-                    cellPanel.add(createStatusDropdown(order), BorderLayout.CENTER);
-                }
-                cellPanel.setBounds(xPosition, yPosition, columnWidths[i], rowHeight);
-                ordersPanel.add(cellPanel);
-                xPosition += columnWidths[i] + 10;
-            }
-            yPosition += rowHeight;
-        }
-
-        ordersPanel.setPreferredSize(new Dimension(xOffset, yPosition));
+        // Add filter dropdown
+        addFilterDropdown(frame, ordersPanel, columnWidths, 50);
 
         // Add scroll pane
         JScrollPane scrollPane = new JScrollPane(ordersPanel);
@@ -70,6 +59,93 @@ public class OrdersPage {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
+    }
+
+    private void addOrderSearchBar(JFrame frame, JPanel ordersPanel, int[] columnWidths, int rowHeight) {
+        JLabel errorLabel = new JLabel("Order not found");
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        errorLabel.setBounds(370, 60, 200, 20);
+        errorLabel.setVisible(false);
+        frame.add(errorLabel);
+
+        RoundedTextfield searchbar = new RoundedTextfield();
+        searchbar.setBounds(370, 20, 550, 45);
+        searchbar.setBackground(Color.decode("#FACD97"));
+        searchbar.setForeground(Color.black);
+        searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
+        frame.add(searchbar);
+
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
+        JButton searchButton = new JButton(img);
+        searchButton.setBorder(BorderFactory.createEmptyBorder());
+        searchButton.setFocusable(false);
+        searchButton.setBackground(Color.decode("#FACD97"));
+        searchButton.setBounds(500, 2, 30, 40);
+
+        searchButton.addActionListener(e -> {
+            String searchName = searchbar.getText().trim();
+            List<String[]> filteredOrders = ordersDatabase.getOrderByMealName(searchName);
+
+            if (!filteredOrders.isEmpty()) {
+                refreshOrderData(ordersPanel, filteredOrders, columnWidths, rowHeight);
+                errorLabel.setVisible(false);
+            } else {
+                errorLabel.setVisible(true);
+            }
+        });
+
+        searchbar.add(searchButton);
+    }
+
+    private void addFilterDropdown(JFrame frame, JPanel ordersPanel, int[] columnWidths, int rowHeight) {
+        String[] filterOptions = {"All", "Completed", "Deleted"};
+        filterDropdown = new JComboBox<>(filterOptions); // Store the reference
+        filterDropdown.setBounds(950, 40, 120, 30);
+        filterDropdown.setBackground(Color.decode("#331402"));
+        filterDropdown.setForeground(Color.decode("#FACD97"));
+        filterDropdown.setFocusable(false);
+        filterDropdown.setBorder(BorderFactory.createEmptyBorder());
+        filterDropdown.setFont(new Font("Milonga", Font.BOLD, 12));
+
+        filterDropdown.addActionListener(e -> {
+            String selectedFilter = (String) filterDropdown.getSelectedItem();
+            List<String[]> filteredOrders;
+            if ("Completed".equals(selectedFilter)) {
+                filteredOrders = ordersDatabase.listCompletedOrders();
+            } else if ("Deleted".equals(selectedFilter)) {
+                filteredOrders = ordersDatabase.listDeletedOrders();
+            } else {
+                filteredOrders = ordersDatabase.listOrders();
+            }
+            refreshOrderData(ordersPanel, filteredOrders, columnWidths, rowHeight);
+        });
+
+        frame.add(filterDropdown);
+    }
+
+    private void refreshOrderData(JPanel ordersPanel, List<String[]> orders, int[] columnWidths, int rowHeight) {
+        ordersPanel.removeAll();
+        int yPosition = 0;
+
+        for (String[] order : orders) {
+            int xPosition = 0;
+
+            for (int i = 0; i < order.length; i++) {
+                JPanel cellPanel = createCellPanel(i == 5 ? null : order[i]);
+                if (i == 5) {
+                    cellPanel.add(createStatusDropdown(order), BorderLayout.CENTER);
+                }
+                cellPanel.setBounds(xPosition, yPosition, columnWidths[i], rowHeight);
+                ordersPanel.add(cellPanel);
+                xPosition += columnWidths[i] + 10;
+            }
+            yPosition += rowHeight;
+        }
+
+        ordersPanel.setPreferredSize(new Dimension(ordersPanel.getWidth(), yPosition));
+        ordersPanel.revalidate();
+        ordersPanel.repaint();
     }
 
     private JLabel createHeaderLabel(String text) {

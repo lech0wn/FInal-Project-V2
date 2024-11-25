@@ -290,6 +290,31 @@ public class inventoryDatabase {
         return sortedInventory;
     }
 
+    public static List<String[]> getInventoryByMealName(String mealName) {
+        List<String[]> inventoryItems = new ArrayList<>();
+        String query = "SELECT inventoryId, mealId, mealName, quantity, price FROM Inventory WHERE LOWER(mealName) = LOWER(?)";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, mealName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String inventoryId = String.format("%03d", resultSet.getInt("inventoryId"));
+                String mealId = String.valueOf(resultSet.getInt("mealId"));
+                String name = resultSet.getString("mealName");
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
+
+                inventoryItems.add(new String[]{inventoryId, mealId, name, quantity, price});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inventoryItems;
+    }
+
 
     // Authenticate if the inventory ID exists
     public static boolean authenticateInventoryId(int inventoryId) {

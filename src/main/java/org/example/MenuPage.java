@@ -27,7 +27,7 @@ public class MenuPage {
         searchbar.setBackground(Color.decode("#FACD97"));
         searchbar.setForeground(Color.black);
         searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
-        searchbar.setText("            ");
+        searchbar.setText("");
         frame.add(searchbar);
 
         ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
@@ -35,7 +35,7 @@ public class MenuPage {
         search.setBorder(BorderFactory.createEmptyBorder());
         search.setFocusable(false);
         search.setBackground(Color.decode("#FACD97"));
-        search.setBounds(9, 2, 30, 40);
+        search.setBounds(500, 2, 30, 40);
 
         search.addActionListener(new ActionListener() {
             @Override
@@ -99,7 +99,7 @@ public class MenuPage {
                     errorLabel.setForeground(Color.red);
                     errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 10));
                     frame.add(errorLabel);
-                    searchbar.setText("            ");
+                    searchbar.setText("");
                 }
             }
         });

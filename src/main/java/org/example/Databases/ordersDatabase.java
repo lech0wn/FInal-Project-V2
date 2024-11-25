@@ -18,6 +18,7 @@ public class ordersDatabase {
                 + "price TEXT NOT NULL, "
                 + "date TEXT NOT NULL, "
                 + "status TEXT DEFAULT 'Pending', "
+                + "isDeleted INTEGER DEFAULT 0, " // New column to track deleted orders
                 + "FOREIGN KEY (mealId) REFERENCES meals(mealId))"; // Link mealId to meals table
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
@@ -28,14 +29,41 @@ public class ordersDatabase {
         }
     }
 
-    // Retrieve orders
+    // Retrieve all orders
     public static List<String[]> listOrders() {
+        return getOrdersByStatus(null, false);
+    }
+
+    // Retrieve completed orders
+    public static List<String[]> listCompletedOrders() {
+        return getOrdersByStatus("Completed", false);
+    }
+
+    // Retrieve deleted orders
+    public static List<String[]> listDeletedOrders() {
+        return getOrdersByStatus(null, true);
+    }
+
+    // Helper method to retrieve orders by status or deletion flag
+    private static List<String[]> getOrdersByStatus(String status, boolean isDeleted) {
         List<String[]> ordersList = new ArrayList<>();
-        String query = "SELECT orderId, date, mealName, quantity, price, status FROM Orders ORDER BY orderId";
+        StringBuilder query = new StringBuilder("SELECT orderId, date, mealName, quantity, price, status FROM Orders WHERE isDeleted = ?");
+
+        if (status != null) {
+            query.append(" AND status = ?");
+        }
+
+        query.append(" ORDER BY orderId");
 
         try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+             PreparedStatement statement = connection.prepareStatement(query.toString())) {
+
+            statement.setInt(1, isDeleted ? 1 : 0);
+            if (status != null) {
+                statement.setString(2, status);
+            }
+
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 String orderId = String.format("%03d", resultSet.getInt("orderId"));
@@ -43,9 +71,9 @@ public class ordersDatabase {
                 String mealName = resultSet.getString("mealName");
                 String quantity = String.valueOf(resultSet.getInt("quantity"));
                 String price = String.format("₱%.2f", resultSet.getDouble("price"));
-                String status = resultSet.getString("status");
+                String orderStatus = resultSet.getString("status");
 
-                ordersList.add(new String[]{orderId, date, mealName, quantity, price, status});
+                ordersList.add(new String[]{orderId, date, mealName, quantity, price, orderStatus});
             }
 
         } catch (SQLException e) {
@@ -95,7 +123,6 @@ public class ordersDatabase {
                 insertOrderStmt.setString(4, price);
                 insertOrderStmt.setString(5, date);
 
-
                 int rowsAffected = insertOrderStmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Order added successfully!");
@@ -122,14 +149,14 @@ public class ordersDatabase {
 
     // Delete order by order ID
     public static boolean deleteOrder(int orderId) {
-        String deleteSQL = "DELETE FROM Orders WHERE orderId = ?";
+        String deleteSQL = "UPDATE Orders SET isDeleted = 1 WHERE orderId = ?";
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
             preparedStatement.setInt(1, orderId);
             int rowsDeleted = preparedStatement.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("Order with ID '" + orderId + "' was deleted successfully.");
+                System.out.println("Order with ID '" + orderId + "' was marked as deleted successfully.");
                 return true;
             } else {
                 System.out.println("No order found with ID '" + orderId + "'.");
@@ -166,7 +193,7 @@ public class ordersDatabase {
         }
     }
 
-    //method to update the order status
+    // Method to update the order status
     public static void updateOrderStatus(int orderId, String status) {
         String updateStatusSQL = "UPDATE Orders SET status = ? WHERE orderId = ?";
         try (Connection connection = DriverManager.getConnection(url);
@@ -185,6 +212,32 @@ public class ordersDatabase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<String[]> getOrderByMealName(String mealName) {
+        List<String[]> orders = new ArrayList<>();
+        String query = "SELECT orderId, date, mealName, quantity, price, status FROM Orders WHERE LOWER(mealName) = LOWER(?) AND isDeleted = 0";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, mealName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String orderId = String.format("%03d", resultSet.getInt("orderId"));
+                String date = resultSet.getString("date");
+                String mealName1 = resultSet.getString("mealName");
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                String price = String.format("₱%.2f", resultSet.getDouble("price"));
+                String status = resultSet.getString("status");
+
+                orders.add(new String[]{orderId, date, mealName1, quantity, price, status});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
     }
 
     // Authenticate if the order ID exists

@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.Databases.inventoryDatabase;
-import org.example.Extensions.SearchBar;
+import org.example.Extensions.RoundedTextfield;
 import org.example.SidePanels.InventorySidePanel;
 
 import javax.swing.*;
@@ -18,7 +18,6 @@ public class InventoryPage {
         frame.setLayout(null);
 
         new InventorySidePanel(frame);
-        new SearchBar(frame);
 
         frame.revalidate();
         frame.repaint();
@@ -76,6 +75,9 @@ public class InventoryPage {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
 
+        // Add search bar
+        searchBar(frame, inventoryPanel, columnWidths, rowHeight);
+
         // "All Meals" button
         JButton allMealsButton = createRoundedButton("All", 350, 60);
         allMealsButton.addActionListener(e -> refreshInventoryData(inventoryPanel, inventoryDatabase.listInventory(), columnWidths, rowHeight));
@@ -108,6 +110,41 @@ public class InventoryPage {
                 refreshInventoryData(inventoryPanel, inventoryDatabase.getSortedInventoryByStockLevel(false), columnWidths, rowHeight)
         );
         frame.add(sortByStockDescButton);
+    }
+
+    private void searchBar(JFrame frame, JPanel inventoryPanel, int[] columnWidths, int rowHeight) {
+        JLabel errorLabel = new JLabel("Item not found");
+
+        RoundedTextfield searchbar = new RoundedTextfield();
+        searchbar.setBounds(370, 20, 550, 45);
+        searchbar.setBackground(Color.decode("#FACD97"));
+        searchbar.setForeground(Color.black);
+        searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
+        searchbar.setText("");
+        frame.add(searchbar);
+
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
+        JButton search = new JButton(img);
+        search.setBorder(BorderFactory.createEmptyBorder());
+        search.setFocusable(false);
+        search.setBackground(Color.decode("#FACD97"));
+        search.setBounds(500, 2, 30, 40);
+
+        search.addActionListener(e -> {
+            String searchName = searchbar.getText().trim();
+            List<String[]> filteredInventory = inventoryDatabase.getInventoryByMealName(searchName);
+
+            if (!filteredInventory.isEmpty()) {
+                refreshInventoryData(inventoryPanel, filteredInventory, columnWidths, rowHeight);
+            } else {
+                errorLabel.setBounds(370, 60, 500, 20);
+                errorLabel.setForeground(Color.red);
+                errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 10));
+                frame.add(errorLabel);
+                searchbar.setText("");
+            }
+        });
+        searchbar.add(search);
     }
 
     private JLabel createHeaderLabel(String text) {

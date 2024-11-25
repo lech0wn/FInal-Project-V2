@@ -227,20 +227,25 @@ public class OrderEditorPage {
             // Update inventory stock
             inventoryDatabase.updateStock(name, availableStock - quantity); // Deduct stock
 
-            // Clear input fields after submission
-            mealNameTf.setText("");
-            quantityTf.setText("");
-            priceTf.setText("");
-            dateTf.setText("");
-
             // Display success message
             confirmationLabel.setForeground(Color.GREEN);
             confirmationLabel.setText("Order has been added.");
+
+            // Ask if the user wants to add more meals
+            int response = JOptionPane.showConfirmDialog(frame, "Do you want to add more meals?", "Add More Meals", JOptionPane.YES_NO_OPTION);
+
+            if (response == JOptionPane.YES_OPTION) {
+                // Clear input fields for new entry
+                mealNameTf.setText("");
+                quantityTf.setText("");
+                priceTf.setText("");
+                dateTf.setText("");
+            } else {
+                // Proceed as usual (e.g., navigate to another page or close the dialog)
+                // You can add additional logic here if needed
+            }
         });
         frame.add(confirmOrderButton);
-
-        frame.setLayout(null);
-        frame.setVisible(true);
     }
 
     private static boolean isValidPrice(String price) {

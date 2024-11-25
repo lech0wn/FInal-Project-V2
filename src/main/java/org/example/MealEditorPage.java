@@ -37,11 +37,11 @@ public class MealEditorPage {
     String unit = "g";
 
     public static boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) {
+        if (str == null || str.trim().isEmpty()) {
             return false;
         }
         try {
-            Integer.parseInt(str);
+            Integer.parseInt(str.trim());
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -806,32 +806,38 @@ public class MealEditorPage {
             }
         });
         button.addActionListener(e -> {
-                String meal = textField.getText();
+            String meal = textField.getText().trim();
 
-            if (meal.isEmpty() || !mealsDatabase.authenticateMealName(meal)){
+            if (meal.isEmpty()) {
+                error.setText("Input cannot be empty.");
                 error.setBounds(630, 320, 500, 50);
                 error.setForeground(Color.red);
                 error.setFont(new Font("Arial", Font.BOLD, 20));
                 frame.add(error);
                 frame.repaint();
-            } else if (isNumeric(meal)) {
+                return;
+            }
+
+            if (isNumeric(meal)) {
                 int mealId = Integer.parseInt(meal);
                 mealsDatabase.deleteMeal(mealId);
-                frame.getContentPane().removeAll();
-                new ConfirmPage(frame);
-                frame.revalidate();
-                frame.repaint();
-            } else {
+            } else if (mealsDatabase.authenticateMealName(meal)) {
                 mealsDatabase.deleteMealByName(meal);
-                frame.getContentPane().removeAll();
-                new ConfirmPage(frame);
-                frame.revalidate();
+            } else {
+                error.setText("Meal not found. Please check the name or ID.");
+                error.setBounds(630, 320, 500, 50);
+                error.setForeground(Color.red);
+                error.setFont(new Font("Arial", Font.BOLD, 20));
+                frame.add(error);
                 frame.repaint();
-
+                return;
             }
+
+            frame.getContentPane().removeAll();
+            new ConfirmPage(frame);
+            frame.revalidate();
+            frame.repaint();
         });
-        frame.add(error);
         frame.add(button);
-        frame.setVisible(true);
     }
 }

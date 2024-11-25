@@ -306,17 +306,23 @@ public class MenuPage {
                 }
             });
 
-            //Create Panel
+            // Create Panel
             JPanel namePanel = new JPanel();
             namePanel.setBounds(0, 180, 220, 70);
             namePanel.setBackground(Color.decode("#331402"));
-            namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+            namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
             mealButton.add(namePanel);
 
-            // Create meal name label
-            JLabel nameLabel = new JLabel(meal[0]);
+            // Create meal name text area (supports wrapping)
+            JTextArea nameLabel = new JTextArea(meal[0]);
             nameLabel.setForeground(Color.decode("#EF9B39"));
-            nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
+            nameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            nameLabel.setLineWrap(true);
+            nameLabel.setWrapStyleWord(true);
+            nameLabel.setOpaque(false);
+            nameLabel.setEditable(false);
+            nameLabel.setFocusable(false);
+            nameLabel.setPreferredSize(new Dimension(200, 50));
 
             String imagePath = meal[9];
             try {
@@ -337,6 +343,7 @@ public class MenuPage {
             mealPanelContainer.add(mealButton);
         }
     }
+
 
     public MenuPage(JFrame frame) {
 

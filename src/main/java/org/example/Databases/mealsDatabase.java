@@ -85,17 +85,13 @@ public class mealsDatabase {
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
 
-            if (connection!=null) {
-                System.out.println("Meal deleted successfully");
-            }
-
             preparedStatement.setInt(1, mealId);
-            int rowsAffected = preparedStatement.executeUpdate();
 
+            int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Meal deleted successfully");
+                System.out.println("Meal deleted successfully by ID.");
             } else {
-                System.out.println("Meal does not exist.");
+                System.out.println("No meal found with the specified ID.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -466,6 +462,13 @@ public class mealsDatabase {
              PreparedStatement preparedStatement = connection.prepareStatement(deleteSQL)) {
 
             preparedStatement.setString(1, mealName);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Meal deleted successfully by name.");
+            } else {
+                System.out.println("No meal found with the specified name.");
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

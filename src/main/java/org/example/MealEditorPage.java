@@ -25,7 +25,7 @@ public class MealEditorPage {
     RoundedButton spicyButton = new RoundedButton("spicy");
     RoundedButton nonspicyButton = new RoundedButton("not-spicy");
     RoundedButton gramsButton = new RoundedButton("g");
-    RoundedButton ozButton = new RoundedButton("mL");
+    RoundedButton ozButton = new RoundedButton("oz");
     RoundedButton addButton = new RoundedButton("Add");
     RoundedButton addMeal = new RoundedButton("ADD MEAL");
     RoundedButton editMeal = new RoundedButton("EDIT MEAL");
@@ -330,7 +330,7 @@ public class MealEditorPage {
             gramsButton.setBackground(Color.white);
             ozButton.setForeground(Color.white);
             gramsButton.setForeground(Color.black);
-            unit = "mL";
+            unit = "oz";
         });
         frame.add(ozButton);
 
@@ -347,8 +347,10 @@ public class MealEditorPage {
         nutValueTf.setBackground(Color.white);
         frame.add(nutValueTf);
 
-        final String[] imgPath = {""};
-        RoundedButton uploadImage = new  RoundedButton("Upload Image");
+        final File[] imageFile = new File[1]; // Used to store the uploaded image file
+
+        // Upload Image Button
+        RoundedButton uploadImage = new RoundedButton("Upload Image");
         uploadImage.setFont(new Font("Abadi MT Condensed Extra Bold", Font.PLAIN, 20));
         uploadImage.setForeground(Color.decode("#551F01"));
         uploadImage.setFocusable(false);
@@ -361,8 +363,8 @@ public class MealEditorPage {
                 fileChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png", "jpeg"));
                 int result = fileChooser.showOpenDialog(frame);
                 if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    imgPath[0] = selectedFile.getAbsolutePath();
+                    // Get the selected file
+                    imageFile[0] = fileChooser.getSelectedFile();
                 }
             }
         });
@@ -404,7 +406,7 @@ public class MealEditorPage {
                 frame.revalidate();
                 frame.repaint();
             } else {
-                mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, Unit, nutritionalValue, imgPath[0]);
+                mealsDatabase.addMeals(name, description, categ, ingredients, diet, spice, servingSize, Unit, nutritionalValue, imageFile[0]);
                 mealNameTf.setText("");
                 descriptionTf.setText("");
                 ingredientsTf.setText("");

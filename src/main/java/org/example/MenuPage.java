@@ -7,6 +7,10 @@ import org.example.SidePanels.MealSidePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MenuPage {
@@ -78,23 +82,22 @@ public class MenuPage {
                     nameLabel.setForeground(Color.decode("#EF9B39"));
                     nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
 
-                    String imagePath = meal[10];
-                    try {
-                        ImageIcon mealImage = new ImageIcon(imagePath);
+                    String mealIdForImage = meal[1];
+                    byte[] imageBytes = mealsDatabase.getImageForMeal(mealIdForImage);
+                    if (imageBytes != null) {
+                        ImageIcon mealImage = new ImageIcon(imageBytes);
                         Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
                         mealImage = new ImageIcon(image);
 
                         JLabel imageLabel = new JLabel(mealImage);
                         imageLabel.setBounds(0, 0, 220, 180);
                         mealButton.add(imageLabel);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        namePanel.add(nameLabel);
+                        mealPanelContainer.add(mealButton);
+                        mealPanelContainer.revalidate();
+                        mealPanelContainer.repaint();
                     }
-                    namePanel.add(nameLabel);
-                    mealPanelContainer.add(mealButton);
-                    mealPanelContainer.revalidate();
-                    mealPanelContainer.repaint();
-                } else {
+                } else{
                     errorLabel.setBounds(370, 60, 500, 20);
                     errorLabel.setForeground(Color.red);
                     errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 10));
@@ -324,9 +327,11 @@ public class MenuPage {
             nameLabel.setFocusable(false);
             nameLabel.setPreferredSize(new Dimension(200, 50));
 
-            String imagePath = meal[9];
-            try {
-                ImageIcon mealImage = new ImageIcon(imagePath);
+            String mealIdForImage = meal[1];
+
+            byte[] imageBytes = mealsDatabase.getImageForMeal(mealIdForImage);
+            if (imageBytes != null) {
+                ImageIcon mealImage = new ImageIcon(imageBytes);
                 Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
                 mealImage = new ImageIcon(image);
 
@@ -335,10 +340,9 @@ public class MenuPage {
                 mealButton.add(imageLabel);
                 mealButton.revalidate();
                 mealButton.repaint();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else {
+                System.out.println("No image found for meal: " + mealIdForImage);
             }
-
             namePanel.add(nameLabel);
             mealPanelContainer.add(mealButton);
         }
@@ -486,6 +490,7 @@ public class MenuPage {
         scrollPane.setBounds(350, 170, 730, 410);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setValue(0);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
@@ -554,6 +559,7 @@ public class MenuPage {
         scrollPane.setBounds(350, 170, 730, 410);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setValue(0);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
@@ -621,6 +627,7 @@ public class MenuPage {
         JScrollPane scrollPane = new JScrollPane(mealPanelContainer);
         scrollPane.setBounds(350, 170, 730, 410);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getVerticalScrollBar().setValue(0);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

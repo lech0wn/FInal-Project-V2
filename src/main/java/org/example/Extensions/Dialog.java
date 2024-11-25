@@ -1,5 +1,7 @@
 package org.example.Extensions;
 
+import org.example.Databases.mealsDatabase;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,10 +17,26 @@ public class Dialog extends JDialog {
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        String imagePath = meal[9];
-        try {
-            ImageIcon mealImage = new ImageIcon(imagePath);
-            Image image = mealImage.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+//        String imagePath = meal[9];
+//        try {
+//            ImageIcon mealImage = new ImageIcon(imagePath);
+//            Image image = mealImage.getImage().getScaledInstance(300, 150, Image.SCALE_SMOOTH);
+//            mealImage = new ImageIcon(image);
+//
+//            JLabel imageLabel = new JLabel(mealImage);
+//            imageLabel.setBounds(0, 0, 300, 150);
+//            dialog.add(imageLabel);
+//            dialog.revalidate();
+//            dialog.repaint();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+
+        String mealIdForImage = meal[1];
+        byte[] imageBytes = mealsDatabase.getImageForMeal(mealIdForImage);
+        if (imageBytes != null) {
+            ImageIcon mealImage = new ImageIcon(imageBytes);
+            Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
             mealImage = new ImageIcon(image);
 
             JLabel imageLabel = new JLabel(mealImage);
@@ -26,8 +44,8 @@ public class Dialog extends JDialog {
             dialog.add(imageLabel);
             dialog.revalidate();
             dialog.repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } else {
+            System.out.println("No image found for meal: " + mealIdForImage);
         }
 
             //Create Panel

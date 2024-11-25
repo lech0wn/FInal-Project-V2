@@ -28,9 +28,94 @@ public class WorkerMenuPage {
     ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
     JButton search = new JButton(img);
 
+    public void searchbar(JFrame frame, JPanel mealPanelContainer) {
+        JLabel errorLabel = new JLabel("Meal not found");
+
+        RoundedTextfield searchbar = new RoundedTextfield();
+        searchbar.setBounds(370, 20, 550, 45);
+        searchbar.setBackground(Color.decode("#FACD97"));
+        searchbar.setForeground(Color.black);
+        searchbar.setFont(new Font("Arial", Font.PLAIN, 14));
+        searchbar.setText("");
+        frame.add(searchbar);
+
+        ImageIcon img = new ImageIcon("src/main/java/org/example/img/Search.png");
+        JButton search = new JButton(img);
+        search.setBorder(BorderFactory.createEmptyBorder());
+        search.setFocusable(false);
+        search.setBackground(Color.decode("#FACD97"));
+        search.setBounds(500, 2, 30, 40);
+
+        search.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchName = searchbar.getText().trim();
+                String[] meal = mealsDatabase.getMealByName(searchName);
+                if (meal != null) {
+                    mealPanelContainer.removeAll();
+                    JButton mealButton = new JButton();
+                    mealButton.setPreferredSize(new Dimension(220, 250));
+                    mealButton.setBackground(Color.decode("#331402"));
+                    mealButton.setBorder(BorderFactory.createEmptyBorder());
+                    mealButton.setFocusable(false);
+                    mealButton.setLayout(null);
+
+                    String mealId = meal[1];
+                    boolean isAvailable = mealsDatabase.isMealAvailable(mealId);
+
+                    if (!isAvailable) {
+                        JLabel notAvailable = new JLabel("Out of Stock");
+                        notAvailable.setBounds(140, 213, 100, 50);
+                        notAvailable.setFont(new Font("Arial", Font.BOLD, 12));
+                        notAvailable.setForeground(Color.white);
+                        mealButton.add(notAvailable);
+                    }
+
+                    mealButton.addActionListener(e1 -> {
+                        if (isAvailable) {
+                            new Dialog(meal, frame);
+                        }
+                    });
+
+                    JPanel namePanel = new JPanel();
+                    namePanel.setBounds(0, 180, 220, 70);
+                    namePanel.setBackground(Color.decode("#331402"));
+                    namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+                    mealButton.add(namePanel);
+
+                    JLabel nameLabel = new JLabel(meal[0]);
+                    nameLabel.setForeground(Color.decode("#EF9B39"));
+                    nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
+
+                    String mealIdForImage = meal[1];
+                    byte[] imageBytes = mealsDatabase.getImageForMeal(mealIdForImage);
+                    if (imageBytes != null) {
+                        ImageIcon mealImage = new ImageIcon(imageBytes);
+                        Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
+                        mealImage = new ImageIcon(image);
+
+                        JLabel imageLabel = new JLabel(mealImage);
+                        imageLabel.setBounds(0, 0, 220, 180);
+                        mealButton.add(imageLabel);
+                        namePanel.add(nameLabel);
+                        mealPanelContainer.add(mealButton);
+                        mealPanelContainer.revalidate();
+                        mealPanelContainer.repaint();
+                    }
+                } else{
+                    errorLabel.setBounds(370, 60, 500, 20);
+                    errorLabel.setForeground(Color.red);
+                    errorLabel.setFont(new Font("Bitstream Vera Sans Mono", Font.BOLD, 10));
+                    frame.add(errorLabel);
+                    searchbar.setText("");
+                }
+            }
+        });
+        searchbar.add(search);
+    }
+
     public void GUI(JFrame frame) {
         new WorkerSidePanel(frame);
-        new SearchBar(frame);
 
         RoundedButton breakfastButton = new RoundedButton("BREAKFAST");
         breakfastButton.setBounds(370, 90, 200, 45);
@@ -99,7 +184,7 @@ public class WorkerMenuPage {
         frame.add(dietNonFilter);
     }
 
-    public void menuContainer(java.util.List<String[]> meals, JFrame frame, JPanel mealPanelContainer) {
+    public void menuContainer(List<String[]> meals, JFrame frame, JPanel mealPanelContainer) {
         for (String[] meal : meals) {
             JButton mealButton = new JButton();
             mealButton.setPreferredSize(new Dimension(220, 250));
@@ -107,36 +192,46 @@ public class WorkerMenuPage {
             mealButton.setBorder(BorderFactory.createEmptyBorder());
             mealButton.setFocusable(false);
             mealButton.setLayout(null);
-            mealButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    mealButton.setBackground(Color.decode("#331402"));
-                }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    super.mouseExited(e);
-                    mealButton.setBackground(Color.decode("#331402"));
+            String mealId = meal[1];
+            boolean isAvailable = mealsDatabase.isMealAvailable(mealId);
+            if (!isAvailable) {
+                JLabel notAvailable = new JLabel("Out of Stock");
+                notAvailable.setBounds(140, 213, 100, 50);
+                notAvailable.setFont(new Font("Arial", Font.BOLD, 12));
+                notAvailable.setForeground(Color.white);
+                mealButton.add(notAvailable);
+            }
+
+            mealButton.addActionListener(e -> {
+                if (isAvailable) {
+                    new Dialog(meal, frame);
                 }
             });
-            mealButton.addActionListener(e -> new Dialog(meal, frame));
 
-            //Create Panel
+            // Create Panel
             JPanel namePanel = new JPanel();
             namePanel.setBounds(0, 180, 220, 70);
             namePanel.setBackground(Color.decode("#331402"));
+            namePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
             mealButton.add(namePanel);
 
-            // Create meal name label
-            JLabel nameLabel = new JLabel(meal[0]);
+            // Create meal name text area (supports wrapping)
+            JTextArea nameLabel = new JTextArea(meal[0]);
             nameLabel.setForeground(Color.decode("#EF9B39"));
-            nameLabel.setFont(new Font("Arial", Font.PLAIN, 21));
-            nameLabel.setBounds(0, 0, 220, 250);
+            nameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            nameLabel.setLineWrap(true);
+            nameLabel.setWrapStyleWord(true);
+            nameLabel.setOpaque(false);
+            nameLabel.setEditable(false);
+            nameLabel.setFocusable(false);
+            nameLabel.setPreferredSize(new Dimension(200, 50));
 
-            String imagePath = meal[9];
-            try {
-                ImageIcon mealImage = new ImageIcon(imagePath);
+            String mealIdForImage = meal[1];
+
+            byte[] imageBytes = mealsDatabase.getImageForMeal(mealIdForImage);
+            if (imageBytes != null) {
+                ImageIcon mealImage = new ImageIcon(imageBytes);
                 Image image = mealImage.getImage().getScaledInstance(220, 180, Image.SCALE_SMOOTH);
                 mealImage = new ImageIcon(image);
 
@@ -145,18 +240,17 @@ public class WorkerMenuPage {
                 mealButton.add(imageLabel);
                 mealButton.revalidate();
                 mealButton.repaint();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else {
+                System.out.println("No image found for meal: " + mealIdForImage);
             }
-
-            namePanel.add(nameLabel, BorderLayout.CENTER);
+            namePanel.add(nameLabel);
             mealPanelContainer.add(mealButton);
         }
     }
 
     public WorkerMenuPage(JFrame frame) {
 
-        frame.setTitle("Menu");
+        frame.setTitle("Worker Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //close the application when the window is closed
         frame.getContentPane().setBackground(Color.decode("#EF9B39"));
         frame.getContentPane().removeAll();
@@ -238,6 +332,8 @@ public class WorkerMenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
+        searchbar(frame, mealPanelContainer);
+
         java.util.List<String[]> meals = mealsDatabase.getBreakfastMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
@@ -284,6 +380,8 @@ public class WorkerMenuPage {
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
 
+        searchbar(frame, mealPanelContainer);
+
         java.util.List<String[]> meals = mealsDatabase.getLunchMeals();
         menuContainer(meals, frame, mealPanelContainer);
 
@@ -329,6 +427,8 @@ public class WorkerMenuPage {
         mealPanelContainer.setBackground(Color.decode("#EF9B39"));
         mealPanelContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
         frame.add(mealPanelContainer);
+
+        searchbar(frame, mealPanelContainer);
 
         java.util.List<String[]> meals = mealsDatabase.getDinnerMeals();
         menuContainer(meals, frame, mealPanelContainer);

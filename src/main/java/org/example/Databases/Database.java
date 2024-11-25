@@ -14,5 +14,6 @@ public class Database {
         createMealsTable();
         createOrdersTable();
         createInventoryTable();
+
     }
 }

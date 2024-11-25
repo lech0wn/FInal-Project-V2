@@ -2,14 +2,10 @@ package org.example;
 
 import org.example.Databases.ordersDatabase;
 import org.example.Extensions.RoundedTextfield;
-import org.example.Extensions.SearchBar;
 import org.example.SidePanels.OrderSidePanel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class OrdersPage {
@@ -59,6 +55,10 @@ public class OrdersPage {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         frame.add(scrollPane);
+
+        // Fetch and display all orders initially
+        List<String[]> allOrders = ordersDatabase.listOrders();
+        refreshOrderData(ordersPanel, allOrders, columnWidths, 50);
     }
 
     private void addOrderSearchBar(JFrame frame, JPanel ordersPanel, int[] columnWidths, int rowHeight) {

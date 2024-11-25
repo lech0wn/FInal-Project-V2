@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class OrderEditorPage {
+    private static JLabel messageLabel;
 
     public OrderEditorPage(JFrame frame){
 
@@ -91,6 +92,11 @@ public class OrderEditorPage {
         frame.add(deleteOrdersButton);
         frame.setLayout(null);
         frame.setVisible(true);
+
+        messageLabel = new JLabel();
+        messageLabel.setBounds(650, 550, 365, 30); // Adjust the position and size as needed
+        messageLabel.setForeground(Color.RED); // Default color for error messages
+        frame.add(messageLabel);
     }
 
     public static void addOrdersPage(JFrame frame) {
@@ -108,11 +114,10 @@ public class OrderEditorPage {
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
-        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/addicon.png"); // Replace with the path to your image
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/addicon.png");
         addOrderLabel.setIcon(icon);
-        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
-
-        addOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); // Align text to the right
+        addOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+        addOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         frame.add(addOrderLabel);
 
         // Meal name label
@@ -177,8 +182,8 @@ public class OrderEditorPage {
 
         // Confirmation label
         JLabel confirmationLabel = new JLabel();
-        confirmationLabel.setBounds(850, 460, 300, 30);
-        confirmationLabel.setForeground(Color.green);
+        confirmationLabel.setBounds(650, 550, 365, 30); // Adjust the position and size as needed
+        confirmationLabel.setForeground(Color.RED); // Default color for error messages
         frame.add(confirmationLabel);
 
         // Confirm order button
@@ -195,8 +200,15 @@ public class OrderEditorPage {
             String priceStr = priceTf.getText();
             String date = dateTf.getText();
 
+            // Check for empty fields
+            if (name.isEmpty() || quantityStr.isEmpty() || priceStr.isEmpty() || date.isEmpty()) {
+                confirmationLabel.setForeground(Color.RED);
+                confirmationLabel.setText("All fields must have an input.");
+                return;
+            }
+
             // Validate input fields
-            if (name.isEmpty() || !isValidPrice(priceStr) || !isValidQuantity(quantityStr) || date.isEmpty()) {
+            if (!isValidPrice(priceStr) || !isValidQuantity(quantityStr)) {
                 confirmationLabel.setForeground(Color.RED);
                 confirmationLabel.setText("Invalid input, please check fields.");
                 return;
@@ -207,7 +219,7 @@ public class OrderEditorPage {
             double price = Double.parseDouble(priceStr);
 
             // Check inventory
-            int availableStock = inventoryDatabase.getAvailableStock(name); // Implement this in your database class
+            int availableStock = inventoryDatabase.getAvailableStock(name);
             if (availableStock < quantity) {
                 confirmationLabel.setForeground(Color.RED);
                 if (availableStock == 0) {
@@ -225,25 +237,17 @@ public class OrderEditorPage {
             ordersDatabase.addOrders(name, String.valueOf(quantity), String.format("%.2f", subtotalPrice), date);
 
             // Update inventory stock
-            inventoryDatabase.updateStock(name, availableStock - quantity); // Deduct stock
+            inventoryDatabase.updateStock(name, availableStock - quantity);
 
             // Display success message
             confirmationLabel.setForeground(Color.GREEN);
             confirmationLabel.setText("Order has been added.");
 
-            // Ask if the user wants to add more meals
-            int response = JOptionPane.showConfirmDialog(frame, "Do you want to add more meals?", "Add More Meals", JOptionPane.YES_NO_OPTION);
-
-            if (response == JOptionPane.YES_OPTION) {
-                // Clear input fields for new entry
-                mealNameTf.setText("");
-                quantityTf.setText("");
-                priceTf.setText("");
-                dateTf.setText("");
-            } else {
-                // Proceed as usual (e.g., navigate to another page or close the dialog)
-                // You can add additional logic here if needed
-            }
+            // Clear input fields for new entry
+            mealNameTf.setText("");
+            quantityTf.setText("");
+            priceTf.setText("");
+            dateTf.setText("");
         });
         frame.add(confirmOrderButton);
     }
@@ -267,21 +271,21 @@ public class OrderEditorPage {
     }
 
     public static void editOrdersPage(JFrame frame) {
-
         new OrderSidePanel(frame);
 
+        // Error and confirmation message labels
         JLabel errorMessageLabel = new JLabel();
-        errorMessageLabel.setText("Order ID not found!");
-        errorMessageLabel.setForeground(Color.red);
+        errorMessageLabel.setForeground(Color.RED);
         errorMessageLabel.setFont(new Font("Arial", Font.BOLD, 20));
         errorMessageLabel.setBounds(585, 315, 500, 50);
-        errorMessageLabel.setVisible(false);  //initially hidden
+        errorMessageLabel.setVisible(false);  // Initially hidden
+        frame.add(errorMessageLabel);
 
         JLabel confirmationLabel = new JLabel();
         confirmationLabel.setBounds(585, 370, 500, 50);
-        confirmationLabel.setForeground(Color.green);
+        confirmationLabel.setForeground(Color.GREEN);
         confirmationLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        confirmationLabel.setVisible(false);  //initially hidden
+        confirmationLabel.setVisible(false);  // Initially hidden
         frame.add(confirmationLabel);
 
         RoundedButton inventoryLabel = new RoundedButton("EDIT ORDER");
@@ -292,12 +296,11 @@ public class OrderEditorPage {
         inventoryLabel.setFocusable(false);
         frame.add(inventoryLabel);
 
-        JLabel inventoryIdlabel = new JLabel();
-        inventoryIdlabel.setText("Enter the order ID of the item you would like to edit:  ");
-        inventoryIdlabel.setBounds(390, 190, 800, 45);
-        inventoryIdlabel.setForeground(Color.decode("#331402"));
-        inventoryIdlabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
-        frame.add(inventoryIdlabel);
+        JLabel inventoryIdLabel = new JLabel("Enter the order ID of the item you would like to edit:");
+        inventoryIdLabel.setBounds(455, 210, 800, 45);
+        inventoryIdLabel.setForeground(Color.decode("#331402"));
+        inventoryIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
+        frame.add(inventoryIdLabel);
 
         RoundedTextfield textField = new RoundedTextfield();
         textField.setBounds(450, 250, 500, 70);
@@ -326,13 +329,23 @@ public class OrderEditorPage {
             }
         });
         button.addActionListener(e -> {
-            int orderId = Integer.parseInt(textField.getText().trim());
+            String orderIdStr = textField.getText().trim();
+
+            // Check if the order ID field is empty
+            if (orderIdStr.isEmpty()) {
+                errorMessageLabel.setText("Order ID must be provided.");
+                errorMessageLabel.setVisible(true);
+                confirmationLabel.setVisible(false);
+                return;
+            }
+
+            int orderId = Integer.parseInt(orderIdStr);
 
             // Check if the order exists
             if (!ordersDatabase.authenticateOrderId(orderId)) {
                 errorMessageLabel.setText("Order ID does not exist!");
                 errorMessageLabel.setVisible(true);
-                confirmationLabel.setText("");
+                confirmationLabel.setVisible(false);
             } else {
                 frame.getContentPane().removeAll();
                 frame.repaint();
@@ -348,15 +361,14 @@ public class OrderEditorPage {
                 inventoryLabel1.setFocusable(false);
                 frame.add(inventoryLabel1);
 
-                // meal name label
-                JLabel mealNameLabel = new JLabel();
-                mealNameLabel.setText("Meal Name");
+                // Meal name label
+                JLabel mealNameLabel = new JLabel("Meal Name");
                 mealNameLabel.setBounds(370, 200, 300, 45);
                 mealNameLabel.setForeground(Color.decode("#331402"));
                 mealNameLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
                 frame.add(mealNameLabel);
 
-                // meal name text field
+                // Meal name text field
                 RoundedTextfield mealNameTf = new RoundedTextfield();
                 mealNameTf.setBounds(370, 240, 300, 45);
                 mealNameTf.setBorderColor(Color.decode("#331402"));
@@ -364,15 +376,14 @@ public class OrderEditorPage {
                 mealNameTf.setBackground(Color.white);
                 frame.add(mealNameTf);
 
-                // price label
-                JLabel priceLabel = new JLabel();
-                priceLabel.setText("Subtotal Price");
+                // Price label
+                JLabel priceLabel = new JLabel("Subtotal Price");
                 priceLabel.setBounds(700, 200, 300, 45);
                 priceLabel.setForeground(Color.decode("#331402"));
                 priceLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
                 frame.add(priceLabel);
 
-                // price text field
+                // Price text field
                 RoundedTextfield priceTf = new RoundedTextfield();
                 priceTf.setBounds(700, 240, 300, 45);
                 priceTf.setBorderColor(Color.decode("#331402"));
@@ -380,15 +391,14 @@ public class OrderEditorPage {
                 priceTf.setBackground(Color.white);
                 frame.add(priceTf);
 
-                // quantity label
-                JLabel quantityLabel = new JLabel();
-                quantityLabel.setText("Quantity");
+                // Quantity label
+                JLabel quantityLabel = new JLabel("Quantity");
                 quantityLabel.setBounds(370, 280, 300, 45);
                 quantityLabel.setForeground(Color.decode("#331402"));
                 quantityLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
                 frame.add(quantityLabel);
 
-                // quantity text field
+                // Quantity text field
                 RoundedTextfield quantityTf = new RoundedTextfield();
                 quantityTf.setBounds(370, 320, 300, 45);
                 quantityTf.setBorderColor(Color.decode("#331402"));
@@ -396,15 +406,14 @@ public class OrderEditorPage {
                 quantityTf.setBackground(Color.white);
                 frame.add(quantityTf);
 
-                // date label
-                JLabel dateLabel = new JLabel();
-                dateLabel.setText("Date");
+                // Date label
+                JLabel dateLabel = new JLabel("Date");
                 dateLabel.setBounds(700, 280, 300, 45);
                 dateLabel.setForeground(Color.decode("#331402"));
                 dateLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
                 frame.add(dateLabel);
 
-                // date text field
+                // Date text field
                 RoundedTextfield dateTf = new RoundedTextfield();
                 dateTf.setBounds(700, 320, 300, 45);
                 dateTf.setBorderColor(Color.decode("#331402"));
@@ -412,8 +421,7 @@ public class OrderEditorPage {
                 dateTf.setBackground(Color.white);
                 frame.add(dateTf);
 
-                JButton editOrderButton = new JButton();
-                editOrderButton.setText("CONFIRM");
+                JButton editOrderButton = new JButton("CONFIRM");
                 editOrderButton.setBounds(850, 500, 160, 40);
                 editOrderButton.setBackground(Color.decode("#551F01"));
                 editOrderButton.setFont(new Font("Arial", Font.BOLD, 18));
@@ -425,17 +433,24 @@ public class OrderEditorPage {
                     String mealName = mealNameTf.getText().trim();
                     String quantity = quantityTf.getText().trim();
                     String price = priceTf.getText().trim();
-                    String orderId1 = textField.getText().trim();
+
+                    // Check for empty fields
+                    if (date.isEmpty() || mealName.isEmpty() || quantity.isEmpty() || price.isEmpty()) {
+                        errorMessageLabel.setText("All fields must have an input.");
+                        errorMessageLabel.setVisible(true);
+                        confirmationLabel.setVisible(false);
+                        return;
+                    }
 
                     Integer mealId = ordersDatabase.getMealIdByName(mealName);
                     if (mealId == null) {
-                        // show error message if meal name is not found
+                        errorMessageLabel.setText("Meal name not found.");
                         errorMessageLabel.setVisible(true);
-                        frame.add(errorMessageLabel);
+                        confirmationLabel.setVisible(false);
                     } else {
-                        // update order
-                        ordersDatabase.updateOrder(date, mealName, quantity, price, orderId1);
-                        confirmationLabel.setText("Order ID " + orderId1 + " has been edited.");
+                        // Update order
+                        ordersDatabase.updateOrder(date, mealName, quantity, price, orderIdStr);
+                        confirmationLabel.setText("Order ID " + orderIdStr + " has been edited.");
                         confirmationLabel.setVisible(true);
                         errorMessageLabel.setVisible(false);
                     }
@@ -443,18 +458,15 @@ public class OrderEditorPage {
                 frame.add(editOrderButton);
             }
         });
-        frame.add(errorMessageLabel);
         frame.add(button);
         frame.setVisible(true);
     }
 
-
     //delete orders page
     public static void deleteOrdersPage(JFrame frame) {
-
         new OrderSidePanel(frame);
 
-        // delete order button
+        // Delete order label
         JLabel deleteOrderLabel = new JLabel("DELETE ORDER");
         deleteOrderLabel.setBounds(500, 50, 430, 80);
         deleteOrderLabel.setOpaque(true);
@@ -466,22 +478,20 @@ public class OrderEditorPage {
                 BorderFactory.createEmptyBorder(6, 10, 6, 10)
         ));
 
-        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/deleteicon.png"); // Replace with the path to your image
+        ImageIcon icon = new ImageIcon("src/main/java/org/example/img/deleteicon.png");
         deleteOrderLabel.setIcon(icon);
-        deleteOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT); // Text on the right, image on the left
-
-        deleteOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT); //align text to the right
+        deleteOrderLabel.setHorizontalTextPosition(SwingConstants.RIGHT);
+        deleteOrderLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         frame.add(deleteOrderLabel);
 
-        // order ID label
-        JLabel orderIdLabel = new JLabel();
-        orderIdLabel.setText("Enter the ID of the order you would like to delete: ");
+        // Order ID label
+        JLabel orderIdLabel = new JLabel("Enter the ID of the order you would like to delete:");
         orderIdLabel.setBounds(480, 190, 600, 45);
         orderIdLabel.setForeground(Color.decode("#331402"));
         orderIdLabel.setFont(new Font("Abadi MT Condensed Extra Bold", Font.BOLD, 20));
         frame.add(orderIdLabel);
 
-        // order ID text field
+        // Order ID text field
         RoundedTextfield orderIdTf = new RoundedTextfield();
         orderIdTf.setBounds(460, 230, 500, 70);
         orderIdTf.setBorderColor(Color.decode("#331402"));
@@ -489,21 +499,42 @@ public class OrderEditorPage {
         orderIdTf.setBackground(Color.white);
         frame.add(orderIdTf);
 
-        // delete order button
-        JButton deleteOrderButton = new JButton();
-        deleteOrderButton.setText("CONFIRM");
+        // Message label for displaying errors or confirmations
+        JLabel messageLabel = new JLabel();
+        messageLabel.setBounds(460, 310, 500, 30); // Adjust the position and size as needed
+        messageLabel.setForeground(Color.RED); // Default color for error messages
+        frame.add(messageLabel);
+
+        // Delete order button
+        JButton deleteOrderButton = new JButton("CONFIRM");
         deleteOrderButton.setBounds(580, 370, 250, 40);
         deleteOrderButton.setBackground(Color.decode("#551F01"));
         deleteOrderButton.setFont(new Font("Arial", Font.BOLD, 18));
         deleteOrderButton.setForeground(Color.white);
         deleteOrderButton.setFocusable(false);
         deleteOrderButton.addActionListener(e -> {
-            String orderId = orderIdTf.getText();
+            String orderIdStr = orderIdTf.getText().trim();
 
-            if (ordersDatabase.deleteOrder(Integer.parseInt(orderId))) {
-                JOptionPane.showMessageDialog(frame, "Order deleted successfully.");
-            } else {
-                JOptionPane.showMessageDialog(frame, "Order ID not found.");
+            // Check if the order ID field is empty
+            if (orderIdStr.isEmpty()) {
+                messageLabel.setForeground(Color.RED);
+                messageLabel.setText("Order ID must be provided.");
+                return;
+            }
+
+            try {
+                int orderId = Integer.parseInt(orderIdStr);
+
+                if (ordersDatabase.deleteOrder(orderId)) {
+                    messageLabel.setForeground(Color.GREEN);
+                    messageLabel.setText("Order deleted successfully.");
+                } else {
+                    messageLabel.setForeground(Color.RED);
+                    messageLabel.setText("Order ID not found.");
+                }
+            } catch (NumberFormatException ex) {
+                messageLabel.setForeground(Color.RED);
+                messageLabel.setText("Invalid Order ID format.");
             }
 
             orderIdTf.setText("");

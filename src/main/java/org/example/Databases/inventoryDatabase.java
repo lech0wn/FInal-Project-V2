@@ -315,6 +315,41 @@ public class inventoryDatabase {
         return inventoryItems;
     }
 
+    public static double getPriceByMealName(String mealName) {
+        String query = "SELECT price FROM Inventory WHERE mealName = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, mealName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if meal name does not exist
+    }
+
+    public static String[] getInventoryById(int inventoryId) {
+        String query = "SELECT inventoryId, mealId, mealName, quantity, price FROM Inventory WHERE inventoryId = ?";
+        try (Connection connection = DriverManager.getConnection(url);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, inventoryId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String inventoryIdStr = String.format("%03d", resultSet.getInt("inventoryId"));
+                String mealId = String.valueOf(resultSet.getInt("mealId"));
+                String mealName = resultSet.getString("mealName");
+                String quantity = String.valueOf(resultSet.getInt("quantity"));
+                String price = String.format("%.2f", resultSet.getDouble("price"));
+                return new String[]{inventoryIdStr, mealId, mealName, quantity, price};
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if inventory ID does not exist
+    }
+
 
     // Authenticate if the inventory ID exists
     public static boolean authenticateInventoryId(int inventoryId) {

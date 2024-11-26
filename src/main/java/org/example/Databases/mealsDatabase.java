@@ -513,7 +513,7 @@ public class mealsDatabase {
 
     public static String[] getMealByName(String mealName) {
         String[] menu = null;
-        String query = "SELECT * FROM meals WHERE mealName = ?";
+        String query = "SELECT * FROM meals WHERE LOWER(mealName) = LOWER(?)";
 
         try (Connection connection = DriverManager.getConnection(url);
              PreparedStatement statement = connection.prepareStatement(query)) {

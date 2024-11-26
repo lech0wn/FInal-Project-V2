@@ -169,7 +169,7 @@ public class WorkerInventoryPage {
 
         if (text != null) {
             JLabel label = new JLabel(text, SwingConstants.CENTER);
-            label.setFont(new Font("Milonga", Font.PLAIN, 14));
+            label.setFont(new Font("Milonga", Font.PLAIN, 12));
             label.setForeground(Color.decode("#EF9B39"));
             panel.add(label, BorderLayout.CENTER);
         }
